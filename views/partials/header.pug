@@ -1,0 +1,12 @@
+header
+    if !user.id
+        nav.header 
+            a(href=routes.home) Home
+            a(href=routes.login) Join
+            a(href=routes.login) Login
+            
+
+    else
+        nav.header
+            a(href=routes.userInfo) Info
+            a Logout

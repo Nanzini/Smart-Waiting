@@ -4,7 +4,9 @@
   "description": "do it",
   "main": "index.js",
   "scripts": {
-    "build": "nodemon --exec babel js -d dist"
+    "build:assets": "nodemon --exec babel js -d dist",
+    "build:css": "node-sass --watch scss/main.scss dist/main.css",
+    "start": "nodemon --exec babel-node init.js"
   },
   "author": "Youngmin",
   "license": "ISC",
@@ -14,7 +16,9 @@
     "@babel/node": "^7.10.4",
     "@babel/preset-env": "^7.10.4",
     "babel-cli": "^6.26.0",
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "node-sass": "^4.14.1",
+    "pug": "^3.0.0"
   },
   "devDependencies": {
     "nodemon": "^2.0.4"
