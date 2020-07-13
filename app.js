@@ -22,5 +22,6 @@ app.use((req, res, next) => {
   next();
 });
 app.use(routes.home, globalRouter);
+
 app.use(routes.reserve, reserveRouter);
 app.use(routes.userInfo, userInfoRouter);
