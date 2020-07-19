@@ -1,0 +1,8 @@
+extends ./partials/main.pug
+
+block content
+    form(method = "post" action = routes.join)
+        input(type="email" name="id")
+        input(type="password" name="password")
+        input(type="text" name="name")
+        input(type="submit" value="JOIN")

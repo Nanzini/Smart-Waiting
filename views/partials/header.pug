@@ -1,12 +1,14 @@
 header
-    if !user.id
+    if users.id === false  
         nav.header 
-            a(href=routes.home) Home
-            a(href=routes.login) Join
+            a(href=routes.home) Home 
+            a(href=routes.join) Join
             a(href=routes.login) Login
             
 
     else
         nav.header
-            a(href=routes.userInfo) Info
-            a Logout
+            p #{users.email}님 
+            a(href=routes.home) Home 
+            a(href=routes.userInfo(users.id)) Info
+            a(href=routes.logout) Logout

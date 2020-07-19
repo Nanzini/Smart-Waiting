@@ -1,6 +1,8 @@
 extends ./partials/main.pug
 
 block content 
-    input(type='e-mail' placehold ='e-mail')
-    input(type='password')
-    input(type='button' value='OK')
+
+    form(method='post' action=routes.login)
+        input(type='email' placehold ='e-mail' name='id' required="true")
+        input(type='password' name ='password' required="true")
+        input(type='submit' value='OK')

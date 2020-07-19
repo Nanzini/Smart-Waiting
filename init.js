@@ -12,11 +12,6 @@ db.once("open", () => {
   console.log("DB connection Suceesed!");
 });
 
-const userSchema = new mongoose.Schema({
-  name: String,
-});
-export const User = mongoose.model("user", userSchema);
-
-app.listen(4000, () => {
+app.listen(4001, () => {
   console.log("listening . . . http://localhost:4000");
 });
