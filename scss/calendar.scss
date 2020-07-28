@@ -1,0 +1,17 @@
+.reservationForm {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  .reserveList {
+  }
+  .calendar {
+    .calendar_header_month {
+      display: flex;
+    }
+    .calendar_body {
+      td:hover {
+        background-color: darkgoldenrod;
+      }
+    }
+  }
+}

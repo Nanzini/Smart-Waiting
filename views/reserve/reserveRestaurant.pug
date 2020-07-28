@@ -1,0 +1,32 @@
+extends ../partials/main.pug
+include ../mixins/showTable.pug
+
+block content
+
+    h1 #{restaurant.restaurant_name}
+    p #{restaurant.restaurant_tag}
+
+    h1 현재 테이블 상황
+    div(class="content_table")
+        +bigTable(bigTables)
+        +miniTable(miniTables)    
+
+    a(href=`${routes.reserve}${routes.reservation(restaurant._id)}`)
+        h1 예약하러가기
+
+    h1 댓글    
+    form(action=`${routes.reserve}${routes.comments(restaurant._id)}` method="post")
+        if users.id
+            p #{user.name}
+            input(type="text",name="content",require=true, placeholder="write comment..", cols=40, rows=3, autofocus)
+            input(type="submit" value="Sumbit!")
+        else
+            p Guest는 댓글을 남길 수 없습니다.
+
+    each commenter in commenters
+        p #{commenter.realUser.name}님
+        p #{commenter.content}
+        p #{commenter.createAt}에 작성
+    
+    script(src="/static/js/calendar.js")
+    

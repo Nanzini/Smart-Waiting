@@ -1,7 +1,0 @@
-extends ./partials/main.pug
-
-block content 
-    p 내 정보
-    a(href=`${routes.userInfo}${routes.comments}`) 내 댓글들
-    a(href=`${routes.userInfo}${routes.reservations}`) 내 예약들
-    a(href=`${routes.userInfo(users.id)}${routes.restaurants}`) 내 가게

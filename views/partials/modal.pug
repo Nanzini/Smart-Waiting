@@ -1,0 +1,8 @@
+mixin modal(id)
+    div(id=`modal${id}` class="modal" style="display:none")
+        div(class="modal-content")
+            button(class="modal_close") X
+            if block
+                block
+            else
+                p 에잉~

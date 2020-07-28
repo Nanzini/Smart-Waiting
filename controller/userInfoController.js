@@ -1,8 +1,15 @@
 import { Restaurant } from "../models/Restaurant";
 import { User } from "../models/User";
+import { Mail } from "../models/Mail";
 
-export const userInfo_home = (req, res, next) => {
-  res.render("userInfo.pug", { pageTitle: "MyInfo" });
+export const userInfo_home = async (req, res, next) => {
+  const user = await User.findById(req.session.userId)
+    .populate("mails")
+    .populate("comments")
+    .populate("restaurants")
+    .populate("reservations");
+  const mails = await Mail.find;
+  res.render("userInfo/userInfo.pug", { pageTitle: "MyInfo", user });
 };
 
 export const userInfo_restaurants = async (req, res) => {
@@ -12,28 +19,25 @@ export const userInfo_restaurants = async (req, res) => {
     "restaurants"
   );
 
-  console.log(myRestaurants);
-  console.log(myRestaurants.restaurants[0]);
-
-  res.render("myRestaurants.pug", {
+  res.render("userInfo/myRestaurants.pug", {
     pageTitle: "My Restaurants",
     myRestaurants: myRestaurants.restaurants,
   });
 };
 
 export const userInfo_showComments = (req, res, next) => {
-  res.render("showComments", { pageTitle: "My comments" });
+  res.render("userInfo/showComments", { pageTitle: "My comments" });
 };
 
 export const userInfo_showReservations = (req, res) => {
-  res.render("showReservations", { pageTitle: "My Reservations" });
+  res.render("userInfo/showReservations", { pageTitle: "My Reservations" });
 };
 
 // post
 export const userInfo_editReservation = (req, res) => {
-  res.render("editReservation");
+  res.render("userInfo/editReservation");
 };
 
 export const userInfo_editComment = (req, res) => {
-  res.render("editProfile");
+  res.render("userInfo/editProfile");
 };

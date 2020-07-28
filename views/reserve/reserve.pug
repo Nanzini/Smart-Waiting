@@ -1,0 +1,12 @@
+extends ../partials/main.pug
+
+block content 
+    form.form_search
+        input(type='text' placeholder='무슨 가게를 찾고 있나요?')
+        
+    each restaurant in restaurants
+        div.restaurants
+            a(href=`${routes.reserve}${routes.restaurant(restaurant._id)}`)
+                img(src=`/uploads/${restaurant.restaurant_pic}`)
+                p #{restaurant.restaurant_name}
+                p #{restaurant.restaurant_tag}

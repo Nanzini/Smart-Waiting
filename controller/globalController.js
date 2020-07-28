@@ -1,27 +1,39 @@
 import routes from "../routes/routes.js";
 import { User } from "../models/User.js";
 import { Restaurant } from "../models/Restaurant.js";
+import { Mail } from "../models/Mail.js";
+import dotenv from "dotenv";
+import { Table } from "../models/Table.js";
+dotenv.config();
 
 export const globalHome = (req, res, next) => {
-  res.render("home.pug", { pageTitle: "home" });
+  res.render("home/home.pug", { pageTitle: "home" });
 };
 
 export const join = (req, res) => {
-  res.render("join.pug", { pageTitle: "Join" });
+  res.render("home/join.pug", { pageTitle: "Join" });
 };
 
 export const postJoin = async (req, res, next) => {
+  const now = new Date();
+  const parseYear = req.body.birthday.slice(0, 4);
+  const age = now.getFullYear() - parseYear;
+  const birthday =
+    req.body.birthday.slice(5, 7) + req.body.birthday.slice(8, 10);
   const joinedPerson = await new User({
     userId: req.body.id,
     password: req.body.password,
     name: req.body.name,
+    age,
+    birthday,
+    gender: req.body.gender,
   });
   joinedPerson.save();
   res.redirect(routes.home);
 };
 
 export const login = (req, res, next) => {
-  res.render("login.pug", { pageTitle: "login" });
+  res.render("home/login.pug", { pageTitle: "login" });
 };
 
 export const postLogin = async (req, res, next) => {
@@ -51,7 +63,7 @@ export const logout = (req, res, next) => {
 
 export const register = (req, res) => {
   console.log(req.session);
-  res.render("register.pug", { pageTitle: "Restaurant Register" });
+  res.render("home/register.pug", { pageTitle: "Restaurant Register" });
 };
 
 export const postRegister = async (req, res) => {
@@ -60,20 +72,62 @@ export const postRegister = async (req, res) => {
       restaurant_name: req.body.name,
       restaurant_tag: req.body.tag,
       restaurant_location: req.body.location,
+      restaurant_pic:
+        req.file === undefined
+          ? "2973194cb8047237c8f850c7ffd0e9a8"
+          : req.file.filename,
       restaurant_owner: req.session.userId,
+      // await 없으면 기다려주지 않고 다음으로 넘어가서 데이터저장이 안된다 콜백이 반드시 필요하다.
+      bigTables: await makeTable(req.body.bigTables, 4),
+      miniTables: await makeTable(req.body.miniTables, 2),
     });
 
-    console.log(registerRest);
-    registerRest.save();
+    // user에 푸쉬하기
+    try {
+      const user = await User.findById(req.session.userId);
+      user.restaurants.push(registerRest);
+      user.save();
 
-    const user = await User.findById(req.session.userId);
-    user.restaurants.push(registerRest);
-    user.save();
-    console.log(user);
+      // user에게 가게등록 메일 보내기
+      const mail = new Mail({
+        content: process.env.MAIL_REGISTER_RESTAUANT,
+      });
+      user.mails.push(mail);
+      mail.save();
 
-    res.redirect(routes.home);
+      registerRest.save();
+      res.redirect(routes.home);
+    } catch (error) {
+      res.send("회원이 아닙니다");
+    }
   } catch (error) {
     console.log(error);
     res.redirect(routes.register);
+  }
+};
+
+// API
+
+const kakaoCallback = (accessToken, refreshToken, profile, done) => {};
+
+const makeTable = async (tableNum, tableSize) => {
+  try {
+    const entireBigTable = [];
+    for (let i = 0; i < tableNum; i++) {
+      const newBigTable = [];
+      for (let j = 0; j < tableSize; j++) {
+        const table = await new Table({
+          reserved: false,
+          beUsing: false,
+          orderTime: 0,
+          menu: "Not yet",
+        });
+        newBigTable.push(table);
+      }
+      entireBigTable.push(newBigTable);
+    }
+    return entireBigTable;
+  } catch (error) {
+    console.log(error);
   }
 };

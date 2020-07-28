@@ -1,0 +1,11 @@
+.reservationForm {
+  display: flex;
+  justify-content: space-evenly;
+  .reserveList {
+    button {
+      float: right;
+      padding: 5px;
+      margin: 15px;
+    }
+  }
+}

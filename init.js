@@ -4,6 +4,7 @@ import mongoose from "mongoose";
 mongoose.connect("mongodb://localhost/SmartWaiting", {
   useNewUrlParser: true,
   useUnifiedTopology: true,
+  useCreateIndex: true,
 });
 
 const db = mongoose.connection;
@@ -13,5 +14,5 @@ db.once("open", () => {
 });
 
 app.listen(4001, () => {
-  console.log("listening . . . http://localhost:4000");
+  console.log("listening . . . 127.0.0.1.4001 or http://localhost:4001");
 });

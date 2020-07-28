@@ -1,0 +1,9 @@
+extends ../partials/main.pug
+
+block content
+    h1 가게목록
+    each restaurant in myRestaurants
+        h1 #{restaurant.restaurant_name}
+        h1 #{restaurant.restaurant_tag}
+        h1 #{restaurant.restaurant_location}
+    

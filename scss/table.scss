@@ -1,0 +1,41 @@
+.content_table {
+  display: flex;
+  justify-content: center;
+}
+.bigTables {
+  display: flex;
+
+  .bigTable {
+    display: flex;
+    flex-wrap: wrap;
+
+    .break {
+      flex-basis: 100%;
+      height: 0;
+    }
+    .table {
+      text-align: center;
+      border: 1px solid;
+      width: 125px;
+      height: 100px;
+    }
+  }
+}
+
+.miniTables {
+  display: flex;
+  .miniTable {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .break {
+    flex-basis: 100%;
+    height: 0;
+  }
+  .table {
+    text-align: center;
+    border: 1px solid;
+    width: 125px;
+    height: 100px;
+  }
+}

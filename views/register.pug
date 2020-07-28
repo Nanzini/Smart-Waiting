@@ -1,8 +1,0 @@
-extends ./partials/main.pug
-
-block content
-    form(action=routes.register, method="post")
-        input(type='text' placeholder='Restaurant Name' name='name')
-        input(type='text' placeholder='tag' name='tag')
-        input(type='text' placeholder='Location' name='location')
-        input(type='submit' value='Register!')

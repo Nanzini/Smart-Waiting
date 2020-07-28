@@ -1,0 +1,14 @@
+extends ../partials/main.pug
+
+block content    
+        if users.id !== false 
+            a(href=routes.register)
+                h1 가게등록
+        
+    
+        else
+            h1 Just Home
+            
+        a(class='go_reserve' href=routes.reserve)
+            i(class='fas fa-pen-square fa-8x')
+            h1 예약하기

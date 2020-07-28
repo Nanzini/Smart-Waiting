@@ -4,8 +4,8 @@
   "description": "do it",
   "main": "index.js",
   "scripts": {
-    "build:assets": "nodemon --exec babel js -d dist",
-    "build:css": "node-sass --watch scss/main.scss dist/main.css",
+    "build": "npx babel --watch js -d static/js",
+    "build:css": "node-sass --watch scss/main.scss static/main.css",
     "start": "nodemon --exec babel-node init.js"
   },
   "author": "Youngmin",
@@ -16,13 +16,21 @@
     "@babel/node": "^7.10.4",
     "@babel/preset-env": "^7.10.4",
     "babel-cli": "^6.26.0",
+    "connect-flash": "^0.1.1",
     "cookie-parser": "^1.4.5",
     "express": "^4.17.1",
     "express-session": "^1.17.1",
+    "helmet": "^3.23.3",
     "inspector": "^0.5.0",
+    "jsdom": "^16.3.0",
     "mongodb": "^3.5.9",
     "mongoose": "^5.9.23",
+    "morgan": "^1.10.0",
+    "multer": "^1.4.2",
     "node-sass": "^4.14.1",
+    "passport": "^0.4.1",
+    "passport-kakao": "^1.0.0",
+    "passport-naver": "^1.0.6",
     "pug": "^3.0.0"
   },
   "devDependencies": {

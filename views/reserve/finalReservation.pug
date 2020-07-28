@@ -1,0 +1,78 @@
+extends ../partials/main.pug
+include ../mixins/reserveTime
+
+block content
+    div(class="reservationForm")
+        div(class="reserveList")
+            +reserveTime(12,restaurant)
+            +reserveTime(13,restaurant)
+            +reserveTime(14,restaurant)
+
+            +reserveTime(17,restaurant)
+            +reserveTime(18,restaurant)
+            +reserveTime(19,restaurant)
+            +reserveTime(20,restaurant)
+
+
+        div(class="calendar")
+            .calendar_header_year
+                h1(id="header_year")
+            .calendar_header_month
+                input(type="button" id="btn_left" value=" < ")
+                h1(id="header_month")
+                input(type="button" id="btn_right" value=" > ")
+            .calendar_body
+                table
+                    tr
+                        th 일
+                        th 월
+                        th 화
+                        th 수
+                        th 목
+                        th 금
+                        th 토
+                    tr
+                        td(id=0)
+                        td(id=1)
+                        td(id=2)
+                        td(id=3)
+                        td(id=4)
+                        td(id=5)
+                        td(id=6)
+                    tr
+                        td(id=7)
+                        td(id=8)
+                        td(id=9)
+                        td(id=10)
+                        td(id=11)
+                        td(id=12)
+                        td(id=13)
+                    tr
+                        td(id=14)
+                        td(id=15)
+                        td(id=16)
+                        td(id=17)
+                        td(id=18)
+                        td(id=19)
+                        td(id=20)
+                    tr
+                        td(id=21)
+                        td(id=22)
+                        td(id=23)
+                        td(id=24)
+                        td(id=25)
+                        td(id=26)
+                        td(id=27)
+                    tr
+                        td(id=28)
+                        td(id=29)
+                        td(id=30)
+                        td(id=31)
+                        td(id=32)
+                        td(id=33)
+                        td(id=34)
+                    tr
+                        td(id=35)
+                        td(id=36)
+        
+        script(src="/static/js/calendar.js")

@@ -1,0 +1,33 @@
+
+mixin bigTable(bigTables)
+    div(class="bigTables")
+        -for(let i=0; i<bigTables.length; i++)
+            div(class="bigTable")
+                -for(let j=0; j<bigTables[i].length; j++)
+                    if j===2
+                        .break
+                    +printTable(bigTables,i,j)
+    
+mixin miniTable(miniTables)
+    .break
+    div(class="miniTables")
+        -for(let i=0; i<miniTables.length; i++)
+            div(class="miniTable")
+              -for(let j=0; j<miniTables[i].length; j++)
+                +printTable(miniTables,i,j)
+                .break
+            
+
+
+mixin printTable(tables,i,j)
+    div(class="table")
+        if tables[i][j].reserved === true
+            h1 예약석
+        
+        if tables[i][j].beUsing === true
+            h1 사용중
+        else 
+            h1 빈좌석
+        
+        //p 주문한 시간 : #{tables[i][j].orderTime}
+        //p 메뉴 : #{tables[i][j].menu}

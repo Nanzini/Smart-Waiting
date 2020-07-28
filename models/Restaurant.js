@@ -5,6 +5,14 @@ const restaurantSchema = new mongoose.Schema({
   restaurant_tag: String,
   restaurant_location: String,
 
+  restaurant_pic: {
+    type: String,
+    default: "2973194cb8047237c8f850c7ffd0e9a8",
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
   restaurant_reservations: [
     {
       type: mongoose.Schema.Types.ObjectId,
@@ -18,9 +26,18 @@ const restaurantSchema = new mongoose.Schema({
   restaurant_comments: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "comment",
+      ref: "Comment",
     },
   ],
+  mails: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Mail",
+    },
+  ],
+  bigTables: Array(),
+  miniTables: Array(),
+  restaurant_eating: [{}],
 });
 
 export const Restaurant = mongoose.model("Restaurant", restaurantSchema);

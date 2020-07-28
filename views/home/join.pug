@@ -1,0 +1,17 @@
+extends ../partials/main.pug
+
+block content
+    form(method = "post" action = routes.join)
+        input(type="email" name="id" placeholder="email" required="true")
+        input(type="password" name="password" placeholder="password" requited="true")
+        input(type="text" name="name" placeholder="name")
+        
+        label(for="birthday") Birthday
+        input(type="date" name="birthday")
+        
+        input(type="radio" name="gender")
+        label Male
+        input(type="radio" name="gender")
+        label Female
+
+        input(type="submit" value="JOIN")

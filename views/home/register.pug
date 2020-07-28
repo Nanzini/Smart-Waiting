@@ -1,0 +1,11 @@
+extends ../partials/main.pug
+
+block content
+    form(action=routes.register, method="post" enctype="multipart/form-data")
+        input(type='text' placeholder='Restaurant Name' name='name')
+        input(type='text' placeholder='tag' name='tag')
+        input(type='text' placeholder='Location' name='location')
+        input(type='text' placeholder='4인용 테이블' name='bigTables')
+        input(type='text' placeholder='2인용 테이블' name='miniTables')
+        input(type='file' name="restaurantPic")
+        input(type='submit' value='Register!')
