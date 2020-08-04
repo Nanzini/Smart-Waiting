@@ -1,0 +1,11 @@
+mixin userInfo(id)
+    input(class="btn_delUser" type="button" value="Delete")
+    input(class="userInput" type="button" value="Edit" )
+    input(class="userInput" value=user.userId disabled="true")
+    input(class="userInput" value=user.name disabled="true")
+    input(type="password" class="userInput" value=user.password disabled="true")
+    
+    span 생일
+    input(class="userInput" value=user.birthday disabled="true")
+    input(class="userInput" type="button" value="OK")
+    

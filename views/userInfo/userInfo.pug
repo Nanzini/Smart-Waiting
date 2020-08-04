@@ -1,30 +1,28 @@
 extends ../partials/main.pug
 include ../partials/modal.pug
+include ../mixins/user.pug
+include ../mixins/comment.pug
 
 block content 
     input(type="button" id="btn_userInfo" value=`${user.name}님의 정보`)
     +modal("UserInfo")
-        p 이름 #{user.name}
-        p 이메일 #{user.email}
-        p 성별 #{user.gender}
-        p 생일 #{user.birthday}
-        p 가입일 #{user.createAt}
+        +userInfo(user._id)
         
 
     input(type="button" id="btn_comment" value ="댓글함")
     +modal("Comment")
         each comment in user.comments
-            p 아직 점검중!
+            +myComments(comment)
 
     input(type="button" id="btn_reservation" value ="내 예약")
     +modal("Reservation")
-        each mail in user.mails
+        each mail in user.reservations
             p 아직 점검중!
 
     input(type="button" id="btn_restaurant" value ="내 식당")
     +modal("Restaurant")
-        each mail in user.mails
-            p 아직 점검중!
+        each restaurant in user.restaurants
+            p #{restaurant.restaurant_name}
 
     input(type="button" id="btn_mail" value="메일함")
     +modal("Mail")
@@ -34,3 +32,4 @@ block content
                     p #{mail.content}
 
     script(src="/static/js/ajax_userInfo.js")
+    script(src="/static/js/editComment.js")

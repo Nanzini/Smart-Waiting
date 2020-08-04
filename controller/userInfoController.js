@@ -9,6 +9,7 @@ export const userInfo_home = async (req, res, next) => {
     .populate("restaurants")
     .populate("reservations");
   const mails = await Mail.find;
+
   res.render("userInfo/userInfo.pug", { pageTitle: "MyInfo", user });
 };
 

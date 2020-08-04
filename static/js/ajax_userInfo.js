@@ -1,7 +1,10 @@
 "use strict";
 
+// user
 var modalUserInfo = document.getElementById("modalUserInfo");
 var btn_userInfo = document.getElementById("btn_userInfo");
+var userInput = document.querySelectorAll(".userInput");
+var btn_delUser = document.querySelector(".btn_delUser");
 var modalComment = document.getElementById("modalComment");
 var btn_comment = document.getElementById("btn_comment");
 var modalReservation = document.getElementById("modalReservation");
@@ -40,12 +43,30 @@ var detailMail = function detailMail() {
 };
 
 var showDetailMail = function showDetailMail(event) {
-  console.log(event.target.childNodes);
   event.target.childNodes[1].style.display = "block";
 };
 
 var showUserInfo = function showUserInfo() {
   modalUserInfo.style.display = "block";
+  editUserInfo();
+  btn_delUser.addEventListener("click", deleteUser);
+};
+
+var deleteUser = function deleteUser() {
+  var body = {
+    id: userInput[1].value
+  };
+  var xhttp = new XMLHttpRequest();
+
+  xhttp.onreadystatechange = function () {
+    if (this.readyState == 4 && this.status == 200) {
+      location.href = "/login";
+    }
+  };
+
+  xhttp.open("post", "/ajax/postDeleteUser", true);
+  xhttp.setRequestHeader("Content-type", "application/json");
+  xhttp.send(JSON.stringify(body));
 };
 
 var showUserComment = function showUserComment() {
@@ -62,8 +83,38 @@ var showUserRestaurant = function showUserRestaurant() {
 
 var close_modal = function close_modal(event) {
   var modal = event.target.parentElement.parentElement;
-  console.log(event.target.className);
   if (event.target.className === "modal_close") modal.style.display = "none";
+};
+
+var editUserInfo = function editUserInfo() {
+  var btn_edit = userInput[0];
+  btn_edit.addEventListener("click", function () {
+    for (var i = 2; i < userInput.length; i++) {
+      userInput[i].disabled = false;
+    }
+  });
+  userInput[userInput.length - 1].addEventListener("click", postEditUserInfo);
+};
+
+var postEditUserInfo = function postEditUserInfo() {
+  var body = {
+    email: userInput[1].value,
+    name: userInput[2].value,
+    password: userInput[3].value,
+    birthday: userInput[4].value
+  };
+  var xhttp = new XMLHttpRequest();
+
+  xhttp.onreadystatechange = function () {
+    if (this.readyState == 4 && this.status == 200) {
+      alert("수정완료!");
+      location.reload(true);
+    }
+  };
+
+  xhttp.open("post", "/ajax/userInfo_postEditUserInfo", true);
+  xhttp.setRequestHeader("Content-type", "application/json");
+  xhttp.send(JSON.stringify(body));
 };
 
 var init = function init() {

@@ -6,6 +6,10 @@ import {
   getCalendarReservation,
   getUserInfo_mail,
   processReservation,
+  postEditUserInfo,
+  postEditComment,
+  postDeleteComment,
+  postDeleteUser,
 } from "./controller/ajaxController.js";
 import kakaoCallback from "./controller/globalController.js";
 import helmet from "helmet";
@@ -116,4 +120,8 @@ app.use(routes.userInfo(), userInfoRouter);
 // AJAX routing
 app.post("/ajax/getReservation", getCalendarReservation);
 app.post("/ajax/userInfo_mail", getUserInfo_mail);
+app.post("/ajax/userInfo_postEditUserInfo", postEditUserInfo);
 app.post("/ajax/postReservation", processReservation);
+app.post("/ajax/postEditComment", postEditComment);
+app.post("/ajax/postDeleteComment", postDeleteComment);
+app.post("/ajax/postDeleteUser", postDeleteUser);

@@ -22,15 +22,11 @@ export const reserveRestaurant = async (req, res, next) => {
 
   const comments = restaurant.restaurant_comments; // Array
   const user = await User.findById(req.session.userId);
-  const bigTables = restaurant.bigTables;
-  const miniTables = restaurant.miniTables;
-
-  console.log(bigTables);
-  console.log(miniTables);
 
   const commenters = [];
   for (let i = 0; i < comments.length; i++) {
     const comment = {
+      id: comments[i]._id,
       realUser: await User.findById(comments[i].user),
       content: comments[i].content,
       createAt: comments[i].createAt,
@@ -43,8 +39,6 @@ export const reserveRestaurant = async (req, res, next) => {
     restaurant,
     user,
     commenters,
-    bigTables,
-    miniTables,
   });
 };
 
@@ -88,7 +82,17 @@ export const postComment = async (req, res) => {
 export const finalReservaion = async (req, res) => {
   const tmp = req.params.id;
   const id = tmp.slice(1, tmp.length);
-  const restaurant = await Restaurant.findById(id);
-  console.log(restaurant);
-  res.render("reserve/finalReservation.pug", { restaurant });
+  const restaurant = await Restaurant.findById(id).populate(
+    "restaurant_reservations"
+  );
+  const bigTables = restaurant.bigTables;
+  const miniTables = restaurant.miniTables;
+
+  res.render("reserve/finalReservation.pug", {
+    restaurant,
+    bigTables,
+    miniTables,
+  });
 };
+
+const getAllPeople = () => {};

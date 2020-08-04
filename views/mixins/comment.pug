@@ -1,0 +1,22 @@
+mixin comment(commenter)
+    .comment
+        if (commenter.realUser.id === users.id)
+            input(type="button" class="editComment" value="Edit" id=commenter.id)
+            input(type="button" class="deleteComment" value="Delete")
+            input(type="button" value="OK" class="editCompleted" style="display:none")
+        p #{commenter.realUser.name}님
+        input(type="text" disabled="true" style="resize:none" value=commenter.content) 
+        p #{commenter.createAt}에 작성
+
+mixin myComments(commenter)
+    .comment
+        if (user.id)
+            input(type="button" class="editComment" value="Edit" id=commenter.id)
+            input(type="button" class="deleteComment" value="Delete")
+            input(type="button" value="OK" class="editCompleted" style="display:none")
+            p #{commenter.name}님
+            input(type="text" disabled="true" style="resize:none" value=commenter.content) 
+            p #{commenter.createAt}에 작성
+        
+        
+        

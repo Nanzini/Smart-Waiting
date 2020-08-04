@@ -1,7 +1,14 @@
 extends ../partials/main.pug
 include ../mixins/reserveTime
+include ../mixins/showTable.pug
+
 
 block content
+    h1 현재 테이블 상황
+    div(class="content_table")
+        +bigTable(bigTables)
+        +miniTable(miniTables)    
+
     div(class="reservationForm")
         div(class="reserveList")
             +reserveTime(12,restaurant)
