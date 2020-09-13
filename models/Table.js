@@ -12,10 +12,11 @@ const tableSchema = new mongoose.Schema({
     type: String,
   },
 
-  // 메뉴는 아직 모르겟다
   menu: {
-    type: String,
+    type: Array(),
+    ref: "Menu",
   },
+  price: Number,
 });
 
 export const Table = mongoose.model("Table", tableSchema);

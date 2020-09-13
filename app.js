@@ -10,6 +10,11 @@ import {
   postEditComment,
   postDeleteComment,
   postDeleteUser,
+  deleteReservation,
+  deleteRestaurant,
+  editRestaurant,
+  readMail,
+  removeMail,
 } from "./controller/ajaxController.js";
 import kakaoCallback from "./controller/globalController.js";
 import helmet from "helmet";
@@ -23,6 +28,15 @@ import KakaoStrategy from "passport-kakao";
 import { User } from "./models/User.js";
 import morgan from "morgan";
 dotenv.config();
+import multer from "multer";
+import {
+  posHome,
+  posOrder,
+  menuRegister,
+  orderRegister,
+  bill,
+} from "./controller/posController.js";
+const upload = multer({ dest: "uploads/" }); // /uploads/ 앞에 /를 붙이지 않는다.
 export const app = express();
 
 app.set("view engine", "pug");
@@ -125,3 +139,18 @@ app.post("/ajax/postReservation", processReservation);
 app.post("/ajax/postEditComment", postEditComment);
 app.post("/ajax/postDeleteComment", postDeleteComment);
 app.post("/ajax/postDeleteUser", postDeleteUser);
+app.post("/ajax/deleteReservation", deleteReservation);
+app.post("/ajax/deleteRestaurant", deleteRestaurant);
+app.post(
+  "/ajax/editRestaurant",
+  upload.single("restaurantPic"),
+  editRestaurant
+);
+app.post("/ajax/readMail", readMail);
+app.post("/ajax/removeMail", removeMail);
+app.post("/ajax/menuRegister", menuRegister);
+app.post("/ajax/orderRegister", orderRegister);
+app.post("/ajax/bill", bill);
+
+app.get(routes.posHome, posHome);
+app.get(routes.order(), posOrder);

@@ -3,7 +3,13 @@ extends ../partials/main.pug
 block content
     form(action=routes.register, method="post" enctype="multipart/form-data")
         input(type='text' placeholder='Restaurant Name' name='name')
-        input(type='text' placeholder='tag' name='tag')
+        label(for="tags") Restaurant tag
+            select(name="tag" id="tags")
+                option(value="korean") 한식
+                option(value="japanese") 일식
+                option(value="chineses") 중식
+                option(value="southAsia") 동남아
+                option(value="west") 양식            
         input(type='text' placeholder='Location' name='location')
         input(type='text' placeholder='4인용 테이블' name='bigTables')
         input(type='text' placeholder='2인용 테이블' name='miniTables')

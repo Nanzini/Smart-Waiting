@@ -10,7 +10,12 @@ export const userInfo_home = async (req, res, next) => {
     .populate("reservations");
   const mails = await Mail.find;
 
-  res.render("userInfo/userInfo.pug", { pageTitle: "MyInfo", user });
+  const unreadMails = await Mail.count({ read: false });
+  res.render("userInfo/userInfo.pug", {
+    pageTitle: "MyInfo",
+    user,
+    unreadMails,
+  });
 };
 
 export const userInfo_restaurants = async (req, res) => {

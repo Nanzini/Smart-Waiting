@@ -84,6 +84,7 @@ export const processReservation = async (req, res) => {
         guestId: user._id,
         name: req.body.name,
         guests: req.body.guests,
+        restaurant: req.body.restaurant,
         reservationDate: req.body.date,
       });
 
@@ -184,5 +185,89 @@ export const postDeleteUser = async (req, res) => {
     res.locals.users.id = false;
     res.locals.users.email = false;
     res.json(user);
+  } catch (error) {}
+};
+
+export const deleteReservation = async (req, res) => {
+  console.log(req.body);
+  try {
+    const user = await User.findById(req.session.userId);
+    const restaurant = await Restaurant.findById(req.body.restaurant)
+      .populate("restaurant_owner")
+      .populate("reservations");
+    const owner = await User.findById(restaurant.restaurant_owner._id);
+    const reservation = await Reservation.findOne({ _id: req.body.id });
+
+    const userMail = await new Mail({
+      header: `${restaurant.restaurant_name}을 예약을 취소하셨습니다!`,
+      content: `예약날짜 : ${reservation.reservationDate}
+      예약식당 : ${restaurant.restaurant_name}
+      예약자 : ${reservation.name}님
+      예약인원 : ${reservation.guests}분
+    `,
+    });
+
+    const ownerMail = await new Mail({
+      header: `${reservation.name}님께서 예약을 취소하셨습니다!`,
+      content: `예약날짜 : ${reservation.reservationDate}
+    예약식당 : ${restaurant.restaurant_name}
+    예약자 : ${reservation.name}님
+    예약인원 : ${reservation.guests}분    
+  `,
+    });
+    await Reservation.findOneAndDelete({ _id: req.body.id });
+    ownerMail.save();
+    userMail.save();
+    user.mails.push(userMail);
+    owner.mails.push(ownerMail);
+
+    user.save();
+    owner.save();
+    res.json("ehheee");
+  } catch (error) {}
+};
+
+export const deleteRestaurant = async (req, res) => {
+  await Restaurant.findOneAndDelete({ _id: req.body.id });
+  res.json();
+};
+
+export const editRestaurant = async (req, res) => {
+  const restaurant = await Restaurant.findOneAndUpdate(
+    {
+      _id: req.body.id,
+    },
+    {
+      restaurant_name: req.body.name,
+      restaurant_pic:
+        req.file === undefined ? process.env.DEFAULT_IMAGE : req.file.filename,
+      restaurant_tag: req.body.tag,
+      // location
+    },
+    {
+      returnNewDocument: true,
+    }
+  );
+  restaurant.save();
+  res.json();
+};
+
+export const readMail = async (req, res) => {
+  try {
+    const mail = await Mail.findOneAndUpdate(
+      { _id: req.body.id },
+      { read: true },
+      { returnNewDocument: true }
+    );
+    mail.save();
+    console.log(mail);
+    res.json(mail);
+  } catch (error) {}
+};
+
+export const removeMail = async (req, res) => {
+  try {
+    const mail = await Mail.findOneAndDelete({ _id: req.body.id });
+    res.json(Number(mail._id));
   } catch (error) {}
 };

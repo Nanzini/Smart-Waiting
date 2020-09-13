@@ -73,9 +73,7 @@ export const postRegister = async (req, res) => {
       restaurant_tag: req.body.tag,
       restaurant_location: req.body.location,
       restaurant_pic:
-        req.file === undefined
-          ? "2973194cb8047237c8f850c7ffd0e9a8"
-          : req.file.filename,
+        req.file === undefined ? process.env.DEFAULT_IAMGE : req.file.filename,
       restaurant_owner: req.session.userId,
       // await 없으면 기다려주지 않고 다음으로 넘어가서 데이터저장이 안된다 콜백이 반드시 필요하다.
       bigTables: await makeTable(req.body.bigTables, 4),
@@ -96,6 +94,8 @@ export const postRegister = async (req, res) => {
       mail.save();
 
       registerRest.save();
+      console.log("레스토랑 예약했을 때 테이블 보자");
+      console.log(registerRest.bigTables);
       res.redirect(routes.home);
     } catch (error) {
       res.send("회원이 아닙니다");
@@ -121,11 +121,14 @@ const makeTable = async (tableNum, tableSize) => {
           beUsing: false,
           orderTime: 0,
           menu: "Not yet",
+          price: 0,
         });
         newBigTable.push(table);
+        table.save();
       }
       entireBigTable.push(newBigTable);
     }
+    console.log(entireBigTable);
     return entireBigTable;
   } catch (error) {
     console.log(error);

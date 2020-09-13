@@ -1,0 +1,8 @@
+mixin registerMenu
+    input(type="text" placeholder="메뉴이름")
+    input(type="text" placeholder="가격")
+    select(name="category")
+        option(value=none) Category
+        option(value="main") Main Dishes
+        option(value="after") After Desserts
+    input(type="button" value="OK" class="btnRegister")

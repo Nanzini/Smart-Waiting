@@ -35,9 +35,20 @@ const restaurantSchema = new mongoose.Schema({
       ref: "Mail",
     },
   ],
-  bigTables: Array(),
-  miniTables: Array(),
-  restaurant_eating: [{}],
+  bigTables: {
+    //type: Array(),
+    //ref: "Table",
+  },
+  miniTables: {
+    //type: Array(),
+    //ref: "Table",
+  },
+  menu: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Menu",
+    },
+  ],
 });
 
 export const Restaurant = mongoose.model("Restaurant", restaurantSchema);

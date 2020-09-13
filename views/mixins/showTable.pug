@@ -1,33 +1,71 @@
 
-mixin bigTable(bigTables)
-    div(class="bigTables")
-        -for(let i=0; i<bigTables.length; i++)
-            div(class="bigTable")
-                -for(let j=0; j<bigTables[i].length; j++)
-                    if j===2
-                        .break
-                    +printTable(bigTables,i,j)
-    
-mixin miniTable(miniTables)
-    .break
-    div(class="miniTables")
-        -for(let i=0; i<miniTables.length; i++)
-            div(class="miniTable")
-              -for(let j=0; j<miniTables[i].length; j++)
-                +printTable(miniTables,i,j)
-                .break
-            
+include ../pos/orderForm.pug
+include ../partials/modal.pug
 
+mixin bigTable(bigTables, Menu)
+    -for(let i=0; i<bigTables.length; i++)
+        div(class=`bigTable` id=`bigTable${i}`)
+            -for(let j=0; j<bigTables[i].length; j++)
+                if j===2
+                    .break
+                +printTable(bigTables,i,j)
+        +modal("order")
+            -for(let i=0; i<Menu.length; i++)
+                +orderForm(Menu[i], i)
+            input(type="button" value="OK" class="btnOrder")
+            input(type="button" value="정산" class="btnBill")
+
+mixin reserve_bigTable(bigTables,i)
+    div(class=`bigTable` id=`bigTable${i}`)
+        -for(let j=0; j<bigTables[i].length; j++)
+            if j===2
+                .break
+            +displayTable(bigTables,i,j)
+
+
+mixin miniTable(miniTables, Menu)
+    .break
+    -for(let i=0; i<miniTables.length; i++)
+        div(class=`miniTable` id=`miniTable${i}`)
+          -for(let j=0; j<miniTables[i].length; j++)
+            +printTable(miniTables,i,j)
+            .break
+        +modal("order")
+            -for(let i=0; i<Menu.length; i++)
+                +orderForm(Menu[i], i)
+            input(type="button" value="OK" class="btnOrder")
+
+mixin reserve_miniTable(miniTables, i)
+    .break
+    div(class=`miniTable` id=`miniTable${i}`)
+      -for(let j=0; j<miniTables[i].length; j++)
+        +displayTable(miniTables,i,j)
+        .break
 
 mixin printTable(tables,i,j)
-    div(class="table")
+    div(class="table" id=tables[i][j]._id)
         if tables[i][j].reserved === true
             h1 예약석
         
         if tables[i][j].beUsing === true
             h1 사용중
+            p #{tables[i][j].orderTime}
+            each menu in tables[i][j].menu
+                p #{menu.name}:#{menu.n} 
+            p #{tables[i][j].price}
         else 
             h1 빈좌석
         
-        //p 주문한 시간 : #{tables[i][j].orderTime}
-        //p 메뉴 : #{tables[i][j].menu}
+mixin displayTable(tables,i,j)
+    div(class="table" id=tables[i][j]._id)
+        if tables[i][j].reserved === true
+            h1 예약석
+        
+        if tables[i][j].beUsing === true
+            h1 사용중
+            
+        else 
+            h1 빈좌석
+        
+        
+        

@@ -36,6 +36,13 @@ const routes = {
 
   // ajax
   ajax: "/ajax",
+
+  // pos
+  posHome: "/pos/home",
+  order: function order(id) {
+    if (id) return `/pos/order:${id}`;
+    else return "/pos/order:id";
+  },
 };
 
 export default routes;

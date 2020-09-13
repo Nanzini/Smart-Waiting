@@ -1,0 +1,10 @@
+extends ../partials/main.pug
+include ../partials/modal.pug
+include ../mixins/showTable.pug
+
+block content
+    h1 운영하고 있는 식당
+
+    each restaurant in user.restaurants
+        a(href=routes.order(restaurant._id))
+            h1 #{restaurant.restaurant_name}

@@ -1,0 +1,9 @@
+mixin orderForm(menu, i)
+    div(class=`orderForm` id=`orderForm${i}` style="display:flex")
+        p #{menu.name}
+        input(type="button" class="btnLeft" value="<")
+        p(class=menu.name) 0
+        p(style="display:none" class=`price${i}`) #{menu.price}
+        input(type="button" class="btnRight" value=">")
+        
+    

@@ -84,3 +84,18 @@
     border: 1px solid;
     width: 125px;
     height: 100px; }
+
+.absoluteParent {
+  position: relative; }
+  .absoluteParent .absoluteChild {
+    position: relative;
+    left: 45px;
+    top: -35px;
+    margin: 5px; }
+
+.mailHead {
+  display: flex; }
+
+.orderForm {
+  display: flex;
+  justify-content: center; }

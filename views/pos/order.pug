@@ -1,0 +1,22 @@
+extends ../partials/main.pug
+include ../partials/modal.pug
+include ../mixins/showTable.pug
+include ./registerMenu.pug
+include ./orderForm.pug
+
+block content
+    h1 테이블현황 #{menu}
+    div(class="content_table")
+        div(class="bigTables")
+            +bigTable(restaurant.bigTables,menu)
+                
+        div(class="miniTables")
+            +miniTable(restaurant.miniTables,menu)
+
+
+    input(type="button" value="메뉴등록" class="btnMenu")
+    +modal("Menu")
+        +registerMenu()
+
+
+    script(src="/static/js/order.js")

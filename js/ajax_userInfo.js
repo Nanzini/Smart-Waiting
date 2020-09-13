@@ -4,9 +4,11 @@ const btn_userInfo = document.getElementById("btn_userInfo");
 const userInput = document.querySelectorAll(".userInput");
 const btn_delUser = document.querySelector(".btn_delUser");
 
+// comment
 const modalComment = document.getElementById("modalComment");
 const btn_comment = document.getElementById("btn_comment");
 
+// reservation
 const modalReservation = document.getElementById("modalReservation");
 const btn_reservation = document.getElementById("btn_reservation");
 
@@ -24,8 +26,6 @@ const showMail = () => {
   const xhttp = new XMLHttpRequest();
   xhttp.onreadystatechange = function () {
     if (this.readyState == 4 && this.status == 200) {
-      document.getElementById("btn_mail").innerHTML = this.responseText;
-      console.log(xhttp.responseText);
     }
   };
   xhttp.open("post", "/ajax/userInfo_mail", true);
@@ -34,15 +34,64 @@ const showMail = () => {
   detailMail();
 };
 
+const removeMail = (event) => {
+  const body = {
+    id: event.target.parentElement.id,
+  };
+  const xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function () {
+    if (this.readyState == 4 && this.status == 200) {
+      document.getElementById(body.id).remove();
+    }
+  };
+  xhttp.open("post", "/ajax/removeMail", true);
+  xhttp.setRequestHeader("Content-type", "application/json");
+  xhttp.send(JSON.stringify(body));
+};
+
 const detailMail = () => {
   const everyMail = modalMail.querySelectorAll(".mailHead");
+  const deleteMail = document.querySelectorAll(".deleteMail");
   everyMail.forEach(() => {
+    addEventListener("mouseover", (event) => {
+      console.log(event.target);
+      if (event.target.childNodes[1] && event.target.className === "mailHead")
+        event.target.childNodes[1].style.display = "block";
+      for (let i = 0; i < deleteMail.length; i++) {
+        deleteMail[i].addEventListener("click", removeMail);
+      }
+    });
+    addEventListener("mouseout", (event) => {
+      if (event.target.childNodes[1] && event.target.className === "mailHead")
+        event.target.childNodes[1].style.display = "none";
+    });
     addEventListener("click", showDetailMail);
   });
 };
 
 const showDetailMail = (event) => {
-  event.target.childNodes[1].style.display = "block";
+  if (event.target.childNodes[2]) {
+    const body = {
+      id: event.target.id,
+    };
+    if (event.target.childNodes[2].className !== "mailHead")
+      event.target.childNodes[2].style.display = "block";
+
+    const xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function () {
+      if (this.readyState == 4 && this.status == 200) {
+        event.target.style.backgroundColor = "white";
+        if (document.querySelector(".absoluteChild")) {
+          document.querySelector(".absoluteChild").innerText -= 1;
+          if (document.querySelector(".absoluteChild").innerText === "0")
+            document.querySelector(".absoluteChild").innerText = "";
+        }
+      }
+    };
+    xhttp.open("post", "/ajax/readMail", true);
+    xhttp.setRequestHeader("Content-type", "application/json");
+    xhttp.send(JSON.stringify(body));
+  }
 };
 
 const showUserInfo = () => {
@@ -69,16 +118,85 @@ const showUserComment = () => {
 };
 
 const showUserReservation = () => {
+  const everyReservation = document.querySelectorAll(".reservationHead");
   modalReservation.style.display = "block";
+  everyReservation.forEach(() => {
+    addEventListener("click", showUserDetailReservation);
+  });
+};
+
+const showUserDetailReservation = (event) => {
+  const btn_deleteReservation = document.querySelector(".deleteReservation");
+  btn_deleteReservation.addEventListener("click", deleteReservation);
+  if (event.target.childNodes[1])
+    event.target.childNodes[1].style.display = "block";
+};
+
+const deleteReservation = (event) => {
+  console.log(event.target.id);
+  const body = {
+    id: event.target.id,
+    restaurant: document.querySelector(".restaurantID").id,
+  };
+  const xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function () {
+    if (this.readyState == 4 && this.status == 200) {
+      location.reload(true);
+    }
+  };
+  xhttp.open("post", "/ajax/deleteReservation", true);
+  xhttp.setRequestHeader("Content-type", "application/json");
+  xhttp.send(JSON.stringify(body));
 };
 
 const showUserRestaurant = () => {
+  const everyRestaurant = document.querySelectorAll(".restaurantHead");
   modalRestaurant.style.display = "block";
+  everyRestaurant.forEach(() => {
+    addEventListener("click", showUserDetailRestaurant);
+  });
+};
+
+const showUserDetailRestaurant = (event) => {
+  const btn_edit = document.querySelector(".btn_editRestaurant");
+  const btn_del = document.querySelector(".btn_delRestaurant");
+  const btn_editOK = document.querySelector(".btn_editOK");
+  const disabledInput = document.querySelectorAll(".restaurantDisabled");
+
+  if (event.target.childNodes[1])
+    event.target.childNodes[1].style.display = "block";
+
+  btn_del.addEventListener("click", deleteRestaurant);
+  btn_edit.addEventListener("click", () => {
+    btn_editOK.style.display = "block";
+    for (let i = 0; i < disabledInput.length; i++)
+      disabledInput[i].disabled = false;
+    btn_editOK.addEventListener("click", editRestaurant);
+  });
+};
+
+const deleteRestaurant = () => {
+  const body = {
+    id: document.querySelector(".btn_delRestaurant").id,
+  };
+  const xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function () {
+    if (this.readyState == 4 && this.status == 200) {
+      location.reload(true);
+    }
+  };
+  xhttp.open("post", "/ajax/deleteRestaurant", true);
+  xhttp.setRequestHeader("Content-type", "application/json");
+  xhttp.send(JSON.stringify(body));
 };
 
 const close_modal = (event) => {
-  const modal = event.target.parentElement.parentElement;
-  if (event.target.className === "modal_close") modal.style.display = "none";
+  if (event.target.parentElement)
+    if (event.target.parentElement.parentElement) {
+      const modal = event.target.parentElement.parentElement;
+      if (event.target.className === "modal_close")
+        modal.style.display = "none";
+    }
 };
 
 const editUserInfo = () => {

@@ -16,20 +16,37 @@ block content
 
     input(type="button" id="btn_reservation" value ="내 예약")
     +modal("Reservation")
-        each mail in user.reservations
-            p 아직 점검중!
+        each reservation in user.reservations
+            .reservationHead #{reservation.name}이름의 예약입니다. #{reservation.createAt}
+                +modal()
+                    p(id=reservation.restaurant._id class="restaurantID") #{reservation.name}님이 #{reservation.reservationDate}에 #{reservation.restaurant.name}에 #{reservation.guests}명 방문예정입니다.
+                    input(type="button" value="삭제" class="deleteReservation" id=reservation.id)
+            
 
     input(type="button" id="btn_restaurant" value ="내 식당")
     +modal("Restaurant")
         each restaurant in user.restaurants
-            p #{restaurant.restaurant_name}
+            .restaurantHead #{restaurant.restaurant_name}
+                +modal()
+                    +restaurantInfo(restaurant)
 
-    input(type="button" id="btn_mail" value="메일함")
+    span(id="btn_mail" class="absoluteParent") 메일함
+        if unreadMails !== 0
+            p(class="absoluteChild") #{unreadMails}
+
     +modal("Mail")
         each mail in user.mails
-            div(class="mailHead") #{mail.header} 
-                +modal()
-                    p #{mail.content}
+            if !mail.read
+                div(class="mailHead" style="background-color:gray" id=mail._id) #{mail.header}
+                    button(class="deleteMail" value="X" style="display:none") X
+                    +modal()
+                        p #{mail.content}
+            else
+                div(class="mailHead" id=mail._id) #{mail.header} 
+                    button(class="deleteMail" value="X" style="display:none") X
+                    +modal()
+                        p #{mail.content}
+            
 
     script(src="/static/js/ajax_userInfo.js")
     script(src="/static/js/editComment.js")

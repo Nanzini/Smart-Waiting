@@ -6,8 +6,13 @@ include ../mixins/showTable.pug
 block content
     h1 현재 테이블 상황
     div(class="content_table")
-        +bigTable(bigTables)
-        +miniTable(miniTables)    
+        -for(let i=0; i<bigTables.length; i++)
+            div(class="bigTables")
+                +reserve_bigTable(bigTables,i)
+
+        -for(let i=0; i<miniTables.length; i++)
+            div(class="miniTables")
+                +reserve_miniTable(miniTables,i)
 
     div(class="reservationForm")
         div(class="reserveList")
