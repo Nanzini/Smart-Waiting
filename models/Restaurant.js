@@ -13,12 +13,7 @@ const restaurantSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
-  restaurant_reservations: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Reservation",
-    },
-  ],
+  restaurant_reservations: [],
   restaurant_owner: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",

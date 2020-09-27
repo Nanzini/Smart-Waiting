@@ -18,9 +18,7 @@ var btnBill = document.querySelectorAll(".btnBill");
 
 var clickBigTable = function clickBigTable(event) {
   current = event.target;
-  if (current.id === "" && current.parentNode.className === "table") current = current.parentNode.parentNode;
-  if (current.id === "table") current = current.parentNode;
-  console.log(current);
+  if (current.id === "" && current.parentNode.className === "table") current = current.parentNode.parentNode;else if (current.className === "table") current = current.parentNode;
   modal.style.display = "block";
   modalClose.addEventListener("click", closeModal);
 
@@ -40,8 +38,7 @@ var clickBigTable = function clickBigTable(event) {
 };
 
 var clickBill = function clickBill(event) {
-  console.log(event.target.parentNode);
-  console.log(current.id);
+  if (current.id === "" && current.parentNode.className === "table") current = current.parentNode;else if (current.className === "table") current;else current = current.childNodes[0];
   var body = {
     id: getID(),
     tableId: current.id,
@@ -50,6 +47,7 @@ var clickBill = function clickBill(event) {
     price: 0,
     table: current.parentNode.className
   };
+  console.log("bill : " + body.tableId);
   var xhttp = new XMLHttpRequest();
 
   xhttp.onreadystatechange = function () {
@@ -105,7 +103,8 @@ var currentDate = function currentDate() {
   return "".concat(year).concat(month).concat(day, ":").concat(hour).concat(minute);
 };
 
-var clickOrder = function clickOrder() {
+var clickOrder = function clickOrder(event) {
+  if (current.id === "" && current.parentNode.className === "table") current = current.parentNode;else if (current.className === "table") current;else current = current.childNodes[0];
   var tmp_menu = menu();
   var tmp_price = getPrice(tmp_menu);
   var body = {
@@ -116,7 +115,7 @@ var clickOrder = function clickOrder() {
     price: tmp_price,
     table: current.parentNode.className
   };
-  console.log(body);
+  console.log("order : " + body.tableId);
   var xhttp = new XMLHttpRequest();
 
   xhttp.onreadystatechange = function () {

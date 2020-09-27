@@ -56,8 +56,7 @@ var detailMail = function detailMail() {
   var deleteMail = document.querySelectorAll(".deleteMail");
   everyMail.forEach(function () {
     addEventListener("mouseover", function (event) {
-      console.log(event.target);
-      if (event.target.childNodes[1] && event.target.className === "mailHead") event.target.childNodes[1].style.display = "block";
+      if (event.target.childNodes[1] && event.target.className === "mailHead") event.target.childNodes[1].style.display = "block";else if (event.target && event.target.className === "deleteMail") event.target.style.display = "block";
 
       for (var i = 0; i < deleteMail.length; i++) {
         deleteMail[i].addEventListener("click", removeMail);
@@ -140,12 +139,14 @@ var deleteReservation = function deleteReservation(event) {
   console.log(event.target.id);
   var body = {
     id: event.target.id,
-    restaurant: document.querySelector(".restaurantID").id
+    restaurant: document.querySelector(".restaurantID").id,
+    reservationId: document.querySelector(".deleteReservation").id
   };
   var xhttp = new XMLHttpRequest();
 
   xhttp.onreadystatechange = function () {
     if (this.readyState == 4 && this.status == 200) {
+      alert("삭제되었습니다!");
       location.reload(true);
     }
   };

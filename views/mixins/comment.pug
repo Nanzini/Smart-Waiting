@@ -5,7 +5,7 @@ mixin comment(commenter)
             input(type="button" class="deleteComment" value="Delete")
             input(type="button" value="OK" class="editCompleted" style="display:none")
         p #{commenter.realUser.name}님
-        input(type="text" disabled="true" style="resize:none" value=commenter.content) 
+        input(class="commentValue" disabled="true" style="resize:none" value=commenter.content) 
         p #{commenter.createAt}에 작성
 
 mixin myComments(commenter)
@@ -15,7 +15,7 @@ mixin myComments(commenter)
             input(type="button" class="deleteComment" value="Delete")
             input(type="button" value="OK" class="editCompleted" style="display:none")
             p #{commenter.name}님
-            input(type="text" disabled="true" style="resize:none" value=commenter.content) 
+            input(class="commentValue" disabled="true" style="resize:none" value=commenter.content) 
             p #{commenter.createAt}에 작성
         
         

@@ -6,8 +6,7 @@ const commentSchema = mongoose.Schema({
     required: "content is required",
   },
   createAt: {
-    type: Date,
-    default: Date.now,
+    type: String,
   },
   user: {
     type: mongoose.Schema.Types.ObjectId,

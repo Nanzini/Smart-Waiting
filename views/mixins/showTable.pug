@@ -24,7 +24,6 @@ mixin reserve_bigTable(bigTables,i)
 
 
 mixin miniTable(miniTables, Menu)
-    .break
     -for(let i=0; i<miniTables.length; i++)
         div(class=`miniTable` id=`miniTable${i}`)
           -for(let j=0; j<miniTables[i].length; j++)
@@ -42,26 +41,27 @@ mixin reserve_miniTable(miniTables, i)
         +displayTable(miniTables,i,j)
         .break
 
+//- pos기에서 찍어주기
 mixin printTable(tables,i,j)
     div(class="table" id=tables[i][j]._id)
         if tables[i][j].reserved === true
             h1 예약석
         
-        if tables[i][j].beUsing === true
+        else if tables[i][j].beUsing === true
             h1 사용중
-            p #{tables[i][j].orderTime}
             each menu in tables[i][j].menu
                 p #{menu.name}:#{menu.n} 
             p #{tables[i][j].price}
         else 
             h1 빈좌석
-        
+
+//- 예약페이지에서 찍어주기
 mixin displayTable(tables,i,j)
     div(class="table" id=tables[i][j]._id)
         if tables[i][j].reserved === true
             h1 예약석
         
-        if tables[i][j].beUsing === true
+        else if tables[i][j].beUsing === true
             h1 사용중
             
         else 

@@ -36,7 +36,7 @@ block content
 
     +modal("Mail")
         each mail in user.mails
-            if !mail.read
+            if mail.read === false
                 div(class="mailHead" style="background-color:gray" id=mail._id) #{mail.header}
                     button(class="deleteMail" value="X" style="display:none") X
                     +modal()

@@ -8,9 +8,14 @@ export const userInfo_home = async (req, res, next) => {
     .populate("comments")
     .populate("restaurants")
     .populate("reservations");
-  const mails = await Mail.find;
 
-  const unreadMails = await Mail.count({ read: false });
+  let unreadMails = 0;
+  for (let i = 0; i < user.mails.length; i++)
+    if (user.mails[i].read === false) {
+      console.log(user.mails[i]);
+      unreadMails++;
+    }
+
   res.render("userInfo/userInfo.pug", {
     pageTitle: "MyInfo",
     user,

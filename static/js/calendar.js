@@ -71,7 +71,7 @@ var block_time = function block_time() {
 
   for (var i = 0; i < 13; i += 2) {
     var time = document.querySelector(".reserveList").childNodes[i];
-    if (currentMonth === month && currentDate === Number(date) && hour > time.name) time.disabled = true;else time.disabled = false;
+    if (currentMonth === month && currentDate === Number(date) && hour > time.name - 2) time.disabled = true;else time.disabled = false;
   }
 };
 
@@ -203,7 +203,9 @@ var ajax_send_reservationData = function ajax_send_reservationData(event) {
     name: modalContent.childNodes[3].value,
     guests: modalContent.childNodes[4].value,
     restaurant: modalContent.childNodes[5].value,
-    date: Number("".concat(send.year).concat(send.month).concat(send.date).concat(time))
+    date: Number("".concat(send.year).concat(send.month).concat(send.date).concat(time)),
+    bigId: big(),
+    miniId: mini()
   };
   var data = JSON.stringify(reservationForm);
   var xhttp = new XMLHttpRequest();
@@ -280,6 +282,28 @@ var init = function init() {
   display_popup();
   btn_right.addEventListener("click", month_right);
   btn_left.addEventListener("click", month_left);
+};
+
+var big = function big() {
+  var tmp = document.querySelectorAll(".bigTables");
+  var arr = [];
+
+  for (var i = 0; i < tmp.length; i++) {
+    arr.push(tmp[i].childNodes[0].childNodes[0].id);
+  }
+
+  return arr;
+};
+
+var mini = function mini() {
+  var tmp = document.querySelectorAll(".miniTables");
+  var arr = [];
+
+  for (var i = 0; i < tmp.length; i++) {
+    arr.push(tmp[i].childNodes[1].childNodes[0].id);
+  }
+
+  return arr;
 };
 
 init();

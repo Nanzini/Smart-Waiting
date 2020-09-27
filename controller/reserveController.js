@@ -4,6 +4,20 @@ import { Comment } from "../models/Comment";
 import { Reservation } from "../models/Reservation";
 import routes from "../routes/routes.js";
 
+export const times = (reservation) => {
+  const current = new Date();
+  const currentYear = current.getFullYear();
+  const currentMonth =
+    current.getMonth() < 9
+      ? `0${current.getMonth() + 1}`
+      : current.getMonth() + 1;
+  const currentDate =
+    current.getDate() < 10 ? `0${current.getDate()}` : current.getDate();
+  const currentHour =
+    current.getHours() < 10 ? `0${current.getHours()}` : current.getHours();
+  return `${currentYear}${currentMonth}${currentDate}${currentHour}`;
+};
+
 export const reserveHome = async (req, res, next) => {
   const restaurants = await Restaurant.find({});
 
@@ -56,13 +70,11 @@ export const postReservation = async (req, res) => {
 export const postComment = async (req, res) => {
   try {
     const restId = req.params.id.slice(1, req.params.id.length);
-
-    console.log(restId);
     const user = await User.findById(req.session.userId);
     const rest = await Restaurant.findById(restId);
     const comment = await new Comment({
       content: req.body.content,
-      createAt: Date().now,
+      createAt: times(),
       user,
       // starRating
     });

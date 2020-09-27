@@ -1,10 +1,12 @@
 const btn_editComment = document.querySelector(".editComment");
 const btn_deleteComment = document.querySelector(".deleteComment");
 const content = document.querySelector(".comment");
+const commentValue = document.querySelector(".commentValue");
 
 const editComment = () => {
   const btn_editCompleted = document.querySelector(".editCompleted");
 
+  commentValue.disabled = false;
   content.childNodes[2].disabled = false;
   btn_editCompleted.style.display = "block";
   btn_editCompleted.addEventListener("click", postEditComment);
@@ -14,7 +16,7 @@ const postEditComment = () => {
   const id = btn_editComment.id;
   const body = {
     id,
-    content: content.childNodes[2].value,
+    content: commentValue.value,
   };
   const xhttp = new XMLHttpRequest();
   xhttp.onreadystatechange = function () {

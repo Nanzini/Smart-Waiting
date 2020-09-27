@@ -3,9 +3,11 @@
 var btn_editComment = document.querySelector(".editComment");
 var btn_deleteComment = document.querySelector(".deleteComment");
 var content = document.querySelector(".comment");
+var commentValue = document.querySelector(".commentValue");
 
 var editComment = function editComment() {
   var btn_editCompleted = document.querySelector(".editCompleted");
+  commentValue.disabled = false;
   content.childNodes[2].disabled = false;
   btn_editCompleted.style.display = "block";
   btn_editCompleted.addEventListener("click", postEditComment);
@@ -15,7 +17,7 @@ var postEditComment = function postEditComment() {
   var id = btn_editComment.id;
   var body = {
     id: id,
-    content: content.childNodes[2].value
+    content: commentValue.value
   };
   var xhttp = new XMLHttpRequest();
 

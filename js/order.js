@@ -18,10 +18,11 @@ const btnBill = document.querySelectorAll(".btnBill");
 
 const clickBigTable = (event) => {
   current = event.target;
+
   if (current.id === "" && current.parentNode.className === "table")
     current = current.parentNode.parentNode;
-  if (current.id === "table") current = current.parentNode;
-  console.log(current);
+  else if (current.className === "table") current = current.parentNode;
+
   modal.style.display = "block";
 
   modalClose.addEventListener("click", closeModal);
@@ -38,8 +39,10 @@ const clickBigTable = (event) => {
 };
 
 const clickBill = (event) => {
-  console.log(event.target.parentNode);
-  console.log(current.id);
+  if (current.id === "" && current.parentNode.className === "table")
+    current = current.parentNode;
+  else if (current.className === "table") current;
+  else current = current.childNodes[0];
 
   const body = {
     id: getID(),
@@ -49,7 +52,7 @@ const clickBill = (event) => {
     price: 0,
     table: current.parentNode.className,
   };
-
+  console.log("bill : " + body.tableId);
   const xhttp = new XMLHttpRequest();
   xhttp.onreadystatechange = function () {
     if (this.readyState === 4 && this.status === 200) {
@@ -103,7 +106,11 @@ const currentDate = () => {
   return `${year}${month}${day}:${hour}${minute}`;
 };
 
-const clickOrder = () => {
+const clickOrder = (event) => {
+  if (current.id === "" && current.parentNode.className === "table")
+    current = current.parentNode;
+  else if (current.className === "table") current;
+  else current = current.childNodes[0];
   const tmp_menu = menu();
   const tmp_price = getPrice(tmp_menu);
   const body = {
@@ -114,7 +121,7 @@ const clickOrder = () => {
     price: tmp_price,
     table: current.parentNode.className,
   };
-  console.log(body);
+  console.log("order : " + body.tableId);
   const xhttp = new XMLHttpRequest();
   xhttp.onreadystatechange = function () {
     if (this.readyState === 4 && this.status === 200) {

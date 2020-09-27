@@ -93,7 +93,7 @@ const block_time = () => {
     if (
       currentMonth === month &&
       currentDate === Number(date) &&
-      hour > time.name
+      hour > time.name - 2
     )
       time.disabled = true;
     else time.disabled = false;
@@ -237,6 +237,8 @@ const ajax_send_reservationData = (event) => {
     guests: modalContent.childNodes[4].value,
     restaurant: modalContent.childNodes[5].value,
     date: Number(`${send.year}${send.month}${send.date}${time}`),
+    bigId: big(),
+    miniId: mini(),
   };
   const data = JSON.stringify(reservationForm);
 
@@ -313,6 +315,22 @@ const init = () => {
   display_popup();
   btn_right.addEventListener("click", month_right);
   btn_left.addEventListener("click", month_left);
+};
+
+const big = () => {
+  const tmp = document.querySelectorAll(".bigTables");
+  let arr = [];
+  for (let i = 0; i < tmp.length; i++)
+    arr.push(tmp[i].childNodes[0].childNodes[0].id);
+  return arr;
+};
+
+const mini = () => {
+  const tmp = document.querySelectorAll(".miniTables");
+  let arr = [];
+  for (let i = 0; i < tmp.length; i++)
+    arr.push(tmp[i].childNodes[1].childNodes[0].id);
+  return arr;
 };
 
 init();

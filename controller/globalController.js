@@ -84,18 +84,23 @@ export const postRegister = async (req, res) => {
     try {
       const user = await User.findById(req.session.userId);
       user.restaurants.push(registerRest);
-      user.save();
 
       // user에게 가게등록 메일 보내기
       const mail = new Mail({
-        content: process.env.MAIL_REGISTER_RESTAUANT,
+        header: `${req.body.name}을 등록하셨습니다!`,
+        content: `
+          가게이름 : ${req.body.name} \n
+          위치 : ${req.body.location} \n
+          
+          위의 내용으로 ${process.env.MAIL_REGISTER_RESTAUANT}
+        `,
       });
       user.mails.push(mail);
       mail.save();
 
       registerRest.save();
-      console.log("레스토랑 예약했을 때 테이블 보자");
-      console.log(registerRest.bigTables);
+      user.save();
+
       res.redirect(routes.home);
     } catch (error) {
       res.send("회원이 아닙니다");

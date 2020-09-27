@@ -54,9 +54,10 @@ const detailMail = () => {
   const deleteMail = document.querySelectorAll(".deleteMail");
   everyMail.forEach(() => {
     addEventListener("mouseover", (event) => {
-      console.log(event.target);
       if (event.target.childNodes[1] && event.target.className === "mailHead")
         event.target.childNodes[1].style.display = "block";
+      else if (event.target && event.target.className === "deleteMail")
+        event.target.style.display = "block";
       for (let i = 0; i < deleteMail.length; i++) {
         deleteMail[i].addEventListener("click", removeMail);
       }
@@ -137,10 +138,12 @@ const deleteReservation = (event) => {
   const body = {
     id: event.target.id,
     restaurant: document.querySelector(".restaurantID").id,
+    reservationId: document.querySelector(".deleteReservation").id,
   };
   const xhttp = new XMLHttpRequest();
   xhttp.onreadystatechange = function () {
     if (this.readyState == 4 && this.status == 200) {
+      alert("삭제되었습니다!");
       location.reload(true);
     }
   };

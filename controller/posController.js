@@ -87,7 +87,6 @@ export const orderRegister = async (req, res) => {
 };
 
 export const bill = async (req, res) => {
-  console.log(req.body);
   // mini일 때와 big일 때 구분하기
 
   if (req.body.table[0] === "b") {
@@ -96,6 +95,7 @@ export const bill = async (req, res) => {
         { _id: req.body.id },
         {
           $set: {
+            "bigTables.$[row].$[].reserved": false,
             "bigTables.$[row].$[].beUsing": false,
             "bigTables.$[row].$[].orderTime": req.body.createAt,
             "bigTables.$[row].$[].menu": req.body.menu,
@@ -119,6 +119,7 @@ export const bill = async (req, res) => {
         { _id: req.body.id },
         {
           $set: {
+            "miniTables.$[row].$[].reserved": false,
             "miniTables.$[row].$[].beUsing": false,
             "miniTables.$[row].$[].orderTime": req.body.createAt,
             "miniTables.$[row].$[].menu": req.body.menu,
