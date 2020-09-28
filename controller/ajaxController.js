@@ -289,21 +289,27 @@ export const deleteReservation = async (req, res) => {
     예약인원 : ${reservation.guests}분    
   `,
     });
-    await Reservation.findOneAndDelete({ _id: req.body.id });
-    await Restaurant.update(
-      { _id: req.body.restaurant },
-      {
-        $pull: {
-          restaurant_reservations: {
-            _id: mongoose.mongo.ObjectID(req.body.reservationId),
-          },
-        },
-      }
-    );
-    await User.update(
-      { _id: req.session.userId },
-      { $pull: { reservations: req.body.reservationId } }
-    );
+    await Reservation.findOneAndDelete({ _id: req.body.id }, async function (
+      err
+    ) {
+      if (!err) {
+        await Restaurant.update(
+          { _id: req.body.restaurant },
+          {
+            $pull: {
+              restaurant_reservations: {
+                _id: mongoose.mongo.ObjectID(req.body.reservationId),
+              },
+            },
+          }
+        );
+        await User.update(
+          { _id: req.session.userId },
+          { $pull: { reservations: req.body.reservationId } }
+        );
+      } else console.log("reservation deleting failed");
+    });
+
     ownerMail.save();
     userMail.save();
     restaurant.save();
