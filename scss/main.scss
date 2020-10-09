@@ -8,3 +8,16 @@
 @import "./absolute.scss";
 @import "./mail.scss";
 @import "./orderForm.scss";
+@import "./partials.scss";
+
+body {
+  overflow-x: hidden;
+
+  header,
+  main,
+  footer {
+    width: 70%;
+    margin-right: auto;
+    margin-left: auto;
+  }
+}
