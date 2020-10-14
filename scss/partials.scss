@@ -1,42 +1,109 @@
 header {
+  span p {
+    font-family: "Song Myung";
+  }
   margin: 50px 0px 0px 0px;
   display: flex;
   justify-content: space-between;
   a {
     padding-left: 10px;
     padding-right: 10px;
+    border-radius: 30px;
   }
   .header_column1 {
   }
 
   .header_column2 {
+    font-size: 20px;
     display: flex;
-    justify-content: space-evenly;
     align-items: center;
+
+    /* Login Join div */
+    div {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      white-space: nowrap; /* 창 줄였을 때 개행막기 */
+    }
+
+    a {
+      text-decoration: none;
+      color: #d9d9d9;
+      transition: 0.5s;
+    }
+    a:hover {
+      transform: rotate(-10deg);
+    }
   }
 }
 
 main {
-  margin: 20px 0px 0px 0px;
+  margin: 20px 0px 40px 0px;
 }
 
 footer {
-  padding: 40px;
+  font-size: 16px;
+  margin: 50px 0px 0px 0px;
+  padding: 20px;
   text-align: center;
+  line-height: 20px;
   border-top: 1px solid gray;
+  p {
+    padding: 5px;
+  }
 }
 
-.banner {
-  font-size: 50px;
+.go_reserve {
+  a {
+    transition: 0.4s;
+  }
+  .banner {
+    transition: 0.4s;
+    width: 100%;
+    height: 500px;
+    background-image: url("/uploads/home_banner.png");
+    background-repeat: no-repeat;
+    background-position: center; /* Center the image */
+    background-size: cover; /* Resize the background image to cover the entire container */
+  }
+}
+
+.loginedHome {
   width: 100%;
-  height: 300px;
   display: flex;
-  flex-direction: column;
-  justify-content: center;
+  justify-content: space-evenly;
   align-items: center;
-  // background-image: url("/uploads/JWKimbob.png");
-  background-repeat: no-repeat;
-  background-position: center; /* Center the image */
-  background-size: cover; /* Resize the background image to cover the entire container */
-  background-color: #5e5c5b;
+  a {
+    transition: 0.4s;
+    width: 25%;
+    text-decoration: none;
+  }
+
+  .restaurantMode,
+  .reservationMode,
+  .serverMode {
+    height: 500px;
+    background-repeat: no-repeat;
+    background-position: center; /* Center the image */
+    filter: blur(8px);
+    transition: 0.4s;
+    p {
+      font-size: 40px;
+      text-align: center;
+      position: absolute;
+      bottom: 0;
+      left: 22%;
+      color: #657b9a;
+    }
+  }
+
+  .reservationMode {
+    background-image: url("/uploads/ReservationMode.png");
+  }
+  .restaurantMode {
+    background-image: url("/uploads/RestaurantMode.png");
+  }
+  .serverMode {
+    background-image: url("/uploads/ServerMode.png");
+  }
 }

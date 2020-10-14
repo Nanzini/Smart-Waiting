@@ -1,0 +1,73 @@
+form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  input {
+    font-family: "Song Myung";
+    font-size: 16px;
+    text-align: center;
+    background-color: #e2cebd;
+    margin: 5px 0;
+    padding: 5px;
+    width: 250px;
+    border-radius: 10px;
+    transition: 0.3s;
+  }
+
+  label {
+    font-family: "Song Myung";
+    font-size: 16px;
+    text-align: center;
+    margin: 5px 0;
+    padding: 5px;
+  }
+
+  input:hover {
+    background-color: #ffebcd;
+    opacity: 0.5;
+  }
+}
+
+#male {
+  display: none;
+}
+#male + label {
+  display: inline-block;
+  font-size: 16px;
+}
+#male + label:before {
+  display: inline-block;
+  width: 50px;
+  height: 50px;
+  margin: -4px 5px 0 0;
+  background: url("/uploads/male_unchecked.png") no-repeat 0 0;
+  background-size: 50px;
+  vertical-align: top;
+  content: "";
+}
+#male:checked + label:before {
+  background-image: url("/uploads/male_checked.png"); /* checked 이미지 적용 */
+}
+
+#female {
+  display: none;
+}
+#female + label {
+  display: inline-block;
+  font-size: 16px;
+}
+#female + label:before {
+  display: inline-block;
+  width: 50px;
+  height: 50px;
+  margin: -4px 5px 0 0;
+  background: url("/uploads/female_unchecked.png") no-repeat 0 0;
+  background-size: 50px;
+  vertical-align: top;
+  content: "";
+}
+#female:checked + label:before {
+  background-image: url("/uploads/female_checked.png"); /* checked 이미지 적용 */
+}

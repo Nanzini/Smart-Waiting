@@ -10,23 +10,29 @@ mixin userInfo(id)
     input(class="userInput" type="button" value="OK")
     
 
-mixin restaurantInfo(restaurant)
-    form(action="/ajax/editRestaurant", method="post" enctype="multipart/form-data")
-        input(class="btn_delRestaurant" type="button" value="Delete" name="id" id=restaurant._id)
-        input(class="btn_editRestaurant" type="button" value="Edit" )
+mixin restaurantInfo(restaurant,i)
+    form(action="/ajax/editRestaurant", method="post" enctype="multipart/form-data" )
+        input(class="btn_delRestaurant" type="button" value="삭제" name="id" id=restaurant._id)
+        input(class="btn_editRestaurant" type="button" value="수정" )
 
-        // form들
-        input(class="restaurantDisabled" name="name" value=restaurant.restaurant_name disabled="true")
-        select(name="tag" class="restaurantDisabled" value=restaurant.restaurant_tag disabled="true")
-            option(value=none) Restaurant tag
-            option(value="korean") 한식
-            option(value="japanese") 일식
-            option(value="chineses") 중식
-            option(value="southAsia") 동남아
-            option(value="west") 양식            
-
+        //-  가게이름 
+        input(class="restaurantDisabled" name="name" value=restaurant.restaurant_name disabled="true" style="font-family: 'Song Myung'")
+        select(name="tag" id='tags1' class="restaurantDisabled" value=restaurant.restaurant_tag disabled="true" style="font-family: 'Song Myung'")
+            option(value="korean" style="font-family: 'Song Myung'") 한식
+            option(value="japanese" style="font-family: Song Myung") 일식
+            option(value="chineses" style="font-family: Song Myung") 중식
+            option(value="southAsia" style="font-family: Song Myung") 동남아
+            option(value="west" style="font-family: Song Myung") 양식
+                        
+        //- 위치
         input(class="restaurantDisabled" value=restaurant.restaurant_location disabled="true")
-        input(type="file" value=restaurant.restaurant_pic class="restaurantDisabled" disabled="true" name="restaurantPic" accept="image/*")
+        
+        .div_form_file
+            input(type="file" id=`form_file${i}` style="opacity:0" class="restaurantDisabled" disabled="true" name="restaurantPic" accept="image/*")
+            label(for=`form_file${i}` id=`label_text${i}` class="form_txt") #{restaurant.restaurant_pic}
+            label(for=`form_file${i}` id=`label_img${i}` class="form_img") 
+
         input(type="text" name="id" value=restaurant._id style="display:none")
         
-        input(class="btn_editOK" type="submit" value="OK" style="display:none")
+        //- 완료버튼
+        input(class="btn_editOK" type="submit" value="완료!" style={display:"none", width:"100px", margin:"20px 0"})

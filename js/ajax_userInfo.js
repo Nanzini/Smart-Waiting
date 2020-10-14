@@ -161,22 +161,38 @@ const showUserRestaurant = () => {
 };
 
 const showUserDetailRestaurant = (event) => {
-  const btn_edit = document.querySelector(".btn_editRestaurant");
-  const btn_del = document.querySelector(".btn_delRestaurant");
-  const btn_editOK = document.querySelector(".btn_editOK");
+  const btn_edit = document.querySelectorAll(".btn_editRestaurant");
+  const btn_del = document.querySelectorAll(".btn_delRestaurant");
+  const btn_editOK = document.querySelectorAll(".btn_editOK");
   const disabledInput = document.querySelectorAll(".restaurantDisabled");
 
-  if (event.target.childNodes[1])
-    event.target.childNodes[1].style.display = "block";
+  if (event.target.childNodes[1]) {event.target.childNodes[1].style.display = "block"; }
 
-  btn_del.addEventListener("click", deleteRestaurant);
-  btn_edit.addEventListener("click", () => {
-    btn_editOK.style.display = "block";
-    for (let i = 0; i < disabledInput.length; i++)
-      disabledInput[i].disabled = false;
-    btn_editOK.addEventListener("click", editRestaurant);
+    for(let i = 0; i < btn_del.length; i++){
+      const btn_form = document.getElementById(`form_file${i}`);
+      btn_form.addEventListener("change",pic_changedFile(btn_form));
+
+      btn_del[i].addEventListener("click", deleteRestaurant);
+      btn_edit[i].addEventListener("click", () => {
+      btn_editOK[i].style.display = "block";
+      for (let i = 0; i < disabledInput.length; i++) { disabledInput[i].disabled = false; }
+    btn_editOK[i].addEventListener("click", editRestaurant);
   });
+}
 };
+
+const pic_changedFile = (btn_form) => {
+  return function(){
+  btn_form.parentNode.childNodes[1].innerHTML = btn_form.value;
+  btn_form.parentNode.childNodes[2].style.background = "url(/uploads/OK.png) no-repeat 50%";
+  btn_form.parentNode.childNodes[2].style.backgroundSize = "30px";
+  
+  }
+}
+
+const editRestaurant = () => {
+  console.log("not yet")
+}
 
 const deleteRestaurant = () => {
   const body = {

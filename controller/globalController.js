@@ -73,7 +73,7 @@ export const postRegister = async (req, res) => {
       restaurant_tag: req.body.tag,
       restaurant_location: req.body.location,
       restaurant_pic:
-        req.file === undefined ? process.env.DEFAULT_IAMGE : req.file.filename,
+        req.file === undefined ? process.env.DEFAULT_IMAGE : req.file.filename,
       restaurant_owner: req.session.userId,
       // await 없으면 기다려주지 않고 다음으로 넘어가서 데이터저장이 안된다 콜백이 반드시 필요하다.
       bigTables: await makeTable(req.body.bigTables, 4),

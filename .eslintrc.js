@@ -12,8 +12,12 @@ module.exports = {
 
   rules: {
     "comma-dangle": ["off", "never"],
-    semi: ["warn", "always"],
-    quotes: ["warn", "double"],
+    semi: ["off", "never"],
+    quotes: ["off", "never"],
     camelcase: "off",
+    'space-before-blocks' : ["off","never"],
+    'keyword-spacing': "off",
+    'indent' : "off"
   },
+
 };

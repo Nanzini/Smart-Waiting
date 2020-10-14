@@ -1,6 +1,4 @@
 @import "./reset.scss";
-// google web Font
-//@import url("http://fonts.googleapis.com/css?family=Jua");
 @import "calendar.scss";
 @import "./reservation.scss";
 @import "./modal.scss";
@@ -9,10 +7,14 @@
 @import "./mail.scss";
 @import "./orderForm.scss";
 @import "./partials.scss";
-
+@import "login.scss";
+@import "./registRestaurant.scss";
 body {
-  overflow-x: hidden;
+  font-family: "Song Myung";
 
+  overflow-x: hidden;
+  background-color: #302326;
+  color: #d9d9d9;
   header,
   main,
   footer {

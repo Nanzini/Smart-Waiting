@@ -25,10 +25,12 @@ block content
 
     input(type="button" id="btn_restaurant" value ="내 식당")
     +modal("Restaurant")
-        each restaurant in user.restaurants
-            .restaurantHead #{restaurant.restaurant_name}
+        -for(let i=0; i<user.restaurants.length; i++)
+            -var restaurant = user.restaurants[i];
+            .restaurantHead(id=i) #{restaurant.restaurant_name}
                 +modal()
-                    +restaurantInfo(restaurant)
+                    +restaurantInfo(restaurant, i)
+            
 
     span(id="btn_mail" class="absoluteParent") 메일함
         if unreadMails !== 0

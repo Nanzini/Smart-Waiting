@@ -165,21 +165,45 @@ var showUserRestaurant = function showUserRestaurant() {
 };
 
 var showUserDetailRestaurant = function showUserDetailRestaurant(event) {
-  var btn_edit = document.querySelector(".btn_editRestaurant");
-  var btn_del = document.querySelector(".btn_delRestaurant");
-  var btn_editOK = document.querySelector(".btn_editOK");
+  var btn_edit = document.querySelectorAll(".btn_editRestaurant");
+  var btn_del = document.querySelectorAll(".btn_delRestaurant");
+  var btn_editOK = document.querySelectorAll(".btn_editOK");
   var disabledInput = document.querySelectorAll(".restaurantDisabled");
-  if (event.target.childNodes[1]) event.target.childNodes[1].style.display = "block";
-  btn_del.addEventListener("click", deleteRestaurant);
-  btn_edit.addEventListener("click", function () {
-    btn_editOK.style.display = "block";
 
-    for (var i = 0; i < disabledInput.length; i++) {
-      disabledInput[i].disabled = false;
-    }
+  if (event.target.childNodes[1]) {
+    event.target.childNodes[1].style.display = "block";
+  }
 
-    btn_editOK.addEventListener("click", editRestaurant);
-  });
+  var _loop = function _loop(i) {
+    var btn_form = document.getElementById("form_file".concat(i));
+    btn_form.addEventListener("change", pic_changedFile(btn_form));
+    btn_del[i].addEventListener("click", deleteRestaurant);
+    btn_edit[i].addEventListener("click", function () {
+      btn_editOK[i].style.display = "block";
+
+      for (var _i = 0; _i < disabledInput.length; _i++) {
+        disabledInput[_i].disabled = false;
+      }
+
+      btn_editOK[i].addEventListener("click", editRestaurant);
+    });
+  };
+
+  for (var i = 0; i < btn_del.length; i++) {
+    _loop(i);
+  }
+};
+
+var pic_changedFile = function pic_changedFile(btn_form) {
+  return function () {
+    btn_form.parentNode.childNodes[1].innerHTML = btn_form.value;
+    btn_form.parentNode.childNodes[2].style.background = "url(/uploads/OK.png) no-repeat 50%";
+    btn_form.parentNode.childNodes[2].style.backgroundSize = "30px";
+  };
+};
+
+var editRestaurant = function editRestaurant() {
+  console.log("not yet");
 };
 
 var deleteRestaurant = function deleteRestaurant() {

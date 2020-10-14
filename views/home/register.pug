@@ -2,16 +2,25 @@ extends ../partials/main.pug
 
 block content
     form(action=routes.register, method="post" enctype="multipart/form-data")
-        input(type='text' placeholder='Restaurant Name' name='name')
-        label(for="tags") Restaurant tag
-            select(name="tag" id="tags")
-                option(value="korean") 한식
-                option(value="japanese") 일식
-                option(value="chineses") 중식
-                option(value="southAsia") 동남아
-                option(value="west") 양식            
-        input(type='text' placeholder='Location' name='location')
+        input(type='text' placeholder='가게이름' name='name')    
+        select(name="tag" id="tags" style="font-family: 'Song Myung'")
+            option(value=none style="font-family: 'Song Myung'") 가게태그
+            option(value="korean" style="font-family: 'Song Myung'") 한식
+            option(value="japanese" style="font-family: Song Myung") 일식
+            option(value="chineses" style="font-family: Song Myung") 중식
+            option(value="southAsia" style="font-family: Song Myung") 동남아
+            option(value="west" style="font-family: Song Myung") 양식
+            
+
+        input(type='text' placeholder='위치' name='location')
         input(type='text' placeholder='4인용 테이블' name='bigTables')
         input(type='text' placeholder='2인용 테이블' name='miniTables')
-        input(type='file' name="restaurantPic")
-        input(type='submit' value='Register!')
+
+        .div_form_file
+            input(type='file' name="restaurantPic" id='form_file' style="opacity:0" accept="image/*")
+            label(for='form_file' id='label_text' class="form_txt") 가게사진찾기
+            label(for='form_file' id='label_img' class="form_img")
+
+        input(type='submit' value='등록!' style={width:"100px", margin:"20px 0"})
+
+        

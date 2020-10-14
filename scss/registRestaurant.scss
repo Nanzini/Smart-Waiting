@@ -1,0 +1,78 @@
+/* select custom */
+#tags,
+#tags1 {
+  width: 105px;
+  height: 30px;
+  background: url("/uploads/select_down.PNG") no-repeat 95% 50% #545454;
+  background-size: 30px;
+  appearance: none;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+
+  margin: 5px;
+  padding: 0 30px 0 10px;
+  border-radius: 5px;
+  font-size: 16px;
+  transition: 0.3s;
+}
+
+#tags:hover,
+#tags1:hover {
+  opacity: 70%;
+}
+
+//* form file custom */
+.div_form_file {
+  position: relative;
+  input[type="file"] {
+    position: absolute;
+  }
+  #label_text {
+    position: absolute;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    top: 0;
+    width: 180px;
+    height: 30px;
+    line-height: 30px;
+    transition: 0.3s;
+  }
+  .form_text {
+    float: left;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    width: 180px;
+    height: 30px;
+    line-height: 30px;
+    transition: 0.3s;
+  }
+
+  #label_img {
+    background: url("/uploads/finder.png") no-repeat 50%;
+    background-size: 30px;
+    transition: 0.3s;
+    margin: 0px 0px 0px -80px;
+    padding: 20px;
+  }
+  .form_img {
+    position: absolute;
+    bottom: -13px;
+
+    background: url("/uploads/finder.png") no-repeat 50%;
+    background-size: 30px;
+    transition: 0.3s;
+    padding: 20px;
+  }
+
+  .form_txt:hover,
+  #label_text:hover,
+  .form_img:hover,
+  #label_img:hover {
+    opacity: 50%;
+  }
+}

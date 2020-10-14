@@ -2,17 +2,26 @@ extends ../partials/main.pug
 
 block content    
         if users.id !== false 
-            a(href=routes.register)
-                h1 가게등록
-            
-            a(href=routes.posHome)
-                h1 종업원 모드
-    
+            .loginedHome
+                a(href=routes.reserve)
+                    .reservationMode
+                        p(style={ display:"none"}) 예약하기
+
+                a(href=routes.register)
+                    .restaurantMode
+                        p(style={ display:"none"}) 식당등록
+                
+                a(href=routes.posHome)
+                    .serverMode
+                        p(style={ display:"none"}) 종업원모드
+
+
+
+
+
         else
-        .banner
-            p "소중한 사람 과 함께하는 식사"
-            p "하나뿐인 당신의 시간"
-            p 지켜드립니다.
-        a(class='go_reserve' href=routes.reserve)
-            i(class='fas fa-pen-square fa-8x')
-            h1 예약하기
+            .go_reserve
+                a(href=routes.reserve)
+                    .banner
+
+                

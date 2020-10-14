@@ -2,11 +2,8 @@ extends ../partials/main.pug
 
 block content 
     form(method='post' action=routes.login)
-        input(type='email' placehold ='e-mail' name='id' required="true")
-        input(type='password' name ='password' required="true")
-        input(type='submit' value='OK')
+        input(type='email' placeholder ='이메일' name='id' required="true")
+        input(type='password' name ='password' placeholder ='비밀번호' required="true")
+        input(type='submit' value='로그인' style={margin:"20px 0"})
 
-    a(href="/oauth2.0/authorize")
-        p 네이버로 로그인하기
-    a(href="/auth/kakao")
-        p 카카오로 로그인하기
+    

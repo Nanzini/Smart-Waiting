@@ -1,16 +1,20 @@
 if users.id === false  
     .header_column1
         a(href=routes.home) 
-            img(src="/uploads/SmartLogo.png" style={ width:"100px", height:"50px"})
+            img(src="/uploads/SmartLogo.png" style={ width:"150px", height:"60px"})
     .header_column2
-        a(href=routes.join) 회원가입
-        a(href=routes.login) 로그인
+        a(href=routes.join) 
+            span 회원가입
+        a(href=routes.login) 
+            span 로그인
             
 
 else
     .header_column1
-        a(href=routes.home) Home
+        a(href=routes.home)
+            img(src="/uploads/SmartLogo.png" style={ width:"150px", height:"60px"})
     .header_column2
-        p #{users.email}
-        a(href=routes.userInfo(users.id)) 내정보
-        a(href=routes.logout) 로그아웃
+        a(href=routes.userInfo(users.id)) 
+            span 내정보
+        a(href=routes.logout) 
+            span 로그아웃

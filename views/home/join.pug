@@ -2,16 +2,17 @@ extends ../partials/main.pug
 
 block content
     form(method = "post" action = routes.join)
-        input(type="email" name="id" placeholder="email" required="true")
-        input(type="password" name="password" placeholder="password" requited="true")
-        input(type="text" name="name" placeholder="name")
+        input(type="email" name="id" placeholder="이메일" required="true")
+        input(type="password" name="password" placeholder="비밀번호" requited="true")
+        input(type="text" name="name" placeholder="이름")
         
-        label(for="birthday") Birthday
+        label(for="birthday") 생일
         input(type="date" name="birthday")
         
-        input(type="radio" name="gender")
-        label Male
-        input(type="radio" name="gender")
-        label Female
+        div
+            input(type="radio" id="male" name="radio_form" )
+            label(for="male")
+            input(type="radio" id="female" name="radio_form")
+            label(for="female")
 
-        input(type="submit" value="JOIN")
+        input(type="submit" value="가입!" style={ margin : "20px 0"})
