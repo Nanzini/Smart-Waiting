@@ -20,6 +20,7 @@ const btn_mail = document.getElementById("btn_mail");
 
 const modalClose = document.querySelectorAll(".modal_close");
 
+/* mail */
 const showMail = () => {
   modalMail.style.display = "block";
   const url = window.location.pathname;
@@ -95,6 +96,7 @@ const showDetailMail = (event) => {
   }
 };
 
+/* user */
 const showUserInfo = () => {
   modalUserInfo.style.display = "block";
   editUserInfo();
@@ -114,10 +116,104 @@ const deleteUser = () => {
   xhttp.send(JSON.stringify(body));
 };
 
-const showUserComment = () => {
-  modalComment.style.display = "block";
+const editUserInfo = () => {
+  const btn_edit = userInput[0];
+  btn_edit.addEventListener("click", () => {
+    for (let i = 2; i < userInput.length; i++) userInput[i].disabled = false;
+  });
+  userInput[userInput.length - 1].addEventListener("click", postEditUserInfo);
 };
 
+const postEditUserInfo = () => {
+  const body = {
+    email: userInput[1].value,
+    name: userInput[2].value,
+    password: userInput[3].value,
+    birthday: userInput[4].value,
+  };
+  const xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function () {
+    if (this.readyState == 4 && this.status == 200) {
+      alert("수정완료!");
+      location.reload(true);
+    }
+  };
+  xhttp.open("post", "/ajax/userInfo_postEditUserInfo", true);
+  xhttp.setRequestHeader("Content-type", "application/json");
+  xhttp.send(JSON.stringify(body));
+};
+
+
+/* comment */
+const showUserComment = () => {
+  modalComment.style.display = "block";
+  if (btn_editComment) {
+    for(let i=0; i<btn_editComment.length; i++){
+      btn_editComment[i].addEventListener("click", editComment);
+      btn_deleteComment[i].addEventListener("click", deleteComment);
+    }
+  }
+};
+
+const editComment = (event) => {
+
+  let currentTarget;  // claaName comment 로 잡자
+  if(event.target.tagName === "I")
+    currentTarget = event.target.parentNode.parentNode.parentNode;
+  
+  else if(event.target.tagName === "SPAN")  currentTarget = event.target.parentNode.parentNode;
+  // commentValue.disabled = false;
+  currentTarget.childNodes[2].disabled = false;
+
+  // 체크버튼 활성화
+  currentTarget.childNodes[0].childNodes[2].style.opacity = "1";
+
+  currentTarget.childNodes[0].childNodes[2].addEventListener("click",postEditComment(currentTarget))
+};
+
+const postEditComment = (currentTarget) => {
+  return function(){
+    // currentTarget : class = comment
+  const id = currentTarget.childNodes[0].childNodes[0].id;
+  const body = {
+    id,
+    content: currentTarget.childNodes[2].value,
+  };
+  console.log(body)
+  const xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function () {
+    if (this.readyState == 4 && this.status == 200) {
+      alert("수정완료!");
+      location.reload(true);
+    }
+  };
+  xhttp.open("post", "/ajax/postEditComment", true);
+  xhttp.setRequestHeader("Content-type", "application/json");
+  xhttp.send(JSON.stringify(body));
+}
+};
+
+const deleteComment = (event) => {
+  let currentTarget;  // icon으로 잡자
+  if(event.target.tagName === "I")
+    currentTarget = event.target.parentNode.parentNode;
+  
+  else if(event.target.tagName === "SPAN")  
+    currentTarget = event.target.parentNode;
+  const id = currentTarget.childNodes[0].id;
+  const body = { id };
+  const xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function () {
+    if (this.readyState == 4 && this.status == 200) {
+      location.reload(true);
+    }
+  };
+  xhttp.open("post", "/ajax/postDeleteComment", true);
+  xhttp.setRequestHeader("Content-type", "application/json");
+  xhttp.send(JSON.stringify(body));
+};
+
+/* reservation */
 const showUserReservation = () => {
   const everyReservation = document.querySelectorAll(".reservationHead");
   modalReservation.style.display = "block";
@@ -152,6 +248,7 @@ const deleteReservation = (event) => {
   xhttp.send(JSON.stringify(body));
 };
 
+/* restaurant */
 const showUserRestaurant = () => {
   const everyRestaurant = document.querySelectorAll(".restaurantHead");
   modalRestaurant.style.display = "block";
@@ -175,8 +272,9 @@ const showUserDetailRestaurant = (event) => {
       btn_del[i].addEventListener("click", deleteRestaurant);
       btn_edit[i].addEventListener("click", () => {
       btn_editOK[i].style.display = "block";
-      for (let i = 0; i < disabledInput.length; i++) { disabledInput[i].disabled = false; }
-    btn_editOK[i].addEventListener("click", editRestaurant);
+      for (let i = 0; i < disabledInput.length; i++) 
+      { disabledInput[i].disabled = false; }
+    
   });
 }
 };
@@ -190,13 +288,34 @@ const pic_changedFile = (btn_form) => {
   }
 }
 
-const editRestaurant = () => {
-  console.log("not yet")
-}
+// const editRestaurant = (event) => {
+//   // event target : submit 완료!
+//   const form = event.target.parentNode;
+//     const data = {
+//       id : form.childNodes[0].id,
+//       name : form.childNodes[2].value,
+//       tag : form.childNodes[3].value,
+//       location : form.childNodes[4].value,
+//       pic : form.childNodes[5].childNodes[0].value
+//     }
+//     const xhttp = new XMLHttpRequest();
+//     xhttp.onreadystatechange = function () {
+//       if (this.readyState == 4 && this.status == 200) {
+//         alert("수정되었습니다!");
+//         location.reload(true);
+//       }
+//     };
+//     xhttp.open("post", "/ajax/editRestaurant", true);
+//     xhttp.setRequestHeader("Content-type", "application/json");
+//     xhttp.send(JSON.stringify(data));
+// }
 
-const deleteRestaurant = () => {
+const deleteRestaurant = (event) => {
+  
+
+  console.log(event.target)
   const body = {
-    id: document.querySelector(".btn_delRestaurant").id,
+    id: event.target.id,
   };
   const xhttp = new XMLHttpRequest();
   xhttp.onreadystatechange = function () {
@@ -207,6 +326,7 @@ const deleteRestaurant = () => {
   xhttp.open("post", "/ajax/deleteRestaurant", true);
   xhttp.setRequestHeader("Content-type", "application/json");
   xhttp.send(JSON.stringify(body));
+
 };
 
 const close_modal = (event) => {
@@ -218,32 +338,6 @@ const close_modal = (event) => {
     }
 };
 
-const editUserInfo = () => {
-  const btn_edit = userInput[0];
-  btn_edit.addEventListener("click", () => {
-    for (let i = 2; i < userInput.length; i++) userInput[i].disabled = false;
-  });
-  userInput[userInput.length - 1].addEventListener("click", postEditUserInfo);
-};
-
-const postEditUserInfo = () => {
-  const body = {
-    email: userInput[1].value,
-    name: userInput[2].value,
-    password: userInput[3].value,
-    birthday: userInput[4].value,
-  };
-  const xhttp = new XMLHttpRequest();
-  xhttp.onreadystatechange = function () {
-    if (this.readyState == 4 && this.status == 200) {
-      alert("수정완료!");
-      location.reload(true);
-    }
-  };
-  xhttp.open("post", "/ajax/userInfo_postEditUserInfo", true);
-  xhttp.setRequestHeader("Content-type", "application/json");
-  xhttp.send(JSON.stringify(body));
-};
 
 const init = () => {
   btn_mail.addEventListener("click", showMail);

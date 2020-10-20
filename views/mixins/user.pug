@@ -12,8 +12,10 @@ mixin userInfo(id)
 
 mixin restaurantInfo(restaurant,i)
     form(action="/ajax/editRestaurant", method="post" enctype="multipart/form-data" )
-        input(class="btn_delRestaurant" type="button" value="삭제" name="id" id=restaurant._id)
-        input(class="btn_editRestaurant" type="button" value="수정" )
+        span(class="btn_delRestaurant"  name="id" id=restaurant._id)
+            i(class="fas fa-trash-alt")
+        span(class="btn_editRestaurant")
+            i(class="fas fa-pen")
 
         //-  가게이름 
         input(class="restaurantDisabled" name="name" value=restaurant.restaurant_name disabled="true" style="font-family: 'Song Myung'")
@@ -29,8 +31,8 @@ mixin restaurantInfo(restaurant,i)
         
         .div_form_file
             input(type="file" id=`form_file${i}` style="opacity:0" class="restaurantDisabled" disabled="true" name="restaurantPic" accept="image/*")
-            label(for=`form_file${i}` id=`label_text${i}` class="form_txt") #{restaurant.restaurant_pic}
-            label(for=`form_file${i}` id=`label_img${i}` class="form_img") 
+            label(for=`form_file${i}` class="userInfoForm_txt" name="pic") #{restaurant.restaurant_pic}
+            label(for=`form_file${i}` class="userInfoForm_img") 
 
         input(type="text" name="id" value=restaurant._id style="display:none")
         

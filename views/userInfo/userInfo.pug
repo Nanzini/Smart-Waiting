@@ -3,52 +3,51 @@ include ../partials/modal.pug
 include ../mixins/user.pug
 include ../mixins/comment.pug
 
-block content 
-    input(type="button" id="btn_userInfo" value=`${user.name}님의 정보`)
-    +modal("UserInfo")
-        +userInfo(user._id)
-        
-
-    input(type="button" id="btn_comment" value ="댓글함")
-    +modal("Comment")
-        each comment in user.comments
-            +myComments(comment)
-
-    input(type="button" id="btn_reservation" value ="내 예약")
-    +modal("Reservation")
-        each reservation in user.reservations
-            .reservationHead #{reservation.name}이름의 예약입니다. #{reservation.createAt}
-                +modal()
-                    p(id=reservation.restaurant._id class="restaurantID") #{reservation.name}님이 #{reservation.reservationDate}에 #{reservation.restaurant.name}에 #{reservation.guests}명 방문예정입니다.
-                    input(type="button" value="삭제" class="deleteReservation" id=reservation.id)
+block content
+    .info
+        span(id="btn_userInfo") #{user.name}님의 정보
+            +modal("UserInfo")
+                +userInfo(user._id)
             
+        span(id="btn_comment") 댓글함
+            +modal("Comment")
+                each comment in user.comments
+                    +infoComments(comment,restaurants)
 
-    input(type="button" id="btn_restaurant" value ="내 식당")
-    +modal("Restaurant")
-        -for(let i=0; i<user.restaurants.length; i++)
-            -var restaurant = user.restaurants[i];
-            .restaurantHead(id=i) #{restaurant.restaurant_name}
-                +modal()
-                    +restaurantInfo(restaurant, i)
-            
+        span(id="btn_reservation") 예약내역
+            +modal("Reservation")
+                each reservation in user.reservations
+                    .reservationHead #{reservation.name}이름의 예약입니다. #{reservation.createAt}
+                        +modal()
+                            p(id=reservation.restaurant._id class="restaurantID") #{reservation.name}님이 #{reservation.reservationDate}에 #{reservation.restaurant.name}에 #{reservation.guests}명 방문예정입니다.
+                            input(type="button" value="삭제" class="deleteReservation" id=reservation.id)
+                
 
-    span(id="btn_mail" class="absoluteParent") 메일함
-        if unreadMails !== 0
-            p(class="absoluteChild") #{unreadMails}
+        span(id="btn_restaurant") 내식당
+            +modal("Restaurant")
+                -for(let i=0; i<user.restaurants.length; i++)
+                    -var restaurant = user.restaurants[i];
+                    .restaurantHead(id=i) #{restaurant.restaurant_name}
+                        +modal()
+                            +restaurantInfo(restaurant, i)
+                    
 
-    +modal("Mail")
-        each mail in user.mails
-            if mail.read === false
-                div(class="mailHead" style="background-color:gray" id=mail._id) #{mail.header}
-                    button(class="deleteMail" value="X" style="display:none") X
-                    +modal()
-                        p #{mail.content}
-            else
-                div(class="mailHead" id=mail._id) #{mail.header} 
-                    button(class="deleteMail" value="X" style="display:none") X
-                    +modal()
-                        p #{mail.content}
-            
+        span(id="btn_mail" class="absoluteParent") 메일함
+            if unreadMails !== 0
+                p(class="absoluteChild") #{unreadMails}
+            +modal("Mail")
+                each mail in user.mails
+                    if mail.read === false
+                        div(class="mailHead" style="background-color:gray" id=mail._id) #{mail.header}
+                            button(class="deleteMail" value="X" style="display:none") X
+                            +modal()
+                                p #{mail.content}
+                    else
+                        div(class="mailHead" id=mail._id) #{mail.header} 
+                            button(class="deleteMail" value="X" style="display:none") X
+                            +modal()
+                                p #{mail.content}
+                
 
     script(src="/static/js/ajax_userInfo.js")
     script(src="/static/js/editComment.js")

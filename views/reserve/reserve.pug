@@ -1,14 +1,31 @@
 extends ../partials/main.pug
 
 block content 
-    form.form_search
-        input(type='text' placeholder='무슨 가게를 찾고 있나요?')
+    form.form_search(method="post" action=routes.reserve)
+        select(name="tag" id="tags" style="font-family: 'Song Myung'")
+            option(value=none name='title' style="font-family: 'Song Myung'") 가게명
+            option(name="address" style="font-family: Song Myung") 주소
+            option(name="tag" style="font-family: Song Myung") 태그
+        input(type='text' name='key' class="searchInput" placeholder='무슨 가게를 찾고 있나요?')
     
+        .checkbox(style="display:none" name="tags")
+            a(href=`${routes.reserve}${routes.search("korean")}` class="check_input")    
+                span #한식
+            a(href=`${routes.reserve}${routes.search("japanese")}` class="check_input")    
+                span #일식
+            a(href=`${routes.reserve}${routes.search("west")}` class="check_input")    
+                span #양식
+            a(href=`${routes.reserve}${routes.search("chinese")}` class="check_input")    
+                span(for="chn") #중식
+            a(href=`${routes.reserve}${routes.search("southAsia")}` class="check_input")    
+                span #동남아식
 
     .grid_reservations
         each restaurant in restaurants
             div.restaurants
                 a(href=`${routes.reserve}${routes.restaurant(restaurant._id)}`)
                     img(src=`/uploads/${restaurant.restaurant_pic}`)
-                    p #{restaurant.restaurant_name}
+                    p.title #{restaurant.restaurant_name}
                     p #{restaurant.restaurant_tag}
+
+    script(src="/static/js/search.js")

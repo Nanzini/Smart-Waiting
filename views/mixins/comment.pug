@@ -1,22 +1,40 @@
 mixin comment(commenter)
     .comment
         if (commenter.realUser.id === users.id)
-            input(type="button" class="editComment" value="Edit" id=commenter.id)
-            input(type="button" class="deleteComment" value="Delete")
-            input(type="button" value="OK" class="editCompleted" style="display:none")
-        p #{commenter.realUser.name}님
+            .icons
+                span(class="editComment" id=commenter.id)
+                    i(class="fas fa-pen")
+                span(class="deleteComment")
+                    i(class="fas fa-trash-alt")
+                span(class="editCompleted" style="opacity:0;")
+                    i(class="fas fa-check")
+        p #{commenter.realUser.name}
         input(class="commentValue" disabled="true" style="resize:none" value=commenter.content) 
-        p #{commenter.createAt}에 작성
+        p.date #{commenter.createAt} edited
 
+//- login x일 때 수정삭제버튼 없는 커멘트
 mixin myComments(commenter)
     .comment
         if (user.id)
-            input(type="button" class="editComment" value="Edit" id=commenter.id)
+            span(class="editComment" id=commenter.id)
+                i.fas fa-pen
             input(type="button" class="deleteComment" value="Delete")
             input(type="button" value="OK" class="editCompleted" style="display:none")
-            p #{commenter.name}님
+            p #{commenter.name}
             input(class="commentValue" disabled="true" style="resize:none" value=commenter.content) 
-            p #{commenter.createAt}에 작성
+            p #{commenter.createAt} edited
         
         
-        
+mixin infoComments(commenter,restaurant)
+    .infoComments
+        if (users.id)
+            .icons
+                span(class="editComment" id=commenter.id)
+                    i(class="fas fa-pen")
+                span(class="deleteComment")
+                    i(class="fas fa-trash-alt")
+                span(class="editCompleted" style="opacity:0;")
+                    i(class="fas fa-check")
+        p #{commenter.name}
+        input(class="commentValue" disabled="true" style="resize:none" value=commenter.content) 
+        p.date #{commenter.createAt} edited

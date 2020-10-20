@@ -12,11 +12,10 @@ export const userInfo_home = async (req, res, next) => {
   let unreadMails = 0;
   for (let i = 0; i < user.mails.length; i++)
     if (user.mails[i].read === false) {
-      console.log(user.mails[i]);
       unreadMails++;
     }
 
-  res.render("userInfo/userInfo.pug", {
+-  res.render("userInfo/userInfo.pug", {
     pageTitle: "MyInfo",
     user,
     unreadMails,

@@ -24,6 +24,7 @@
 //* form file custom */
 .div_form_file {
   position: relative;
+  margin-bottom: 50px;
   input[type="file"] {
     position: absolute;
   }
@@ -33,7 +34,7 @@
     overflow: hidden;
     white-space: nowrap;
     bottom: 0;
-    left: 0;
+    left: -120px;
     right: 0;
     top: 0;
     width: 180px;
@@ -56,13 +57,10 @@
     background: url("/uploads/finder.png") no-repeat 50%;
     background-size: 30px;
     transition: 0.3s;
-    margin: 0px 0px 0px -80px;
-    padding: 20px;
   }
   .form_img {
     position: absolute;
-    bottom: -13px;
-
+    right: -100px;
     background: url("/uploads/finder.png") no-repeat 50%;
     background-size: 30px;
     transition: 0.3s;

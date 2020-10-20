@@ -4,10 +4,14 @@ const routes = {
   join: "/join",
   login: "/login",
   logout: "/logout",
+  search: function search(id){
+    if (id) return `/search:${id}`;
+    else return "/search:id";
+  },
 
   //  reserve routing
   reserve: "/reserve",
-  search: "/search",
+  
   restaurant: function restaurant(id) {
     if (id) return `/restaurant:${id}`;
     else return "/restaurant:id";

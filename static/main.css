@@ -136,22 +136,26 @@ table {
   .reservationForm .calendar .calendar_body td:hover {
     background-color: darkgoldenrod; }
 
-/*  reserve.pug grid */
+/*  reserve.pug */
 .grid_reservations {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(30%, auto));
-  gap: 20px;
+  gap: 40px;
   justify-content: center;
   align-items: center; }
   .grid_reservations a {
     display: flex;
     justify-content: center;
     flex-direction: column;
-    align-items: center; }
+    align-items: center;
+    text-decoration: none;
+    transition: 0.2s;
+    color: #d9d9d9d9; }
     .grid_reservations a img {
       width: 100%;
       height: 300px; }
-    .grid_reservations a p {
+    .grid_reservations a p.title {
+      font-size: 25px;
       padding: 15px; }
 
 .reservationForm {
@@ -162,9 +166,107 @@ table {
     padding: 5px;
     margin: 15px; }
 
+.form_search {
+  margin: 10px 0px 20px 0px;
+  /* reserve화면 search #tag */ }
+  .form_search .checkbox {
+    transition: 0.3s;
+    margin: 10px 0px 0px 0px; }
+    .form_search .checkbox .check_input:checked + label {
+      background: burlywood;
+      transform: scale(1.2);
+      transition: 0.3s; }
+    .form_search .checkbox span,
+    .form_search .checkbox a {
+      padding: 5px;
+      margin: 10px auto;
+      width: 50%;
+      text-align: center;
+      border-radius: 10px;
+      text-decoration: none;
+      transition: 0.2s;
+      color: #d9d9d9d9; }
+    .form_search .checkbox span:hover,
+    .form_search .checkbox a:hover {
+      background: burlywood; }
+
+/* reserveRestaurant.pug */
+.restaurantInfo {
+  width: 70%;
+  margin: 5% auto;
+  border: 0px 0px 5px 0px solid #d9d9d9d9; }
+  .restaurantInfo h1 {
+    font-size: 50px;
+    padding: 10px; }
+  .restaurantInfo p {
+    font-size: 25px;
+    padding: 10px 0px 10px 50px;
+    margin-bottom: 10px; }
+  .restaurantInfo a {
+    text-decoration: none;
+    color: #d9d9d9d9;
+    display: flex;
+    transition: all 0.3s; }
+
+.restaurantImg {
+  background-size: 400px 500px;
+  padding: 5%;
+  width: 100%;
+  height: 500px;
+  border-radius: 10%;
+  transition: all 0.3s;
+  background-position: center;
+  /* Center the image */
+  background: no-repeat; }
+
+.restaurantComments {
+  width: 70%;
+  margin: 5% auto; }
+  .restaurantComments p,
+  .restaurantComments input,
+  .restaurantComments textarea {
+    padding: 10px; }
+  .restaurantComments textarea {
+    font-family: "Song Myung";
+    width: 400px;
+    height: 50px;
+    border-radius: 10px;
+    background-color: #e2cebd;
+    transition: all 0.5s; }
+  .restaurantComments textarea:hover {
+    background-color: #ffebcd;
+    opacity: 0.5; }
+
+.comment {
+  margin: 25px 0px;
+  position: relative; }
+  .comment .icons {
+    position: absolute;
+    right: 470px;
+    top: 50px; }
+  .comment .commentValue {
+    font-family: "Song Myung";
+    width: 400px;
+    height: 50px;
+    border-radius: 10px;
+    background-color: #e2cebd;
+    transition: all 0.5s;
+    padding: 10px; }
+  .comment .date {
+    position: absolute;
+    right: 420px; }
+  .comment .editComment,
+  .comment .deleteComment,
+  .comment .editCompleted {
+    color: black;
+    border: none;
+    padding: 10px;
+    transition: all 0.5s; }
+
+/* comment */
 .modal {
   position: fixed;
-  left: 0;
+  left: 200px;
   top: 0;
   width: 100%;
   height: 100%;
@@ -175,14 +277,16 @@ table {
   /* Black w/ opacity */ }
   .modal .modal-content {
     position: relative;
-    background-color: #f7f6f3;
+    background-color: #5c5c5c;
     margin: 15%;
     border-radius: 15px;
     width: 50%;
     -webkit-animation-name: animatetop;
     -webkit-animation-duration: 0.4s;
     animation-name: animatetop;
-    animation-duration: 0.4s; }
+    animation-duration: 0.4s;
+    padding: 20px;
+    box-sizing: border-box; }
 
 @-webkit-keyframes animatetop {
   from {
@@ -231,14 +335,6 @@ table {
     border: 1px solid;
     width: 125px;
     height: 100px; }
-
-.absoluteParent {
-  position: relative; }
-  .absoluteParent .absoluteChild {
-    position: relative;
-    left: 45px;
-    top: -35px;
-    margin: 5px; }
 
 .mailHead {
   display: flex; }
@@ -424,7 +520,8 @@ form {
   opacity: 70%; }
 
 .div_form_file {
-  position: relative; }
+  position: relative;
+  margin-bottom: 50px; }
   .div_form_file input[type="file"] {
     position: absolute; }
   .div_form_file #label_text {
@@ -433,7 +530,7 @@ form {
     overflow: hidden;
     white-space: nowrap;
     bottom: 0;
-    left: 0;
+    left: -120px;
     right: 0;
     top: 0;
     width: 180px;
@@ -452,12 +549,10 @@ form {
   .div_form_file #label_img {
     background: url("/uploads/finder.png") no-repeat 50%;
     background-size: 30px;
-    transition: 0.3s;
-    margin: 0px 0px 0px -80px;
-    padding: 20px; }
+    transition: 0.3s; }
   .div_form_file .form_img {
     position: absolute;
-    bottom: -13px;
+    right: -100px;
     background: url("/uploads/finder.png") no-repeat 50%;
     background-size: 30px;
     transition: 0.3s;
@@ -467,6 +562,72 @@ form {
   .div_form_file .form_img:hover,
   .div_form_file #label_img:hover {
     opacity: 50%; }
+
+.info {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  margin-top: 20px; }
+  .info .infoComments {
+    margin: 25px 0px;
+    position: relative; }
+    .info .infoComments .icons {
+      position: absolute;
+      right: 410px;
+      top: 15px; }
+    .info .infoComments .commentValue {
+      font-family: "Song Myung";
+      width: 400px;
+      height: 50px;
+      border-radius: 10px;
+      background-color: #e2cebd;
+      transition: all 0.5s;
+      padding: 10px; }
+    .info .infoComments .date {
+      position: absolute;
+      right: 420px; }
+    .info .infoComments .editComment,
+    .info .infoComments .deleteComment,
+    .info .infoComments .editCompleted {
+      color: black;
+      border: none;
+      padding: 10px;
+      transition: all 0.5s; }
+  .info .div_form_file {
+    position: relative;
+    margin-bottom: 50px; }
+    .info .div_form_file input[type="file"] {
+      position: absolute; }
+    .info .div_form_file .userInfoForm_txt {
+      position: absolute;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
+      bottom: 0;
+      left: -120px;
+      right: 0;
+      top: 0;
+      width: 180px;
+      height: 30px;
+      line-height: 30px;
+      transition: 0.3s; }
+    .info .div_form_file .userInfoForm_img {
+      position: absolute;
+      right: -100px;
+      background: url("/uploads/finder.png") no-repeat 50%;
+      background-size: 30px;
+      transition: 0.3s;
+      padding: 20px; }
+    .info .div_form_file .userInfoForm_txt:hover,
+    .info .div_form_file .userInfoForm_txt:hover {
+      opacity: 50%; }
+    .info .div_form_file .absoluteParent {
+      position: relative; }
+      .info .div_form_file .absoluteParent .absoluteChild {
+        position: relative;
+        left: 45px;
+        top: -35px;
+        margin: 5px; }
 
 body {
   font-family: "Song Myung";

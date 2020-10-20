@@ -16,7 +16,7 @@ import {
   readMail,
   removeMail,
 } from "./controller/ajaxController.js";
-import kakaoCallback from "./controller/globalController.js";
+
 import helmet from "helmet";
 import express from "express";
 import path from "path";
@@ -126,8 +126,8 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use(routes.home, globalRouter);
 
+app.use(routes.home, globalRouter);
 app.use(routes.reserve, reserveRouter);
 app.use(routes.userInfo(), userInfoRouter);
 

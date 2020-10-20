@@ -9,6 +9,7 @@ import {
   logout,
   register,
   postRegister,
+  tagSearch
 } from "../controller/globalController.js";
 import passport from "passport";
 import multer from "multer";
@@ -25,6 +26,7 @@ globalRouter.get(routes.login, login);
 globalRouter.post(routes.login, postLogin);
 
 globalRouter.get(routes.logout, logout);
+
 
 globalRouter.get(routes.register, register);
 globalRouter.post(

@@ -9,13 +9,11 @@ var mongoose = require("mongoose");
 dotenv.config();
 const waitQ = [];
 const cnt_interval = 0;
+
 export const getUserInfo_mail = async (req, res) => {
-  console.log(req.body.url);
   const parseUrl = req.body.url;
   const id = parseUrl.slice(parseUrl.indexOf(":") + 1, parseUrl.length);
-  console.log(id);
   const mail = await User.findById(id).populate("mails");
-  console.log(mail.mails);
   res.json(mail.mails);
 };
 
@@ -206,6 +204,8 @@ export const processReservation = async (req, res) => {
 
 export const postEditUserInfo = async (req, res) => {
   console.log(req.body);
+  
+
   try {
     const user = await User.findOneAndUpdate(
       { userId: req.body.email },
@@ -223,7 +223,7 @@ export const postEditUserInfo = async (req, res) => {
 };
 
 export const postEditComment = async (req, res) => {
-  console.log(req.body);
+
   try {
     const comment = await Comment.findOneAndUpdate(
       { _id: req.body.id },
@@ -231,7 +231,6 @@ export const postEditComment = async (req, res) => {
       { returnNewDocument: true }
     );
     comment.save();
-    console.log(comment);
     res.json(comment);
   } catch (error) {}
 };
@@ -328,23 +327,58 @@ export const deleteRestaurant = async (req, res) => {
 };
 
 export const editRestaurant = async (req, res) => {
-  const restaurant = await Restaurant.findOneAndUpdate(
+  const user = await User.findById(req.session.userId)
+  .populate("mails")
+  .populate("comments")
+  .populate("restaurants")
+  .populate("reservations");
+  let restaurant;
+  console.log(req.file)
+  console.log(req.body)
+let unreadMails = 0;
+for (let i = 0; i < user.mails.length; i++)
+  if (user.mails[i].read === false) {
+    unreadMails++;
+  }
+
+  if(req.file === undefined){
+     restaurant = await Restaurant.findOneAndUpdate(
+      {
+        _id: req.body.id,
+      },
+      {
+        restaurant_name: req.body.name,
+        restaurant_tag: req.body.tag,
+        restaurant_location : req.body.location
+      },
+      {
+        returnNewDocument: true,
+      }
+    );
+  }
+  else{
+   restaurant = await Restaurant.findOneAndUpdate(
     {
       _id: req.body.id,
     },
     {
       restaurant_name: req.body.name,
-      restaurant_pic:
-        req.file === undefined ? process.env.DEFAULT_IMAGE : req.file.filename,
+      restaurant_pic:req.file.filename,
       restaurant_tag: req.body.tag,
-      // location
+      restaurant_location : req.body.location
     },
     {
       returnNewDocument: true,
     }
   );
+  }
   restaurant.save();
-  res.json();
+  res.render("userInfo/userInfo.pug", {
+    pageTitle: "MyInfo",
+    user,
+    unreadMails,
+  });
+
 };
 
 export const readMail = async (req, res) => {

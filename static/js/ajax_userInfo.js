@@ -16,6 +16,7 @@ var btn_restaurant = document.getElementById("btn_restaurant");
 var modalMail = document.getElementById("modalMail");
 var btn_mail = document.getElementById("btn_mail");
 var modalClose = document.querySelectorAll(".modal_close");
+/* mail */
 
 var showMail = function showMail() {
   modalMail.style.display = "block";
@@ -93,6 +94,8 @@ var showDetailMail = function showDetailMail(event) {
     xhttp.send(JSON.stringify(body));
   }
 };
+/* user */
+
 
 var showUserInfo = function showUserInfo() {
   modalUserInfo.style.display = "block";
@@ -117,9 +120,107 @@ var deleteUser = function deleteUser() {
   xhttp.send(JSON.stringify(body));
 };
 
+var editUserInfo = function editUserInfo() {
+  var btn_edit = userInput[0];
+  btn_edit.addEventListener("click", function () {
+    for (var i = 2; i < userInput.length; i++) {
+      userInput[i].disabled = false;
+    }
+  });
+  userInput[userInput.length - 1].addEventListener("click", postEditUserInfo);
+};
+
+var postEditUserInfo = function postEditUserInfo() {
+  var body = {
+    email: userInput[1].value,
+    name: userInput[2].value,
+    password: userInput[3].value,
+    birthday: userInput[4].value
+  };
+  var xhttp = new XMLHttpRequest();
+
+  xhttp.onreadystatechange = function () {
+    if (this.readyState == 4 && this.status == 200) {
+      alert("수정완료!");
+      location.reload(true);
+    }
+  };
+
+  xhttp.open("post", "/ajax/userInfo_postEditUserInfo", true);
+  xhttp.setRequestHeader("Content-type", "application/json");
+  xhttp.send(JSON.stringify(body));
+};
+/* comment */
+
+
 var showUserComment = function showUserComment() {
   modalComment.style.display = "block";
+
+  if (btn_editComment) {
+    for (var i = 0; i < btn_editComment.length; i++) {
+      btn_editComment[i].addEventListener("click", editComment);
+      btn_deleteComment[i].addEventListener("click", deleteComment);
+    }
+  }
 };
+
+var editComment = function editComment(event) {
+  var currentTarget; // claaName comment 로 잡자
+
+  if (event.target.tagName === "I") currentTarget = event.target.parentNode.parentNode.parentNode;else if (event.target.tagName === "SPAN") currentTarget = event.target.parentNode.parentNode; // commentValue.disabled = false;
+
+  currentTarget.childNodes[2].disabled = false; // 체크버튼 활성화
+
+  currentTarget.childNodes[0].childNodes[2].style.opacity = "1";
+  currentTarget.childNodes[0].childNodes[2].addEventListener("click", postEditComment(currentTarget));
+};
+
+var postEditComment = function postEditComment(currentTarget) {
+  return function () {
+    // currentTarget : class = comment
+    var id = currentTarget.childNodes[0].childNodes[0].id;
+    var body = {
+      id: id,
+      content: currentTarget.childNodes[2].value
+    };
+    console.log(body);
+    var xhttp = new XMLHttpRequest();
+
+    xhttp.onreadystatechange = function () {
+      if (this.readyState == 4 && this.status == 200) {
+        alert("수정완료!");
+        location.reload(true);
+      }
+    };
+
+    xhttp.open("post", "/ajax/postEditComment", true);
+    xhttp.setRequestHeader("Content-type", "application/json");
+    xhttp.send(JSON.stringify(body));
+  };
+};
+
+var deleteComment = function deleteComment(event) {
+  var currentTarget; // icon으로 잡자
+
+  if (event.target.tagName === "I") currentTarget = event.target.parentNode.parentNode;else if (event.target.tagName === "SPAN") currentTarget = event.target.parentNode;
+  var id = currentTarget.childNodes[0].id;
+  var body = {
+    id: id
+  };
+  var xhttp = new XMLHttpRequest();
+
+  xhttp.onreadystatechange = function () {
+    if (this.readyState == 4 && this.status == 200) {
+      location.reload(true);
+    }
+  };
+
+  xhttp.open("post", "/ajax/postDeleteComment", true);
+  xhttp.setRequestHeader("Content-type", "application/json");
+  xhttp.send(JSON.stringify(body));
+};
+/* reservation */
+
 
 var showUserReservation = function showUserReservation() {
   var everyReservation = document.querySelectorAll(".reservationHead");
@@ -155,6 +256,8 @@ var deleteReservation = function deleteReservation(event) {
   xhttp.setRequestHeader("Content-type", "application/json");
   xhttp.send(JSON.stringify(body));
 };
+/* restaurant */
+
 
 var showUserRestaurant = function showUserRestaurant() {
   var everyRestaurant = document.querySelectorAll(".restaurantHead");
@@ -184,8 +287,6 @@ var showUserDetailRestaurant = function showUserDetailRestaurant(event) {
       for (var _i = 0; _i < disabledInput.length; _i++) {
         disabledInput[_i].disabled = false;
       }
-
-      btn_editOK[i].addEventListener("click", editRestaurant);
     });
   };
 
@@ -200,15 +301,33 @@ var pic_changedFile = function pic_changedFile(btn_form) {
     btn_form.parentNode.childNodes[2].style.background = "url(/uploads/OK.png) no-repeat 50%";
     btn_form.parentNode.childNodes[2].style.backgroundSize = "30px";
   };
-};
+}; // const editRestaurant = (event) => {
+//   // event target : submit 완료!
+//   const form = event.target.parentNode;
+//     const data = {
+//       id : form.childNodes[0].id,
+//       name : form.childNodes[2].value,
+//       tag : form.childNodes[3].value,
+//       location : form.childNodes[4].value,
+//       pic : form.childNodes[5].childNodes[0].value
+//     }
+//     const xhttp = new XMLHttpRequest();
+//     xhttp.onreadystatechange = function () {
+//       if (this.readyState == 4 && this.status == 200) {
+//         alert("수정되었습니다!");
+//         location.reload(true);
+//       }
+//     };
+//     xhttp.open("post", "/ajax/editRestaurant", true);
+//     xhttp.setRequestHeader("Content-type", "application/json");
+//     xhttp.send(JSON.stringify(data));
+// }
 
-var editRestaurant = function editRestaurant() {
-  console.log("not yet");
-};
 
-var deleteRestaurant = function deleteRestaurant() {
+var deleteRestaurant = function deleteRestaurant(event) {
+  console.log(event.target);
   var body = {
-    id: document.querySelector(".btn_delRestaurant").id
+    id: event.target.id
   };
   var xhttp = new XMLHttpRequest();
 
@@ -228,37 +347,6 @@ var close_modal = function close_modal(event) {
     var modal = event.target.parentElement.parentElement;
     if (event.target.className === "modal_close") modal.style.display = "none";
   }
-};
-
-var editUserInfo = function editUserInfo() {
-  var btn_edit = userInput[0];
-  btn_edit.addEventListener("click", function () {
-    for (var i = 2; i < userInput.length; i++) {
-      userInput[i].disabled = false;
-    }
-  });
-  userInput[userInput.length - 1].addEventListener("click", postEditUserInfo);
-};
-
-var postEditUserInfo = function postEditUserInfo() {
-  var body = {
-    email: userInput[1].value,
-    name: userInput[2].value,
-    password: userInput[3].value,
-    birthday: userInput[4].value
-  };
-  var xhttp = new XMLHttpRequest();
-
-  xhttp.onreadystatechange = function () {
-    if (this.readyState == 4 && this.status == 200) {
-      alert("수정완료!");
-      location.reload(true);
-    }
-  };
-
-  xhttp.open("post", "/ajax/userInfo_postEditUserInfo", true);
-  xhttp.setRequestHeader("Content-type", "application/json");
-  xhttp.send(JSON.stringify(body));
 };
 
 var init = function init() {
