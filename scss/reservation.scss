@@ -67,10 +67,20 @@
 }
 
 /* reserveRestaurant.pug */
+.all {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
 .restaurantInfo {
   width: 70%;
   margin: 5% auto;
   border: 0px 0px 5px 0px solid #d9d9d9d9;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 
   h1 {
     font-size: 50px;
@@ -78,10 +88,12 @@
   }
   p {
     font-size: 25px;
-    padding: 10px 0px 10px 50px;
+    padding: 10px 0px 10px 0px;
     margin-bottom: 10px;
   }
   a {
+    height: 500px;
+    width: 400px;
     text-decoration: none;
     color: #d9d9d9d9;
     display: flex;
@@ -125,9 +137,13 @@
 .comment {
   margin: 25px 0px;
   position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   .icons {
     position: absolute;
-    right: 470px;
+    right: 28%;
     top: 50px;
   }
   .commentValue {
@@ -141,7 +157,9 @@
   }
   .date {
     position: absolute;
-    right: 420px;
+    color: #420420;
+    right: 28%;
+    top: 70px;
   }
 
   .editComment,
@@ -154,4 +172,13 @@
   }
 }
 
-/* comment */
+.good {
+  margin-top: -30px;
+  label {
+    font-size: 30px;
+    i,
+    span {
+      padding: 10px;
+    }
+  }
+}

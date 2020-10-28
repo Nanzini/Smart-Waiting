@@ -5,25 +5,26 @@ include ../mixins/comment.pug
 
 block content
     .info
-        span(id="btn_userInfo") #{user.name}님의 정보
+        span(id="btn_userInfo" style="cursor:pointer") #{user.name}님의 정보
             +modal("UserInfo")
                 +userInfo(user._id)
             
-        span(id="btn_comment") 댓글함
+        span(id="btn_comment" style="cursor:pointer") 댓글함
             +modal("Comment")
                 each comment in user.comments
                     +infoComments(comment,restaurants)
 
-        span(id="btn_reservation") 예약내역
+        span(id="btn_reservation" style="cursor:pointer") 예약내역
             +modal("Reservation")
                 each reservation in user.reservations
                     .reservationHead #{reservation.name}이름의 예약입니다. #{reservation.createAt}
                         +modal()
-                            p(id=reservation.restaurant._id class="restaurantID") #{reservation.name}님이 #{reservation.reservationDate}에 #{reservation.restaurant.name}에 #{reservation.guests}명 방문예정입니다.
-                            input(type="button" value="삭제" class="deleteReservation" id=reservation.id)
+                            .detailed
+                                span(id=reservation.restaurant._id class="restaurantID") #{reservation.name}님 #{reservation.reservationDate}일시에 #{reservation.guests}명 방문예정입니다.
+                                input(type="button" value="삭제" class="deleteReservation" id=reservation.id)
                 
 
-        span(id="btn_restaurant") 내식당
+        span(id="btn_restaurant" style="cursor:pointer") 내식당
             +modal("Restaurant")
                 -for(let i=0; i<user.restaurants.length; i++)
                     -var restaurant = user.restaurants[i];
@@ -31,22 +32,22 @@ block content
                         +modal()
                             +restaurantInfo(restaurant, i)
                     
-
-        span(id="btn_mail" class="absoluteParent") 메일함
+        span(id="btn_mail" class="absoluteParent" style="cursor:pointer") 메일함
             if unreadMails !== 0
-                p(class="absoluteChild") #{unreadMails}
+                i(class="far fa-comment" id="parentMail")
+                    p(class="absoluteChild") #{unreadMails}
             +modal("Mail")
-                each mail in user.mails
-                    if mail.read === false
-                        div(class="mailHead" style="background-color:gray" id=mail._id) #{mail.header}
-                            button(class="deleteMail" value="X" style="display:none") X
+                -for(let i=user.mails.length; i>0; i--)
+                    if user.mails[i-1].read === false
+                        div(class="mailHead" id=user.mails[i-1]._id style="background:gray") #{user.mails[i-1].header}
+                            button(class="deleteMail" value="X" style="opacity:0") X
                             +modal()
-                                p #{mail.content}
+                                p #{user.mails[i-1].content}
                     else
-                        div(class="mailHead" id=mail._id) #{mail.header} 
-                            button(class="deleteMail" value="X" style="display:none") X
+                        div(class="mailHead" id=user.mails[i-1]._id style="background:#442200") #{user.mails[i-1].header} 
+                            button(class="deleteMail" value="X" style="opacity:0") X
                             +modal()
-                                p #{mail.content}
+                                p #{user.mails[i-1].content}
                 
 
     script(src="/static/js/ajax_userInfo.js")

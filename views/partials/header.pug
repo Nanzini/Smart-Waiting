@@ -15,6 +15,6 @@ else
             img(src="/uploads/SmartLogo.png" style={ width:"150px", height:"60px"})
     .header_column2
         a(href=routes.userInfo(users.id)) 
-            span 내정보
+            span.email #{users.email}
         a(href=routes.logout) 
             span 로그아웃

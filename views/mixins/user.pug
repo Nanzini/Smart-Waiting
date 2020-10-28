@@ -1,21 +1,25 @@
 mixin userInfo(id)
-    input(class="btn_delUser" type="button" value="Delete")
-    input(class="userInput" type="button" value="Edit" )
-    input(class="userInput" value=user.userId disabled="true")
-    input(class="userInput" value=user.name disabled="true")
-    input(type="password" class="userInput" value=user.password disabled="true")
-    
-    span 생일
-    input(class="userInput" value=user.birthday disabled="true")
-    input(class="userInput" type="button" value="OK")
+    .div_userInfo
+        button(class="btn_delUser") 
+            i(class="fas fa-trash-alt")
+        button(class="userInput")
+            i(class="fas fa-pen")
+        input(class="userInput" value=user.userId disabled="true")
+        input(class="userInput" value=user.name disabled="true")
+        input(type="password" class="userInput" value=user.password disabled="true")
+        
+        span 생일
+        input(class="userInput" value=user.birthday disabled="true")
+        input(class="userInput" type="button" value="OK")
     
 
 mixin restaurantInfo(restaurant,i)
     form(action="/ajax/editRestaurant", method="post" enctype="multipart/form-data" )
-        span(class="btn_delRestaurant"  name="id" id=restaurant._id)
-            i(class="fas fa-trash-alt")
-        span(class="btn_editRestaurant")
-            i(class="fas fa-pen")
+        div(style="width:180px")
+            span(class="btn_delRestaurant"  name="id" id=restaurant._id)
+                i(class="fas fa-trash-alt" id=restaurant._id)
+            span(class="btn_editRestaurant")
+                i(class="fas fa-pen")
 
         //-  가게이름 
         input(class="restaurantDisabled" name="name" value=restaurant.restaurant_name disabled="true" style="font-family: 'Song Myung'")
@@ -27,7 +31,7 @@ mixin restaurantInfo(restaurant,i)
             option(value="west" style="font-family: Song Myung") 양식
                         
         //- 위치
-        input(class="restaurantDisabled" value=restaurant.restaurant_location disabled="true")
+        input(class="restaurantDisabled" value=restaurant.restaurant_location disabled="true" placeholder="위치")
         
         .div_form_file
             input(type="file" id=`form_file${i}` style="opacity:0" class="restaurantDisabled" disabled="true" name="restaurantPic" accept="image/*")

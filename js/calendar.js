@@ -308,13 +308,45 @@ const open_modal = (modal) => {
 const close_modal = (event) => {
   const modal = event.target.parentElement.parentElement;
   if (event.target.className === "modal_close") modal.style.display = "none";
+  else if (event.target.className==="fas fa-times") modal.parentElement.style.display = "none";
+
 };
+
+const currentDate = () => {
+  const now = new Date();
+  const year = now.getFullYear();
+  const month =
+    now.getMonth() < 10
+      ? `0${Number(now.getMonth() + 1)}`
+      : Number(now.getMonth()) + 1;
+
+  const day = now.getDate() < 10 ? `0${now.getDate()}` : now.getDate();
+  const hour = now.getHours() < 10 ? `0${now.getHours()}` : now.getHours();
+  const minute =
+    now.getMinutes() < 10 ? `0${now.getMinutes()}` : now.getMinutes();
+  return `${year}${month}${day}:${hour}${minute}`;
+};
+
+const changeColor = () =>{
+  const allTables = document.querySelectorAll(".table");
+  
+  for(let i=0; i<allTables.length; i++){
+    if(allTables[i].childNodes[0].innerText === "사용중"){
+      let overTime = currentDate().slice(10,14) - allTables[i].childNodes[1].innerText.slice(10,14);
+      if(overTime < 60) allTables[i].style.backgroundColor="green"
+      else if(overTime <80) allTables[i].style.backgroundColor="yellow"
+      else  allTables[i].style.backgroundColor="red"
+    }
+  }
+    
+}
 
 const init = () => {
   // btn_reservePopup.addEventListener("click", display_popup);
   display_popup();
   btn_right.addEventListener("click", month_right);
   btn_left.addEventListener("click", month_left);
+  setInterval(changeColor,2000);
 };
 
 const big = () => {

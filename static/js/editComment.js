@@ -76,7 +76,7 @@ var init = function init() {
     img.style.background = "url(".concat(original, ") no-repeat ");
     img.style.backgroundSize = "400px 500px";
     img.addEventListener("mouseover", function () {
-      img.style.background = 'url(/uploads/OK.png) no-repeat center';
+      img.style.background = 'url(/uploads/go.png) no-repeat center';
       img.style.backgroundSize = "200px 250px";
     });
     img.addEventListener("mouseout", function () {

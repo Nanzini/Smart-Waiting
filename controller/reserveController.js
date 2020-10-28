@@ -2,7 +2,10 @@ import { Restaurant } from "../models/Restaurant";
 import { User } from "../models/User";
 import { Comment } from "../models/Comment";
 import { Reservation } from "../models/Reservation";
+import { Mail } from "../models/Mail.js";
+
 import routes from "../routes/routes.js";
+var mongoose = require("mongoose");
 
 export const times = (reservation) => {
   const current = new Date();
@@ -76,7 +79,6 @@ export const reserveRestaurant = async (req, res, next) => {
     };
     commenters.push(comment);
   }
-
   res.render("reserve/reserveRestaurant.pug", {
     pageTitle: "Reserve Restaurant",
     restaurant,
@@ -137,3 +139,37 @@ export const finalReservaion = async (req, res) => {
 };
 
 const getAllPeople = () => {};
+
+export const good = async(req,res) => {
+
+  try {
+      if(req.body.good === true){
+      const restaurant = await Restaurant.findOneAndUpdate(
+        { _id: req.body.url }, 
+        { $set : {numGood :  req.body.numGood+1 }}, 
+      );
+
+      const owner = await User.findById(restaurant.restaurant_owner);
+      const mail = await new Mail({
+        header: `${req.body.email}님께서 ${restaurant.restaurant_name}에 좋아요를 눌렀습니다`,
+        content: `${req.body.email}님께서 ${restaurant.restaurant_name}에 좋아요를 눌렀습니다`
+      });
+      mail.save();
+      owner.mails.push(mail);
+      owner.save();
+
+      res.send();
+      
+      } 
+      else{
+        const restaurant = await Restaurant.findOneAndUpdate(
+          { _id: req.body.url }, 
+          { $set:{ numGood :req.body.numGood-1 }}, 
+        );
+        res.json();
+      }
+      
+
+  }
+  catch (error) {}
+}

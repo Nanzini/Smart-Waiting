@@ -3,8 +3,11 @@ include ../partials/modal.pug
 include ../mixins/showTable.pug
 
 block content
-    h1 운영하고 있는 식당
-
-    each restaurant in user.restaurants
-        a(href=routes.order(restaurant._id))
-            h1 #{restaurant.restaurant_name}
+    li(style="") 운영하고 있는 식당
+    .grid_reservations(style="margin:50px")
+        each restaurant in user.restaurants
+            .restaurants
+                a(href=routes.order(restaurant._id))
+                    img(src=`/uploads/${restaurant.restaurant_pic}`)
+                    p.title #{restaurant.restaurant_name}
+                    p #{restaurant.restaurant_tag}

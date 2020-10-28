@@ -43,6 +43,9 @@ const removeMail = (event) => {
   xhttp.onreadystatechange = function () {
     if (this.readyState == 4 && this.status == 200) {
       document.getElementById(body.id).remove();
+      document.querySelector(".absoluteChild").innerText -= 1;
+      if (document.querySelector(".absoluteChild").innerText === "0")
+        document.querySelector(".absoluteChild").innerText = "";
     }
   };
   xhttp.open("post", "/ajax/removeMail", true);
@@ -55,37 +58,42 @@ const detailMail = () => {
   const deleteMail = document.querySelectorAll(".deleteMail");
   everyMail.forEach(() => {
     addEventListener("mouseover", (event) => {
-      if (event.target.childNodes[1] && event.target.className === "mailHead")
-        event.target.childNodes[1].style.display = "block";
-      else if (event.target && event.target.className === "deleteMail")
-        event.target.style.display = "block";
+      if (event.target.childNodes[1] && event.target.className === "mailHead"){
+        event.target.childNodes[1].style.opacity =1;
+      }
+      else if (event.target && event.target.className === "deleteMail"){
+        event.target.style.opacity = 1;
+      }
       for (let i = 0; i < deleteMail.length; i++) {
         deleteMail[i].addEventListener("click", removeMail);
       }
     });
     addEventListener("mouseout", (event) => {
-      if (event.target.childNodes[1] && event.target.className === "mailHead")
-        event.target.childNodes[1].style.display = "none";
+      if (event.target.childNodes[1] && event.target.className === "mailHead"){
+        event.target.childNodes[1].style.opacity = 0;
+      }
     });
     addEventListener("click", showDetailMail);
   });
 };
 
 const showDetailMail = (event) => {
+  
   if (event.target.childNodes[2]) {
     const body = {
       id: event.target.id,
     };
     if (event.target.childNodes[2].className !== "mailHead")
       event.target.childNodes[2].style.display = "block";
+    console.log(event.target.childNodes[2])
 
     const xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
       if (this.readyState == 4 && this.status == 200) {
-        event.target.style.backgroundColor = "white";
+        event.target.style.backgroundColor = "#442200";
         if (document.querySelector(".absoluteChild")) {
           document.querySelector(".absoluteChild").innerText -= 1;
-          if (document.querySelector(".absoluteChild").innerText === "0")
+          if (document.querySelector(".absoluteChild").innerText <= "0")
             document.querySelector(".absoluteChild").innerText = "";
         }
       }
@@ -223,8 +231,9 @@ const showUserReservation = () => {
 };
 
 const showUserDetailReservation = (event) => {
-  const btn_deleteReservation = document.querySelector(".deleteReservation");
-  btn_deleteReservation.addEventListener("click", deleteReservation);
+  const btn_deleteReservation = document.querySelectorAll(".deleteReservation");
+  for(let i=0; i<btn_deleteReservation.length; i++)
+    btn_deleteReservation[i].addEventListener("click", deleteReservation);
   if (event.target.childNodes[1])
     event.target.childNodes[1].style.display = "block";
 };
@@ -234,7 +243,6 @@ const deleteReservation = (event) => {
   const body = {
     id: event.target.id,
     restaurant: document.querySelector(".restaurantID").id,
-    reservationId: document.querySelector(".deleteReservation").id,
   };
   const xhttp = new XMLHttpRequest();
   xhttp.onreadystatechange = function () {
@@ -288,31 +296,7 @@ const pic_changedFile = (btn_form) => {
   }
 }
 
-// const editRestaurant = (event) => {
-//   // event target : submit 완료!
-//   const form = event.target.parentNode;
-//     const data = {
-//       id : form.childNodes[0].id,
-//       name : form.childNodes[2].value,
-//       tag : form.childNodes[3].value,
-//       location : form.childNodes[4].value,
-//       pic : form.childNodes[5].childNodes[0].value
-//     }
-//     const xhttp = new XMLHttpRequest();
-//     xhttp.onreadystatechange = function () {
-//       if (this.readyState == 4 && this.status == 200) {
-//         alert("수정되었습니다!");
-//         location.reload(true);
-//       }
-//     };
-//     xhttp.open("post", "/ajax/editRestaurant", true);
-//     xhttp.setRequestHeader("Content-type", "application/json");
-//     xhttp.send(JSON.stringify(data));
-// }
-
 const deleteRestaurant = (event) => {
-  
-
   console.log(event.target)
   const body = {
     id: event.target.id,
@@ -335,7 +319,10 @@ const close_modal = (event) => {
       const modal = event.target.parentElement.parentElement;
       if (event.target.className === "modal_close")
         modal.style.display = "none";
+      else if (event.target.className==="fas fa-times")
+        modal.parentElement.style.display = "none";
     }
+  
 };
 
 

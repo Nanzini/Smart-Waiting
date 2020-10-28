@@ -12,10 +12,10 @@ export const posHome = async (req, res) => {
 export const posOrder = async (req, res) => {
   const id = req.params.id;
   const ID = id.slice(1, id.length);
-  const restaurant = await Restaurant.findById(ID).populate("menu");
+  const restaurant = await Restaurant.findById(ID).populate("menu").populate("bigTables");
 
   const menu = restaurant.menu;
-
+  
   res.render("pos/order.pug", { pageTitle: "주문", restaurant, menu });
 };
 
@@ -138,3 +138,5 @@ export const bill = async (req, res) => {
   }
   res.json();
 };
+
+/* 테이블클릭했을 때 orderForm에 데이터전송 + 사용중이었는지까지 보내기 */

@@ -44,6 +44,11 @@ const restaurantSchema = new mongoose.Schema({
       ref: "Menu",
     },
   ],
+  numGood:{
+    type:Number,
+    default:0
+  },
+
 });
 
 export const Restaurant = mongoose.model("Restaurant", restaurantSchema);

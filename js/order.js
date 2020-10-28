@@ -16,26 +16,77 @@ const btnOrder = document.querySelectorAll(".btnOrder");
 const orderForm = document.querySelectorAll(".orderForm");
 const btnBill = document.querySelectorAll(".btnBill");
 
+const split = (str) => {
+    for(let i=0; i<str.length; i++){
+        if(str[i] ===" "){
+            const first = str.slice(0,i);
+            const second = str.slice(i+1,str.length);
+            return [first,second];
+        }
+      }
+}
+
 const clickBigTable = (event) => {
   current = event.target;
 
+  /* target : 눌린 테이블 id */
+  /* current : bigTable */
   if (current.id === "" && current.parentNode.className === "table")
     current = current.parentNode.parentNode;
-  else if (current.className === "table") current = current.parentNode;
+  else if (current.className === "table") current = event.target.parentNode;
 
-  modal.style.display = "block";
+  /* orderFOem에 메뉴 채우기 */
+  let menu1 = {}
+  const table = current.childNodes[0];  // table 1셀
+  
+    for(let i=0; i<table.childNodes.length-2; i++){
+      let tmp = split(table.childNodes[i].innerText)
+      menu1[tmp[0]] = tmp[1];
+    }
+  
+    current.nextSibling.style.display = "block";
 
-  modalClose.addEventListener("click", closeModal);
+  /* orderForm 0:X 1:form ... ㅁ지막 : OK -- 클릭 시 메뉴정보 form에 넣기 */
+  const orderForm1 = current.nextSibling.childNodes[0];
+  for(let key in menu1){
+    for(let i=1; i<orderForm1.childElementCount-1; i++){
+      if(key === orderForm1.childNodes[i].childNodes[0].innerText){
+        orderForm1.childNodes[i].childNodes[2].innerText = menu1[key];
+        /* price작업 */
+        orderForm1.childNodes[i].childNodes[5].innerText = 
+        orderForm1.childNodes[i].childNodes[2].innerText*orderForm1.childNodes[i].childNodes[4].innerText
+      }
+    }
+  }
+
+  /* 총액 구하기 */
+  // modal content
+  const form = document.getElementById(current.id).nextSibling.childNodes[0]
+  const tmp_menu = menu(form);
+  const tmp_price = getPrice(tmp_menu);
+  form.childNodes[form.childElementCount-2].childNodes[0].innerText="총액 : "+tmp_price;
+
+  let close_modal = current.nextSibling.childNodes[0].childNodes[0];
+  if(close_modal.className==="modal_close") close_modal.addEventListener("click", ()=>{
+    current.nextSibling.style.display="none"
+  });
+  else if(close_modal.className==="fas fa-times") close_modal.parentNode.addEventListener("click", ()=>{
+    current.nextSibling.style.display="none"
+  });
+
+  
   for (let i = 0; i < btnLeft.length; i++)
     btnLeft[i].addEventListener("click", clickLeft);
+  
 
   for (let i = 0; i < btnRight.length; i++)
     btnRight[i].addEventListener("click", clickRight);
 
-  for (let i = 0; i < btnOrder.length; i++) {
+  for (let i = 0; i < btnOrder.length; i++) 
     btnOrder[i].addEventListener("click", clickOrder);
+
+  for (let i = 0; i < btnBill.length; i++) 
     btnBill[i].addEventListener("click", clickBill);
-  }
 };
 
 const clickBill = (event) => {
@@ -65,25 +116,8 @@ const clickBill = (event) => {
   xhttp.send(JSON.stringify(body));
 };
 
-const menu = () => {
-  const sendMenu = [];
-  const tables = bigTables.length + miniTables.length;
-  for (let i = 0; i < orderForm.length / tables; i++) {
-    const form = document.getElementById(`orderForm${i}`);
-    if (form.childNodes[2].innerText !== "0") {
-      let tmp = {
-        name: form.childNodes[2].className,
-        price: form.childNodes[3].innerText,
-        n: form.childNodes[2].innerText,
-      };
-      sendMenu.push(tmp);
-    }
-  }
-  return sendMenu;
-};
 
 const getPrice = (menu) => {
-  debugger;
   let price = 0;
   for (let i = 0; i < menu.length; i++) {
     price += menu[i].price * menu[i].n;
@@ -95,7 +129,7 @@ const currentDate = () => {
   const now = new Date();
   const year = now.getFullYear();
   const month =
-    now.getMonth() < 10
+    now.getMonth() < 9
       ? `0${Number(now.getMonth() + 1)}`
       : Number(now.getMonth()) + 1;
 
@@ -106,27 +140,71 @@ const currentDate = () => {
   return `${year}${month}${day}:${hour}${minute}`;
 };
 
+const menu = (content) => {
+  /* content : modal content */
+  const sendMenu = [];
+  
+  const form = content.querySelectorAll(".orderForm");
+  for (let i = 0; i < form.length; i++) {
+    /* 메뉴개수가 0이 아닐 때 */
+    if (form[i].childNodes[2].innerText !== "0") {
+      let tmp = {
+        name: form[i].childNodes[2].className,
+        price: form[i].childNodes[5].innerText,
+        n: form[i].childNodes[2].innerText,
+      };
+      sendMenu.push(tmp);
+    }
+  }
+  return sendMenu;
+};
+
+const changeColor = () =>{
+  const allTables = document.querySelectorAll(".table");
+  
+  for(let i=0; i<allTables.length; i++){
+    if(allTables[i].childNodes[0].innerText !== "빈좌석" &&
+    allTables[i].childNodes[0].innerText !== "예약석"){
+      /* reserv 전용 */
+      // let overTime = currentDate().slice(10,14) - allTables[i].childNodes[1].innerText.slice(10,14);
+      
+      /* pos 전용 */
+      let overTime = currentDate().slice(9,14) - allTables[i].lastChild.innerText.slice(9,14);
+      if(overTime < 60) allTables[i].style.backgroundColor="#76cc5f"
+      else if(overTime <80) allTables[i].style.backgroundColor="#daa520"
+      else  allTables[i].style.backgroundColor="#c02519"
+    }
+  }
+    
+}
+
 const clickOrder = (event) => {
   if (current.id === "" && current.parentNode.className === "table")
     current = current.parentNode;
   else if (current.className === "table") current;
   else current = current.childNodes[0];
-  const tmp_menu = menu();
+  
+  /* modal content */
+  let form = document.getElementById(current.id).parentNode.nextSibling.childNodes[0];
+  const tmp_menu = menu(form);
   const tmp_price = getPrice(tmp_menu);
   const body = {
     id: getID(),
+    /* 테이블 1개 */
     tableId: current.id,
     menu: tmp_menu,
-    createAt: currentDate(),
+
+    /* 사용중인 테이블이라면 createAt 기존의 데이터 보내 */
+    createAt: (current.childNodes[0].innerText === "빈좌석") ? currentDate() : current.lastChild.innerText,
     price: tmp_price,
     table: current.parentNode.className,
   };
-  console.log("order : " + body.tableId);
+
   const xhttp = new XMLHttpRequest();
   xhttp.onreadystatechange = function () {
     if (this.readyState === 4 && this.status === 200) {
       alert("등록되었습니다!");
-      location.reload(true);
+      location.reload()
     }
   };
   xhttp.open("post", "/ajax/orderRegister", true);
@@ -135,17 +213,36 @@ const clickOrder = (event) => {
 };
 const clickRight = (event) => {
   try {
+    
     let target = event.target.parentNode.childNodes[2];
-    if (event.target.className === "btnRight")
+    /* modal content */
+    const form = target.parentNode.parentNode;
+    let price = target.nextSibling.nextSibling.innerText;
+    if (event.target.className === "btnRight"){
+      /* 버튼 누를 때 마다 가격 바뀌기 */
       target.innerText = Number(target.innerText) + Number(1);
+      target.parentNode.lastChild.innerText = (Number(target.innerText))*price;
+
+      /* 총액 계산하기 */
+      const tmp_menu = menu(form);
+      const tmp_price = getPrice(tmp_menu);
+      form.childNodes[form.childElementCount-2].childNodes[0].innerText="총액 : "+tmp_price;
+    }
   } catch (error) {}
 };
 const clickLeft = (event) => {
   try {
     let target = event.target.parentNode.childNodes[2];
+    let price = target.nextSibling.nextSibling.innerText;
     if (event.target.className === "btnLeft") {
       if (target.innerText !== "0") {
         target.innerText = Number(target.innerText) - Number(1);
+        target.parentNode.lastChild.innerText = (Number(target.innerText))*price;
+
+              /* 총액 계산하기 */
+      const tmp_menu = menu(form);
+      const tmp_price = getPrice(tmp_menu);
+      form.childNodes[form.childElementCount-2].childNodes[0].innerText="총액 : "+tmp_price;
       }
     }
   } catch (error) {
@@ -175,13 +272,13 @@ const getID = () => {
 
 const menuRegister = () => {
   const modalMenu = document.getElementById("modalMenu");
-  const menuInput = modalMenu.childNodes[0];
+  const menuInput = modalMenu.childNodes[0].childNodes[1];
 
   const body = {
     id: getID(),
-    name: menuInput.childNodes[1].value,
-    price: menuInput.childNodes[2].value,
-    category: menuInput.childNodes[3].value,
+    name: menuInput.childNodes[0].value,
+    price: menuInput.childNodes[1].value,
+    category: menuInput.childNodes[2].value,
   };
   const xhttp = new XMLHttpRequest();
   xhttp.onreadystatechange = function () {
@@ -202,6 +299,8 @@ const init = () => {
     miniTables[i].addEventListener("click", clickBigTable);
 
   btnMenu.addEventListener("click", clickMenu);
+  
+  setInterval(changeColor,2000);
 };
 
 init();

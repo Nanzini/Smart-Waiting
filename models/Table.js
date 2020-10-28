@@ -17,6 +17,7 @@ const tableSchema = new mongoose.Schema({
     ref: "Menu",
   },
   price: Number,
+  tmp : Number()
 });
 
 export const Table = mongoose.model("Table", tableSchema);

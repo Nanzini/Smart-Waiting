@@ -1,9 +1,13 @@
 mixin orderForm(menu, i)
-    div(class=`orderForm` id=`orderForm${i}` style="display:flex")
-        p #{menu.name}
-        input(type="button" class="btnLeft" value="<")
-        p(class=menu.name) 0
+    .orderForm(style="clear:both")
+        p(style="width:100px") #{menu.name}
+        input(type="button" class="btnLeft" value="<" style="font-family: Song Myung") 
+            
+        //- 이거 ajax로 불러와야함 갯수랑 가격
+        p(class=menu.name style="width:20px; text-align:center") 0
+        input(type="button" class="btnRight" value=">" style="font-family: Song Myung")
+            
         p(style="display:none" class=`price${i}`) #{menu.price}
-        input(type="button" class="btnRight" value=">")
+        p(class="eachSum" style="width:100px; text-align:center") 0
         
     

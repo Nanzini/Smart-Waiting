@@ -5,7 +5,12 @@ include ./registerMenu.pug
 include ./orderForm.pug
 
 block content
-    h1 테이블현황 
+    span(style="font-size:40px") 테이블현황 
+
+    input(type="button" value="메뉴등록" class="btnMenu")
+    +modal("Menu")
+        +registerMenu()
+
     div(class="content_table")
         div(class="bigTables")
             +bigTable(restaurant.bigTables,menu)
@@ -14,9 +19,7 @@ block content
             +miniTable(restaurant.miniTables,menu)
 
 
-    input(type="button" value="메뉴등록" class="btnMenu")
-    +modal("Menu")
-        +registerMenu()
+    
 
 
     script(src="/static/js/order.js")

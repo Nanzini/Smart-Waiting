@@ -2,24 +2,35 @@ extends ../partials/main.pug
 include ../mixins/comment.pug
 
 block content
-    .restaurantInfo
-        h1 #{restaurant.restaurant_name}
-        p #{restaurant.restaurant_tag}
-        a(href=`${routes.reserve}${routes.reservation(restaurant._id)}`)
-            .restaurantImg(id=restaurant.restaurant_pic)
-
-    .restaurantComments
-        form(action=`${routes.reserve}${routes.comments(restaurant._id)}` method="post")
+    .all
+        .restaurantInfo
+            h1 #{restaurant.restaurant_name}
+            p # #{restaurant.restaurant_tag}
+            a(href=`${routes.reserve}${routes.reservation(restaurant._id)}`)
+                .restaurantImg(id=restaurant.restaurant_pic)
+        .good
             if users.id
-                p #{user.name}
-                textarea(name="content",require=true, placeholder="댓글작성...", cols=40, rows=3, autofocus)
-                input(type="submit" value="작성!")
+                input(type="checkbox" id="good" style="display:none")
+                label(for='good')
+                    i(class="far fa-heart")
+                    span #{restaurant.numGood}
             else
+                i(class="far fa-heart")
+                span #{restaurant.numGood}
 
-        each commenter in commenters
-            +comment(commenter)
+
+        .restaurantComments
+            form(action=`${routes.reserve}${routes.comments(restaurant._id)}` method="post")
+                if users.id
+                    p #{user.name}
+                    textarea(name="content",require=true, placeholder="댓글작성...", cols=40, rows=3, autofocus)
+                    input(type="submit" value="작성!")
+                else
+
+            each commenter in commenters
+                +comment(commenter)
         
     
-    
+    script(src="/static/js/good.js")
     script(src="/static/js/editComment.js")
     

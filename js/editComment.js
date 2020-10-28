@@ -74,7 +74,7 @@ const init = () => {
     img.style.background = `url(${original}) no-repeat `;
     img.style.backgroundSize="400px 500px";
     img.addEventListener("mouseover",()=>{
-      img.style.background = 'url(/uploads/OK.png) no-repeat center';
+      img.style.background = 'url(/uploads/go.png) no-repeat center';
       img.style.backgroundSize="200px 250px";
     })
     

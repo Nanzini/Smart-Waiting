@@ -274,7 +274,28 @@ var open_modal = function open_modal(modal) {
 
 var close_modal = function close_modal(event) {
   var modal = event.target.parentElement.parentElement;
-  if (event.target.className === "modal_close") modal.style.display = "none";
+  if (event.target.className === "modal_close") modal.style.display = "none";else if (event.target.className === "fas fa-times") modal.parentElement.style.display = "none";
+};
+
+var currentDate = function currentDate() {
+  var now = new Date();
+  var year = now.getFullYear();
+  var month = now.getMonth() < 10 ? "0".concat(Number(now.getMonth() + 1)) : Number(now.getMonth()) + 1;
+  var day = now.getDate() < 10 ? "0".concat(now.getDate()) : now.getDate();
+  var hour = now.getHours() < 10 ? "0".concat(now.getHours()) : now.getHours();
+  var minute = now.getMinutes() < 10 ? "0".concat(now.getMinutes()) : now.getMinutes();
+  return "".concat(year).concat(month).concat(day, ":").concat(hour).concat(minute);
+};
+
+var changeColor = function changeColor() {
+  var allTables = document.querySelectorAll(".table");
+
+  for (var i = 0; i < allTables.length; i++) {
+    if (allTables[i].childNodes[0].innerText === "사용중") {
+      var overTime = currentDate().slice(10, 14) - allTables[i].childNodes[1].innerText.slice(10, 14);
+      if (overTime < 60) allTables[i].style.backgroundColor = "green";else if (overTime < 80) allTables[i].style.backgroundColor = "yellow";else allTables[i].style.backgroundColor = "red";
+    }
+  }
 };
 
 var init = function init() {
@@ -282,6 +303,7 @@ var init = function init() {
   display_popup();
   btn_right.addEventListener("click", month_right);
   btn_left.addEventListener("click", month_left);
+  setInterval(changeColor, 2000);
 };
 
 var big = function big() {

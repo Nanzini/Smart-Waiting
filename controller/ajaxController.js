@@ -158,10 +158,10 @@ export const processReservation = async (req, res) => {
         const owner = await User.findById(restaurant.restaurant_owner._id);
         const userMail = await new Mail({
           header: `${restaurant.restaurant_name}을 예약하셨습니다!`,
-          content: `예약날짜 : ${reservation.reservationDate}
-              예약식당 : ${restaurant.restaurant_name}
-              예약자 : ${reservation.name}님
-              예약인원 : ${reservation.guests}분
+          content: `예약날짜 : ${reservation.reservationDate} \n
+              예약식당 : ${restaurant.restaurant_name} \n
+              예약자 : ${reservation.name}님 \n
+              예약인원 : ${reservation.guests}분 \n
     
               ${process.env.MIAL_USER_RESERVATION}
             `,
@@ -169,10 +169,10 @@ export const processReservation = async (req, res) => {
 
         const ownerMail = await new Mail({
           header: `${reservation.name}님께서 예약하셨습니다!`,
-          content: `예약날짜 : ${reservation.reservationDate}
-            예약식당 : ${restaurant.restaurant_name}
-            예약자 : ${reservation.name}님
-            예약인원 : ${reservation.guests}분
+          content: `예약날짜 : ${reservation.reservationDate} \n
+            예약식당 : ${restaurant.restaurant_name}\n
+            예약자 : ${reservation.name}님\n
+            예약인원 : ${reservation.guests}분\n
     
             ${process.env.MIAL_OWNER_RESERVATION}
           `,
@@ -273,19 +273,19 @@ export const deleteReservation = async (req, res) => {
 
     const userMail = await new Mail({
       header: `${restaurant.restaurant_name}을 예약을 취소하셨습니다!`,
-      content: `예약날짜 : ${reservation.reservationDate}
-      예약식당 : ${restaurant.restaurant_name}
-      예약자 : ${reservation.name}님
-      예약인원 : ${reservation.guests}분
+      content: `예약날짜 : ${reservation.reservationDate} \n
+      예약식당 : ${restaurant.restaurant_name}\n
+      예약자 : ${reservation.name}님\n
+      예약인원 : ${reservation.guests}분\n
     `,
     });
 
     const ownerMail = await new Mail({
       header: `${reservation.name}님께서 예약을 취소하셨습니다!`,
-      content: `예약날짜 : ${reservation.reservationDate}
-    예약식당 : ${restaurant.restaurant_name}
-    예약자 : ${reservation.name}님
-    예약인원 : ${reservation.guests}분    
+      content: `예약날짜 : ${reservation.reservationDate}\n
+    예약식당 : ${restaurant.restaurant_name}\n
+    예약자 : ${reservation.name}님\n
+    예약인원 : ${reservation.guests}분\n    
   `,
     });
     await Reservation.findOneAndDelete({ _id: req.body.id }, async function (
@@ -297,14 +297,14 @@ export const deleteReservation = async (req, res) => {
           {
             $pull: {
               restaurant_reservations: {
-                _id: mongoose.mongo.ObjectID(req.body.reservationId),
+                _id: mongoose.mongo.ObjectID(req.body.id),
               },
             },
           }
         );
         await User.update(
           { _id: req.session.userId },
-          { $pull: { reservations: req.body.reservationId } }
+          { $pull: { reservations: req.body.id } }
         );
       } else console.log("reservation deleting failed");
     });
@@ -383,6 +383,7 @@ for (let i = 0; i < user.mails.length; i++)
 
 export const readMail = async (req, res) => {
   try {
+    console.log("엇험");
     const mail = await Mail.findOneAndUpdate(
       { _id: req.body.id },
       { read: true },

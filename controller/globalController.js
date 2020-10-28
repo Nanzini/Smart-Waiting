@@ -88,12 +88,11 @@ export const postRegister = async (req, res) => {
       // user에게 가게등록 메일 보내기
       const mail = new Mail({
         header: `${req.body.name}을 등록하셨습니다!`,
-        content: `
-          가게이름 : ${req.body.name} \n
-          위치 : ${req.body.location} \n
-          
-          위의 내용으로 ${process.env.MAIL_REGISTER_RESTAUANT}
-        `,
+        content: 
+          `가게이름 : ${req.body.name}` +
+          `위치 : ${req.body.location}` +
+          `위의 내용으로 ${process.env.MAIL_REGISTER_RESTAUANT}`
+        ,
       });
       user.mails.push(mail);
       mail.save();

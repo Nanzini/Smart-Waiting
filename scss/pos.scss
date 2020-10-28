@@ -1,0 +1,71 @@
+/* pos home */
+li {
+  font-size: 40px;
+  list-style: none;
+  transition: 0.5s;
+}
+
+a:hover {
+  transform: rotate(-1deg);
+}
+
+/* pos menu */
+.btnMenu,
+.btnOrder,
+.btnBill {
+  float: right;
+  font-family: "Song Myung";
+  font-size: 25px;
+  background-color: #302326;
+  color: #d9d9d9;
+  padding: 8px;
+  border-radius: 7px;
+  transition: 0.3s;
+}
+.register_menu {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  input {
+    font-family: "Song Myung";
+    font-size: 16px;
+    text-align: center;
+    background-color: #e2cebd;
+    margin: 5px 0;
+    padding: 5px;
+    width: 250px;
+    border-radius: 10px;
+    transition: 0.3s;
+  }
+}
+
+/* order */
+.orderForm {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 20px 0px 10px 0px;
+  p,
+  input {
+    padding: 5px;
+    box-sizing: border-box;
+    border: none;
+    border-radius: 5px;
+  }
+}
+
+/* table */
+.content_table {
+  margin: 20px;
+}
+
+.table {
+  transition: 3s;
+}
+.btnOrderBill {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  margin-top: 20px;
+}

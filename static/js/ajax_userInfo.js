@@ -44,6 +44,8 @@ var removeMail = function removeMail(event) {
   xhttp.onreadystatechange = function () {
     if (this.readyState == 4 && this.status == 200) {
       document.getElementById(body.id).remove();
+      document.querySelector(".absoluteChild").innerText -= 1;
+      if (document.querySelector(".absoluteChild").innerText === "0") document.querySelector(".absoluteChild").innerText = "";
     }
   };
 
@@ -57,14 +59,20 @@ var detailMail = function detailMail() {
   var deleteMail = document.querySelectorAll(".deleteMail");
   everyMail.forEach(function () {
     addEventListener("mouseover", function (event) {
-      if (event.target.childNodes[1] && event.target.className === "mailHead") event.target.childNodes[1].style.display = "block";else if (event.target && event.target.className === "deleteMail") event.target.style.display = "block";
+      if (event.target.childNodes[1] && event.target.className === "mailHead") {
+        event.target.childNodes[1].style.opacity = 1;
+      } else if (event.target && event.target.className === "deleteMail") {
+        event.target.style.opacity = 1;
+      }
 
       for (var i = 0; i < deleteMail.length; i++) {
         deleteMail[i].addEventListener("click", removeMail);
       }
     });
     addEventListener("mouseout", function (event) {
-      if (event.target.childNodes[1] && event.target.className === "mailHead") event.target.childNodes[1].style.display = "none";
+      if (event.target.childNodes[1] && event.target.className === "mailHead") {
+        event.target.childNodes[1].style.opacity = 0;
+      }
     });
     addEventListener("click", showDetailMail);
   });
@@ -76,15 +84,16 @@ var showDetailMail = function showDetailMail(event) {
       id: event.target.id
     };
     if (event.target.childNodes[2].className !== "mailHead") event.target.childNodes[2].style.display = "block";
+    console.log(event.target.childNodes[2]);
     var xhttp = new XMLHttpRequest();
 
     xhttp.onreadystatechange = function () {
       if (this.readyState == 4 && this.status == 200) {
-        event.target.style.backgroundColor = "white";
+        event.target.style.backgroundColor = "#442200";
 
         if (document.querySelector(".absoluteChild")) {
           document.querySelector(".absoluteChild").innerText -= 1;
-          if (document.querySelector(".absoluteChild").innerText === "0") document.querySelector(".absoluteChild").innerText = "";
+          if (document.querySelector(".absoluteChild").innerText <= "0") document.querySelector(".absoluteChild").innerText = "";
         }
       }
     };
@@ -231,8 +240,12 @@ var showUserReservation = function showUserReservation() {
 };
 
 var showUserDetailReservation = function showUserDetailReservation(event) {
-  var btn_deleteReservation = document.querySelector(".deleteReservation");
-  btn_deleteReservation.addEventListener("click", deleteReservation);
+  var btn_deleteReservation = document.querySelectorAll(".deleteReservation");
+
+  for (var i = 0; i < btn_deleteReservation.length; i++) {
+    btn_deleteReservation[i].addEventListener("click", deleteReservation);
+  }
+
   if (event.target.childNodes[1]) event.target.childNodes[1].style.display = "block";
 };
 
@@ -240,8 +253,7 @@ var deleteReservation = function deleteReservation(event) {
   console.log(event.target.id);
   var body = {
     id: event.target.id,
-    restaurant: document.querySelector(".restaurantID").id,
-    reservationId: document.querySelector(".deleteReservation").id
+    restaurant: document.querySelector(".restaurantID").id
   };
   var xhttp = new XMLHttpRequest();
 
@@ -301,28 +313,7 @@ var pic_changedFile = function pic_changedFile(btn_form) {
     btn_form.parentNode.childNodes[2].style.background = "url(/uploads/OK.png) no-repeat 50%";
     btn_form.parentNode.childNodes[2].style.backgroundSize = "30px";
   };
-}; // const editRestaurant = (event) => {
-//   // event target : submit 완료!
-//   const form = event.target.parentNode;
-//     const data = {
-//       id : form.childNodes[0].id,
-//       name : form.childNodes[2].value,
-//       tag : form.childNodes[3].value,
-//       location : form.childNodes[4].value,
-//       pic : form.childNodes[5].childNodes[0].value
-//     }
-//     const xhttp = new XMLHttpRequest();
-//     xhttp.onreadystatechange = function () {
-//       if (this.readyState == 4 && this.status == 200) {
-//         alert("수정되었습니다!");
-//         location.reload(true);
-//       }
-//     };
-//     xhttp.open("post", "/ajax/editRestaurant", true);
-//     xhttp.setRequestHeader("Content-type", "application/json");
-//     xhttp.send(JSON.stringify(data));
-// }
-
+};
 
 var deleteRestaurant = function deleteRestaurant(event) {
   console.log(event.target);
@@ -345,7 +336,7 @@ var deleteRestaurant = function deleteRestaurant(event) {
 var close_modal = function close_modal(event) {
   if (event.target.parentElement) if (event.target.parentElement.parentElement) {
     var modal = event.target.parentElement.parentElement;
-    if (event.target.className === "modal_close") modal.style.display = "none";
+    if (event.target.className === "modal_close") modal.style.display = "none";else if (event.target.className === "fas fa-times") modal.parentElement.style.display = "none";
   }
 };
 

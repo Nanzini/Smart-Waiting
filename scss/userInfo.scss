@@ -35,6 +35,19 @@
     }
   }
 
+  /* 렛토랑 */
+  .btn_delRestaurant,
+  .btn_editRestaurant {
+    padding: 10px;
+    margin: 5px;
+  }
+  .btn_delRestaurant {
+    float: left;
+  }
+  .btn_editRestaurant {
+    float: right;
+  }
+
   .div_form_file {
     position: relative;
     margin-bottom: 50px;
@@ -78,6 +91,77 @@
         top: -35px;
         margin: 5px;
       }
+    }
+  }
+}
+
+/* userInfo__ userInfo */
+.div_userInfo {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  .userInput,
+  .btn_delUser {
+    font-family: "Song Myung";
+    font-size: 16px;
+    text-align: center;
+    background-color: #e2cebd;
+    margin: 5px 0;
+    padding: 5px;
+    width: 250px;
+    border-radius: 10px;
+    transition: 0.3s;
+  }
+}
+
+/* mail */
+#parentMail {
+  position: absolute;
+  font-size: 30px;
+  top: 120px;
+  right: 385px;
+  color: #f7347a;
+  border-radius: 100%;
+
+  .absoluteChild {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    font-size: 18px;
+    color: bisque;
+  }
+}
+.mailHead {
+  padding: 10px;
+  width: 70%;
+  .deleteMail {
+    float: right;
+    transition: 0.2s;
+  }
+}
+
+/* reservation */
+.reservationHead {
+  padding: 10px;
+  width: 70%;
+
+  .detailed {
+    width: 50%;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    span {
+      padding: 10px;
+    }
+    .deleteReservation {
+      font-family: "Song Myung";
+      font-size: 16px;
+      background-color: #302326;
+      color: #d9d9d9;
+      padding: 5px;
+      border-radius: 7px;
+      transition: 0.3s;
     }
   }
 }

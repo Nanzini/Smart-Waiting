@@ -16,7 +16,7 @@ import {
   readMail,
   removeMail,
 } from "./controller/ajaxController.js";
-
+import { good } from "./controller/reserveController.js";
 import helmet from "helmet";
 import express from "express";
 import path from "path";
@@ -35,6 +35,7 @@ import {
   menuRegister,
   orderRegister,
   bill,
+  clickTable,
 } from "./controller/posController.js";
 const upload = multer({ dest: "uploads/" }); // /uploads/ 앞에 /를 붙이지 않는다.
 export const app = express();
@@ -52,58 +53,6 @@ app.use(
   })
 );
 app.use(helmet());
-//app.use(passport.initialize());
-//app.use(passport.session());
-
-// passport.use(
-//   new NaverStrategy(
-//     {
-//       clientID: "CuTBeZenCQneIcYe6ued",
-//       clientSecret: "Y85pQez0Im",
-//       callbackURL: "http://127.0.0.1:4001/auth/naver/callback",
-//     },
-//     function (accessToken, refreshToken, profile, done) {
-//       console.log(profile);
-//     }
-//   )
-// );
-passport.use(
-  "login-kakao",
-  new KakaoStrategy(
-    {
-      clientID: process.env.KAKAO_ID,
-      clientSecret: "", // clientSecret을 사용하지 않는다면 넘기지 말거나 빈 스트링을 넘길 것
-      callbackURL: process.env.KAKAO_CALLBACK,
-    },
-    async function (accessToken, refreshToken, profile, done) {
-      const kakao = profile._json.kakao_account;
-      console.log(accessToken);
-      console.log(kakao);
-      console.log(kakao.email);
-      const user = await User.findOne({
-        userId: kakao.email,
-      });
-      if (user) {
-        console.log("기존 유저에 데이터만 넣자");
-        user.name = kakao.profile.nickname;
-        user.age = kakao.age_range.slice(0, 1);
-        user.birthday = kakao.birthday;
-        user.gender = kakao.gender;
-        user.save();
-      } else {
-        console.log("새로 회원가입시키자");
-        const newUser = await new User({
-          userId: kakao.email,
-          name: kakao.profile.nickname,
-          age: kakao.age_range.slice(0, 1),
-          birthday: kakao.birthday,
-          gender: kakao.gender,
-        });
-        newUser.save();
-      }
-    }
-  )
-);
 
 passport.serializeUser((user, done) => {
   // Strategy 성공 시 호출됨
@@ -125,7 +74,6 @@ app.use((req, res, next) => {
   res.locals.routes = routes;
   next();
 });
-
 
 app.use(routes.home, globalRouter);
 app.use(routes.reserve, reserveRouter);
@@ -151,6 +99,7 @@ app.post("/ajax/removeMail", removeMail);
 app.post("/ajax/menuRegister", menuRegister);
 app.post("/ajax/orderRegister", orderRegister);
 app.post("/ajax/bill", bill);
+app.post("/ajax/good", good);
 
 app.get(routes.posHome, posHome);
 app.get(routes.order(), posOrder);

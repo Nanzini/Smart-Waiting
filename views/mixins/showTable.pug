@@ -12,8 +12,11 @@ mixin bigTable(bigTables, Menu)
         +modal("order")
             -for(let i=0; i<Menu.length; i++)
                 +orderForm(Menu[i], i)
-            input(type="button" value="OK" class="btnOrder")
-            input(type="button" value="정산" class="btnBill")
+            .price(style="text-align:center; margin:40px 0px 10px 0px")
+                span 총액
+            .btnOrderBill
+                input(type="button" value="주문" class="btnOrder")
+                input(type="button" value="계산" class="btnBill")
 
 mixin reserve_bigTable(bigTables,i)
     div(class=`bigTable` id=`bigTable${i}`)
@@ -32,7 +35,12 @@ mixin miniTable(miniTables, Menu)
         +modal("order")
             -for(let i=0; i<Menu.length; i++)
                 +orderForm(Menu[i], i)
-            input(type="button" value="OK" class="btnOrder")
+            .price
+                span 총액 
+            .btnOrderBill
+                input(type="button" value="주문" class="btnOrder")
+                input(type="button" value="계산" class="btnBill")
+
 
 mixin reserve_miniTable(miniTables, i)
     .break
@@ -45,24 +53,26 @@ mixin reserve_miniTable(miniTables, i)
 mixin printTable(tables,i,j)
     div(class="table" id=tables[i][j]._id)
         if tables[i][j].reserved === true
-            h1 예약석
+            span 예약석
         
         else if tables[i][j].beUsing === true
-            h1 사용중
             each menu in tables[i][j].menu
-                p #{menu.name}:#{menu.n} 
+                p #{menu.name} #{menu.n} 
             p #{tables[i][j].price}
+            p(style="display:none") #{tables[i][j].orderTime}
+
         else 
-            h1 빈좌석
+            span 빈좌석
 
 //- 예약페이지에서 찍어주기
 mixin displayTable(tables,i,j)
     div(class="table" id=tables[i][j]._id)
         if tables[i][j].reserved === true
-            h1 예약석
+            span 예약석
         
         else if tables[i][j].beUsing === true
-            h1 사용중
+            span 사용중
+            p(style="display:none") #{tables[i][j].orderTime}
             
         else 
             h1 빈좌석

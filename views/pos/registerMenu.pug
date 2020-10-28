@@ -1,8 +1,9 @@
 mixin registerMenu
-    input(type="text" placeholder="메뉴이름")
-    input(type="text" placeholder="가격")
-    select(name="category")
-        option(value=none) Category
-        option(value="main") Main Dishes
-        option(value="after") After Desserts
-    input(type="button" value="OK" class="btnRegister")
+    .register_menu
+        input(type="text" placeholder="메뉴이름")
+        input(type="text" placeholder="가격")
+        select(id="tags" name="category" style="font-family: Song Myung")
+            option(value=none style="font-family: Song Myung") 종류
+            option(value="main" style="font-family: Song Myung") 식사
+            option(value="after" style="font-family: Song Myung") 후식
+        input(type="button" value="OK" class="btnRegister")
