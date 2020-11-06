@@ -25,18 +25,6 @@
   }
 }
 
-.reservationForm {
-  display: flex;
-  justify-content: space-evenly;
-  .reserveList {
-    button {
-      float: right;
-      padding: 5px;
-      margin: 15px;
-    }
-  }
-}
-
 .form_search {
   margin: 10px 0px 20px 0px;
   /* reserve화면 search #tag */
@@ -179,6 +167,52 @@
     i,
     span {
       padding: 10px;
+    }
+  }
+  i,
+  span {
+    font-size: 30px;
+    padding: 10px;
+  }
+}
+
+.reservationForm {
+  .reserveList {
+    input {
+      border: none;
+      padding: 10px;
+      border-radius: 10px;
+      background: azure;
+      font-size: 20px;
+      margin: 1px;
+      transition: 0.2s;
+    }
+    input:hover {
+      font-size: 22px;
+    }
+
+    .modal {
+      h1,
+      h2,
+      span {
+        font-size: 26px;
+        padding: 10px;
+        margin: 5px;
+      }
+      input {
+        margin: 10px;
+        border: none;
+        padding: 10px;
+        border-radius: 10px;
+        background: azure;
+        font-size: 18px;
+        transition: 0.2s;
+        text-align: center;
+        font-family: "Song Myung";
+      }
+      input:hover {
+        opacity: 0.5s;
+      }
     }
   }
 }

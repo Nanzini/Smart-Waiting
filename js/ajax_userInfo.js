@@ -36,16 +36,24 @@ const showMail = () => {
 };
 
 const removeMail = (event) => {
+  /* 버튼을 눌렀을 때 X버튼 */
   const body = {
     id: event.target.parentElement.id,
   };
+  const read = event.target.parentElement.childNodes[0];
   const xhttp = new XMLHttpRequest();
   xhttp.onreadystatechange = function () {
     if (this.readyState == 4 && this.status == 200) {
-      document.getElementById(body.id).remove();
-      document.querySelector(".absoluteChild").innerText -= 1;
-      if (document.querySelector(".absoluteChild").innerText === "0")
-        document.querySelector(".absoluteChild").innerText = "";
+      /* 읽힌 메일일 때 삭제해도 -1 하지마! */
+      if(read.style.opacity === "0.4")
+        document.getElementById(body.id).remove();
+      else{
+        document.getElementById(body.id).remove();
+        document.querySelector(".absoluteChild").innerText -= 1;
+        if (document.querySelector(".absoluteChild").innerText === "0")
+          document.querySelector(".absoluteChild").innerText = "";
+      }
+      
     }
   };
   xhttp.open("post", "/ajax/removeMail", true);
@@ -73,14 +81,39 @@ const detailMail = () => {
         event.target.childNodes[1].style.opacity = 0;
       }
     });
+
     addEventListener("click", showDetailMail);
   });
 };
 
 const showDetailMail = (event) => {
+  let body = {}
   
+  // span을 눌렀을 때 dipslay blocl해주기
+  if(event.target.tagName === "SPAN"){
+    body = { 
+      id: event.target.parentNode.id  // mailHead
+    }
+    event.target.parentNode.childNodes[2].style.display = "block";
+    const xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function () {
+      if (this.readyState == 4 && this.status == 200) {
+        event.target.style.opacity="0.4";
+        if (document.querySelector(".absoluteChild")) {
+          document.querySelector(".absoluteChild").innerText -= 1;
+          if (document.querySelector(".absoluteChild").innerText <= "0")
+            document.querySelector(".absoluteChild").innerText = "";
+        }
+      }
+    };
+    xhttp.open("post", "/ajax/readMail", true);
+    xhttp.setRequestHeader("Content-type", "application/json");
+    xhttp.send(JSON.stringify(body));
+  
+  }
+  // mailHead div를 눌렀을 때 display bloc해주기
   if (event.target.childNodes[2]) {
-    const body = {
+    body = {
       id: event.target.id,
     };
     if (event.target.childNodes[2].className !== "mailHead")
@@ -90,7 +123,7 @@ const showDetailMail = (event) => {
     const xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
       if (this.readyState == 4 && this.status == 200) {
-        event.target.style.backgroundColor = "#442200";
+        event.target.childNodes[0].style.opacity="0.4";
         if (document.querySelector(".absoluteChild")) {
           document.querySelector(".absoluteChild").innerText -= 1;
           if (document.querySelector(".absoluteChild").innerText <= "0")

@@ -26,6 +26,7 @@ const tables = (guest) => {
   return [bigTables, miniTables];
 };
 
+/* 예약넣을 때 reservationDate와 비교할 현재시간계산 2020110213 */
 const times = () => {
   const current = new Date();
   const currentYear = current.getFullYear();
@@ -101,16 +102,15 @@ export const getCalendarReservation = async (req, res) => {
 
   const reservations = restaurant.restaurant_reservations;
   const reservationDate =
-    req.body.time === undefined
-      ? req.body.year + req.body.month + req.body.date
-      : req.body.year + req.body.month + req.body.date + req.body.time;
+    (req.body.time === undefined)
+    ? String(req.body.year) + String(req.body.month) + req.body.date
+    : String(req.body.year) + String(req.body.month) + req.body.date + req.body.time;
 
   const reservedPeople = await getReservedPeople(
     reservations,
     reservationDate,
     restaurant
   );
-  console.log("getCalendar에서의 결과괎 : " + reservedPeople);
   res.json(reservedPeople);
 };
 
@@ -152,7 +152,8 @@ export const processReservation = async (req, res) => {
           res.json({ user: true, accepted: false });
         } else {
           //20분 마다 확인
-          setInterval(intervalReservation, 120000, reservation, req.body);
+          waitQ.push(reservation)
+          let interval = setInterval(intervalReservation, 1200, reservation, req.body, interval);
         }
 
         const owner = await User.findById(restaurant.restaurant_owner._id);
@@ -405,8 +406,14 @@ export const removeMail = async (req, res) => {
   } catch (error) {}
 };
 
-const intervalReservation = async (reservation, body) => {
-  waitQ.push(reservation);
+const intervalReservation = async (reservation, body, interval) =>{
+  if(waitQ.length === 0){
+    clearInterval(interval)
+    clearInterval(intervalReservation)
+    return;
+  }
+  console.log(waitQ.length===0)
+
   const tmp = await Restaurant.findById(body.restaurant)
     .populate("bigTables")
     .populate("miniTables");
@@ -418,19 +425,19 @@ const intervalReservation = async (reservation, body) => {
   const bigTables = tmp.bigTables;
   const miniTables = tmp.miniTables;
 
-  // waitQ null일때 오류뿜는다 ㅜㅜㅠㅠ
-  // Q에 암것도없을 때 setInterval 못하게 할 순 없나?
-  const table = tables(waitQ[0].guests);
+  console.log("wairQ : " + waitQ)
+  /* waitQ null일때 오류뿜는다 ㅜㅜㅠㅠ
+   Q에 암것도없을 때 setInterval 못하게 할 순 없나? */
+   
+   let table = tables(waitQ[0].guests);
 
   for (let j = 0; j < waitQ.length; j++) {
-    console.log("waitq : " + waitQ[j]);
+    /* 몇시간 전에 예약넣을꺼니? : 1500껄 1300에 나오게 한다!!  */
     if (Number(waitQ[j].reservationDate) === Number(times()) + 1) {
       // big에 넣기
       for (let i = 0; i < bigTables.length; i++) {
-        console.log("table : " + table);
         if (table[0] > 0) {
           if (bigTables[i][0].reserved === false) {
-            console.log("자 넣을수있는 상황   " + i);
             try {
               const a = await Restaurant.updateMany(
                 { _id: body.restaurant },
@@ -456,7 +463,6 @@ const intervalReservation = async (reservation, body) => {
       for (let i = 0; i < miniTables.length; i++) {
         if (table[1] > 0) {
           if (miniTables[i][0].reserved === false) {
-            console.log("자 넣을수있는 상황   " + i);
             try {
               const a = await Restaurant.updateMany(
                 { _id: body.restaurant },
@@ -485,6 +491,9 @@ const intervalReservation = async (reservation, body) => {
       );
       await Reservation.findOneAndDelete({ _id: waitQ[j]._id });
       waitQ.splice(j, 1);
+      console.log("끝나고 waitQ "+ waitQ)
+      console.log(waitQ.length===0)
+      clearInterval(interval)
     } else console.log("아직이네..");
   }
 };

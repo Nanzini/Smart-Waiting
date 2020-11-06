@@ -7,3 +7,15 @@ mixin modal(id)
                 block
             else
                 p 에잉~
+        .modal-dimmed()
+
+mixin modal_modal()
+    .modal(id=`modal${id}` style="display:none; text-align:center;")
+        .modal-content(style="width:960px; margin:auto")
+            button(class="modal_close")
+                i(class="fas fa-times")
+            if block
+                block
+            else
+                p 에잉~
+        .modal-dimmed()

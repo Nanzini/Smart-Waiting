@@ -18,7 +18,7 @@ block content
             +modal("Reservation")
                 each reservation in user.reservations
                     .reservationHead #{reservation.name}이름의 예약입니다. #{reservation.createAt}
-                        +modal()
+                        +modal_modal()
                             .detailed
                                 span(id=reservation.restaurant._id class="restaurantID") #{reservation.name}님 #{reservation.reservationDate}일시에 #{reservation.guests}명 방문예정입니다.
                                 input(type="button" value="삭제" class="deleteReservation" id=reservation.id)
@@ -32,22 +32,25 @@ block content
                         +modal()
                             +restaurantInfo(restaurant, i)
                     
-        span(id="btn_mail" class="absoluteParent" style="cursor:pointer") 메일함
+        span(id="btn_mail" class="absoluteParent" style="cursor:pointer;") 메일함
             if unreadMails !== 0
-                i(class="far fa-comment" id="parentMail")
-                    p(class="absoluteChild") #{unreadMails}
+                .mail_alarm(style="position:relative")
+                    i(class="far fa-comment" id="parentMail")
+                        p(class="absoluteChild") #{unreadMails}
             +modal("Mail")
                 -for(let i=user.mails.length; i>0; i--)
                     if user.mails[i-1].read === false
-                        div(class="mailHead" id=user.mails[i-1]._id style="background:gray") #{user.mails[i-1].header}
+                        .mailHead(id=user.mails[i-1]._id style="")
+                            span #{user.mails[i-1].header}
                             button(class="deleteMail" value="X" style="opacity:0") X
-                            +modal()
+                            +modal_modal()
                                 p #{user.mails[i-1].content}
                     else
-                        div(class="mailHead" id=user.mails[i-1]._id style="background:#442200") #{user.mails[i-1].header} 
+                        .mailHead(id=user.mails[i-1]._id style="")
+                            span(style="opacity:0.4") #{user.mails[i-1].header} 
                             button(class="deleteMail" value="X" style="opacity:0") X
-                            +modal()
-                                p #{user.mails[i-1].content}
+                            +modal_modal()
+                                p(style="clear:both;padding:10px;") #{user.mails[i-1].content}
                 
 
     script(src="/static/js/ajax_userInfo.js")

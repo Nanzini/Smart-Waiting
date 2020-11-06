@@ -3,11 +3,38 @@
   justify-content: space-evenly;
   align-items: center;
   .reserveList {
+    button {
+      float: right;
+      padding: 5px;
+      margin: 5px;
+    }
   }
   .calendar {
+    h1,
+    td,
+    th,
+    i {
+      text-align: center;
+      color: #d9d9d9;
+      font-size: 30px;
+      padding: 10px;
+      font-family: "Song Myung";
+    }
+    .calendar_header_year {
+      text-align: center;
+    }
     .calendar_header_month {
       display: flex;
+      justify-content: center;
+      align-items: center;
+      button {
+        font-size: 20px;
+        font-family: "Song Myung";
+        border: none;
+        border-radius: 5px;
+      }
     }
+
     .calendar_body {
       td:hover {
         background-color: darkgoldenrod;

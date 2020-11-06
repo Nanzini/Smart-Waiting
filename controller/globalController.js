@@ -32,6 +32,7 @@ export const postJoin = async (req, res, next) => {
   res.redirect(routes.home);
 };
 
+
 export const login = (req, res, next) => {
   res.render("home/login.pug", { pageTitle: "login" });
 };

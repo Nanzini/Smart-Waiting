@@ -3,9 +3,9 @@ include ../partials/modal.pug
 mixin reserveTime(id,restaurant)
     input(type="button" name=id value=`${id}:00` onclick="ajax_click_reserveTime(this.name)")
     +modal(id)
-        h1 예약가능한 4인테이블 2인테이블
+        h2(style="clear:both")
         h2
-        input(type="text" placeholder="예약자")
-        input(type="text" placeholder="인원수")
+        input(type="text" placeholder="예약자" style="width:200px")
+        input(type="text" placeholder="인원수" style="width:100px")
         input(type="text" value=`${restaurant._id}` style="display:none" name=id)
         input(type="button" value="OK!" id=`sendReservation${id}`)

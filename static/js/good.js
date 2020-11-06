@@ -29,7 +29,6 @@ function init() {
 var ajaxGood = function ajaxGood() {
   /* 좋아요 눌렀을 때 */
   var email = document.querySelector(".email").innerText;
-  debugger;
 
   if (checkbox.checked) {
     var data = {
@@ -82,9 +81,5 @@ var ajaxGood = function ajaxGood() {
       _xhttp.send(JSON.stringify(_data));
     }
 };
-/* 2. Ajax통신끝나고 나서 local에 저장하기 */
-
-
-var storeGood = function storeGood() {};
 
 init();

@@ -6,7 +6,7 @@
   min-height: 100px;
   background-color: #5c5c5c;
   border-radius: 15px;
-
+  z-index: 5;
   -webkit-animation-name: animatetop;
   -webkit-animation-duration: 0.4s;
   animation-name: animatetop;
@@ -40,4 +40,16 @@
       opacity: 1;
     }
   }
+}
+.modal-dimmed {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  background: black;
+  opacity: 0.4;
+  z-index: 0;
 }

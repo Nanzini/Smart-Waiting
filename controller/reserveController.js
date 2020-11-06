@@ -44,20 +44,16 @@ export const reserveSearch = async(req, res, next) => {
   res.render("reserve/reserve.pug", { pageTitle: "Reserve Home",restaurants });
 };
 
-
 export const tagSearch =async (req,res,next)=>{
-  
   try {
-
     const tag = req.params.id.slice(1,req.params.id.length);
     const restaurants = await Restaurant.find({
       restaurant_tag: tag,
       });
     res.render("reserve/reserve.pug", { pageTitle: "Reserve Home",restaurants })  
   } catch (error) {}
-  
-
 }
+
 export const reserveRestaurant = async (req, res, next) => {
   // 댓글
   const tmp = req.params.id;
@@ -88,8 +84,6 @@ export const reserveRestaurant = async (req, res, next) => {
 };
 
 export const postReservation = async (req, res) => {
-
-
   const reservation = new reservation({
     guestId: req.body.id,
     guests,
@@ -141,7 +135,6 @@ export const finalReservaion = async (req, res) => {
 const getAllPeople = () => {};
 
 export const good = async(req,res) => {
-
   try {
       if(req.body.good === true){
       const restaurant = await Restaurant.findOneAndUpdate(

@@ -8,7 +8,7 @@
     position: relative;
     .icons {
       position: absolute;
-      right: 410px;
+      right: 260px;
       top: 15px;
     }
     .commentValue {
@@ -22,7 +22,9 @@
     }
     .date {
       position: absolute;
-      right: 420px;
+      right: 260px;
+      top: 50px;
+      color: black;
     }
 
     .editComment,
@@ -36,6 +38,12 @@
   }
 
   /* 렛토랑 */
+  .restaurantHead {
+    clear: both;
+    font-size: 20px;
+    padding: 10px;
+    margin: 10px;
+  }
   .btn_delRestaurant,
   .btn_editRestaurant {
     padding: 10px;
@@ -119,8 +127,8 @@
 #parentMail {
   position: absolute;
   font-size: 30px;
-  top: 120px;
-  right: 385px;
+  top: -25px;
+  right: -30px;
   color: #f7347a;
   border-radius: 100%;
 

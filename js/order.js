@@ -165,10 +165,6 @@ const changeColor = () =>{
   for(let i=0; i<allTables.length; i++){
     if(allTables[i].childNodes[0].innerText !== "빈좌석" &&
     allTables[i].childNodes[0].innerText !== "예약석"){
-      /* reserv 전용 */
-      // let overTime = currentDate().slice(10,14) - allTables[i].childNodes[1].innerText.slice(10,14);
-      
-      /* pos 전용 */
       let overTime = currentDate().slice(9,14) - allTables[i].lastChild.innerText.slice(9,14);
       if(overTime < 60) allTables[i].style.backgroundColor="#76cc5f"
       else if(overTime <80) allTables[i].style.backgroundColor="#daa520"
@@ -195,7 +191,7 @@ const clickOrder = (event) => {
     menu: tmp_menu,
 
     /* 사용중인 테이블이라면 createAt 기존의 데이터 보내 */
-    createAt: (current.childNodes[0].innerText === "빈좌석") ? currentDate() : current.lastChild.innerText,
+    createAt: (current.childNodes[0].innerText === "빈좌석" || current.childNodes[0].innerText === "예약석") ? currentDate() : current.lastChild.innerText,
     price: tmp_price,
     table: current.parentNode.className,
   };

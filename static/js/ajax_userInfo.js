@@ -36,16 +36,21 @@ var showMail = function showMail() {
 };
 
 var removeMail = function removeMail(event) {
+  /* 버튼을 눌렀을 때 X버튼 */
   var body = {
     id: event.target.parentElement.id
   };
+  var read = event.target.parentElement.childNodes[0];
   var xhttp = new XMLHttpRequest();
 
   xhttp.onreadystatechange = function () {
     if (this.readyState == 4 && this.status == 200) {
-      document.getElementById(body.id).remove();
-      document.querySelector(".absoluteChild").innerText -= 1;
-      if (document.querySelector(".absoluteChild").innerText === "0") document.querySelector(".absoluteChild").innerText = "";
+      /* 읽힌 메일일 때 삭제해도 -1 하지마! */
+      if (read.style.opacity === "0.4") document.getElementById(body.id).remove();else {
+        document.getElementById(body.id).remove();
+        document.querySelector(".absoluteChild").innerText -= 1;
+        if (document.querySelector(".absoluteChild").innerText === "0") document.querySelector(".absoluteChild").innerText = "";
+      }
     }
   };
 
@@ -79,17 +84,19 @@ var detailMail = function detailMail() {
 };
 
 var showDetailMail = function showDetailMail(event) {
-  if (event.target.childNodes[2]) {
-    var body = {
-      id: event.target.id
+  var body = {}; // span을 눌렀을 때 dipslay blocl해주기
+
+  if (event.target.tagName === "SPAN") {
+    body = {
+      id: event.target.parentNode.id // mailHead
+
     };
-    if (event.target.childNodes[2].className !== "mailHead") event.target.childNodes[2].style.display = "block";
-    console.log(event.target.childNodes[2]);
+    event.target.parentNode.childNodes[2].style.display = "block";
     var xhttp = new XMLHttpRequest();
 
     xhttp.onreadystatechange = function () {
       if (this.readyState == 4 && this.status == 200) {
-        event.target.style.backgroundColor = "#442200";
+        event.target.style.opacity = "0.4";
 
         if (document.querySelector(".absoluteChild")) {
           document.querySelector(".absoluteChild").innerText -= 1;
@@ -101,6 +108,34 @@ var showDetailMail = function showDetailMail(event) {
     xhttp.open("post", "/ajax/readMail", true);
     xhttp.setRequestHeader("Content-type", "application/json");
     xhttp.send(JSON.stringify(body));
+  } // mailHead div를 눌렀을 때 display bloc해주기
+
+
+  if (event.target.childNodes[2]) {
+    body = {
+      id: event.target.id
+    };
+    if (event.target.childNodes[2].className !== "mailHead") event.target.childNodes[2].style.display = "block";
+    console.log(event.target.childNodes[2]);
+
+    var _xhttp = new XMLHttpRequest();
+
+    _xhttp.onreadystatechange = function () {
+      if (this.readyState == 4 && this.status == 200) {
+        event.target.childNodes[0].style.opacity = "0.4";
+
+        if (document.querySelector(".absoluteChild")) {
+          document.querySelector(".absoluteChild").innerText -= 1;
+          if (document.querySelector(".absoluteChild").innerText <= "0") document.querySelector(".absoluteChild").innerText = "";
+        }
+      }
+    };
+
+    _xhttp.open("post", "/ajax/readMail", true);
+
+    _xhttp.setRequestHeader("Content-type", "application/json");
+
+    _xhttp.send(JSON.stringify(body));
   }
 };
 /* user */

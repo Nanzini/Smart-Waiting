@@ -28,7 +28,6 @@ function init(){
 const ajaxGood = () => {
   /* 좋아요 눌렀을 때 */
   const email= document.querySelector(".email").innerText
-  debugger;
     if(checkbox.checked){
         const data = {
             good : true,
@@ -71,11 +70,6 @@ const ajaxGood = () => {
         xhttp.setRequestHeader("Content-type", "application/json");
         xhttp.send(JSON.stringify(data));
     } 
-}
-
-/* 2. Ajax통신끝나고 나서 local에 저장하기 */
-const storeGood = () => {
-
 }
 
 init();

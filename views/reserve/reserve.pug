@@ -24,7 +24,7 @@ block content
         each restaurant in restaurants
             div.restaurants
                 a(href=`${routes.reserve}${routes.restaurant(restaurant._id)}`)
-                    img(src=`/uploads/${restaurant.restaurant_pic}`)
+                    img(src=`/uploads/${restaurant.restaurant_pic}` style="border-radius:20px")
                     p.title #{restaurant.restaurant_name}
                     p #{restaurant.restaurant_tag}
 

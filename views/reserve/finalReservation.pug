@@ -4,7 +4,7 @@ include ../mixins/showTable.pug
 
 
 block content
-    h1 현재 테이블 상황
+    h1(style="font-size:40px") 현재 테이블 상황
     div(class="content_table")
         -for(let i=0; i<bigTables.length; i++)
             div(class="bigTables")
@@ -14,8 +14,8 @@ block content
             div(class="miniTables")
                 +reserve_miniTable(miniTables,i)
 
-    div(class="reservationForm")
-        div(class="reserveList")
+    .reservationForm
+        .reserveList
             +reserveTime(12,restaurant)
             +reserveTime(13,restaurant)
             +reserveTime(14,restaurant)
@@ -26,13 +26,13 @@ block content
             +reserveTime(20,restaurant)
 
 
-        div(class="calendar")
+        .calendar
             .calendar_header_year
                 h1(id="header_year")
             .calendar_header_month
-                input(type="button" id="btn_left" value=" < ")
+                button(id="btn_left") <
                 h1(id="header_month")
-                input(type="button" id="btn_right" value=" > ")
+                button(id="btn_right" ) >
             .calendar_body
                 table
                     tr

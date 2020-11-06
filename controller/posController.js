@@ -45,6 +45,7 @@ export const orderRegister = async (req, res) => {
         {
           $set: {
             "bigTables.$[row].$[].beUsing": true,
+            "bigTables.$[row].$[].reserved": false,
             "bigTables.$[row].$[].orderTime": req.body.createAt,
             "bigTables.$[row].$[].menu": req.body.menu,
             "bigTables.$[row].$[].price": req.body.price,
@@ -68,6 +69,7 @@ export const orderRegister = async (req, res) => {
         {
           $set: {
             "miniTables.$[row].$[].beUsing": true,
+            "miniTables.$[row].$[].reserved": false,
             "miniTables.$[row].$[].orderTime": req.body.createAt,
             "miniTables.$[row].$[].menu": req.body.menu,
             "miniTables.$[row].$[].price": req.body.price,

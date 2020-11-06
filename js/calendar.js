@@ -36,12 +36,9 @@ let month = now.getMonth(); // 0 : 1월, 11 : 12월
 let day = now.getDay(); // 0 : 일요일, 6 : 토요일
 let date = now.getDate();
 let hour = now.getHours();
-// ////////////////////////////////// 메서드부분
+
 const display_popup = () => {
   // 오늘 날짜에 해당하는 달력불러오기!
-  // btn_modalExit.addEventListener("click", () => {
-  //   popup.style.display = "none";
-  // });
   display_header(year, month + 1);
   draw_calendar(year, month, new Date(year, month, 1).getDay(), date);
   block_time();
@@ -52,36 +49,61 @@ const color_todayCalendar = () => {
   const clickDate = event.target.id;
   const clickedElement = document.getElementById(clickDate);
   for (let i = 0; i < 36; i++)
-    document.getElementById(i).style.backgroundColor = "white";
+    document.getElementById(i).style.backgroundColor = "#302326";
   if (clickedElement.style.color !== "gray")
     clickedElement.style.backgroundColor = "#6495ed";
 };
 
 const block_calendar = (maxDate, day, currentDate) => {
+  const month = document.getElementById("header_month").innerText-1;
   const currentMonth = new Date().getMonth();
+  const currentYear = new Date().getFullYear();
   for (let i = 0; i < maxDate; i++) {
     const realDay = day + i;
     document.getElementById(realDay).innerText = i + 1;
 
-    // 현재
-    if (currentMonth === month) {
-      if (currentDate + day - 1 <= realDay) {
+    /* 예약불가 2020년인데 2019년으로 넘겻을 때 */
+    if(currentYear > year)
+      document.getElementById(realDay).style.color = "gray";
+    /* 2020년인데 2021년으로 넘겼을 때 예약가능 */
+    else if(currentYear < year){
+      document
+          .getElementById(realDay)
+          .addEventListener("click", ajax_click_calendar);
+        document
+          .getElementById(realDay)
+          .addEventListener("click", color_todayCalendar);
+          document.getElementById(realDay).style.color = "#d9d9d9";
+    }
+    else{
+      /* 같은 달일 때 이미 지나버린 날짜 골라내서 블락하기 */
+      if (currentMonth === month) {
+        /* 3일일 때 1일 2일외에 다 가능 */
+        if (currentDate + day - 1 <= realDay) {
+          document
+            .getElementById(realDay)
+            .addEventListener("click", ajax_click_calendar);
+          document
+            .getElementById(realDay)
+            .addEventListener("click", color_todayCalendar);
+          document.getElementById(realDay).style.color = "#d9d9d9";
+        }
+        /* 3일 일 때 1일 2일 막기 */ 
+        else document.getElementById(realDay).style.color = "gray";
+      } 
+      /* 11월인데 12월로 넘겼을 경우 전부 예약가능 */
+      else if (currentMonth < month) {
         document
           .getElementById(realDay)
           .addEventListener("click", ajax_click_calendar);
         document
           .getElementById(realDay)
           .addEventListener("click", color_todayCalendar);
-      } else document.getElementById(realDay).style.color = "gray";
-    } else if (currentMonth < month) {
-      document
-        .getElementById(realDay)
-        .addEventListener("click", ajax_click_calendar);
-      document
-        .getElementById(realDay)
-        .addEventListener("click", color_todayCalendar);
-      document.getElementById(realDay).style.color = "black";
-    } else document.getElementById(realDay).style.color = "gray";
+        document.getElementById(realDay).style.color = "#d9d9d9";
+      } 
+      /* 11월인데 10월로 넘겼을 경우 */
+      else document.getElementById(realDay).style.color = "gray";
+    }
   }
 };
 
@@ -124,11 +146,11 @@ const clear_calendar = () => {
     document
       .getElementById(i)
       .removeEventListener("click", ajax_click_calendar);
-    document.getElementById(i).style.backgroundColor = "white";
+    document.getElementById(i).style.backgroundColor = "#302326";
   }
 };
 const display_header = (year, month) => {
-  header_year.innerHTML = year;
+  header_year.innerHTML = `${year}년`;
   header_month.innerHTML = month;
 };
 
@@ -173,7 +195,7 @@ const ajax_click_calendar = (event) => {
   const currentMonth = now.getMonth();
   const currentDate = now.getDate();
 
-  console.log("AJAX CLICK CALENDAR 최종적으로 보낼 데이터");
+  console.log("ajax_click_calendar");
   console.log(send);
 
   // 예약타임 블락하기
@@ -192,11 +214,12 @@ const ajax_click_calendar = (event) => {
   xhttp.send(JSON.stringify(send));
 };
 
-// 예약시간 클릭해서 확인눌러서 서버로 데이터보내기
-// 예약가능인원 보여주기
+/* 예약시간 클릭해서 확인눌러서 서버로 데이터보내기
+ 예약가능인원 보여주기 */
 const ajax_click_reserveTime = (time) => {
+  debugger
   const modal = document.getElementById(`modal${time}`);
-  const reservedPeople = modal.childNodes[0].querySelector("h2");
+  const reservedPeople = modal.childNodes[0].querySelectorAll("h2");
   const reservePeople = modal.childNodes[0].childNodes[4].value;
   open_modal(modal);
   modalClose.forEach(() => {
@@ -207,7 +230,6 @@ const ajax_click_reserveTime = (time) => {
     sendReservation.addEventListener("click", ajax_send_reservationData);
 
   const send = sendDate(year, month, date, time);
-  console.log(send);
 
   // 데이터 잘나오고~ 이제 서버로 보내자
   const xhttp = new XMLHttpRequest();
@@ -215,7 +237,8 @@ const ajax_click_reserveTime = (time) => {
     if (this.readyState === 4 && this.status === 200) {
       // 디비 예약데이터 가져오기
 
-      reservedPeople.innerHTML = xhttp.responseText;
+      reservedPeople[0].innerHTML = `예약가능한 4인테이블 : ${xhttp.responseText[1]}`;
+      reservedPeople[1].innerHTML = `예약가능한 2인테이블 : ${xhttp.responseText[3]}`;
     }
   };
 
@@ -309,14 +332,13 @@ const close_modal = (event) => {
   const modal = event.target.parentElement.parentElement;
   if (event.target.className === "modal_close") modal.style.display = "none";
   else if (event.target.className==="fas fa-times") modal.parentElement.style.display = "none";
-
 };
 
 const currentDate = () => {
   const now = new Date();
   const year = now.getFullYear();
   const month =
-    now.getMonth() < 10
+    now.getMonth() < 9
       ? `0${Number(now.getMonth() + 1)}`
       : Number(now.getMonth()) + 1;
 
@@ -332,10 +354,10 @@ const changeColor = () =>{
   
   for(let i=0; i<allTables.length; i++){
     if(allTables[i].childNodes[0].innerText === "사용중"){
-      let overTime = currentDate().slice(10,14) - allTables[i].childNodes[1].innerText.slice(10,14);
-      if(overTime < 60) allTables[i].style.backgroundColor="green"
-      else if(overTime <80) allTables[i].style.backgroundColor="yellow"
-      else  allTables[i].style.backgroundColor="red"
+      let overTime = currentDate().slice(9,14) - allTables[i].childNodes[1].innerText.slice(9,14);
+      if(overTime < 60) allTables[i].style.backgroundColor="#76cc5f"
+      else if(overTime <80) allTables[i].style.backgroundColor="#daa520"
+      else  allTables[i].style.backgroundColor="#c02519"
     }
   }
     

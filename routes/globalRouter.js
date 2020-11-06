@@ -35,25 +35,6 @@ globalRouter.post(
   postRegister
 );
 
-// // Setting the naver oauth routes
-// globalRouter.get(
-//   "/oauth2.0/authorize",
-//   passport.authenticate("naver", {
-//     failureRedirect: "/login",
-//   })
-// );
-
-// // creates an account if no account of the new user
-// globalRouter.get(
-//   "/auth/naver/callback",
-//   passport.authenticate("naver", {
-//     failureRedirect: "/login",
-//   }),
-//   function (req, res) {
-//     res.redirect("/");
-//   }
-// );
-
 globalRouter.get("/auth/kakao", passport.authenticate("login-kakao"));
 
 globalRouter.get(
