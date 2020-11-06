@@ -10,7 +10,7 @@
 
 ## 2. 프로그램 설명
 
-* [Notion : SmartWaiting](https://www.notion.so/SmartWaiting-990a8b89c2fc4fcf833ddd838e017d07) (unreponsive)
+* (unreponsive)
   
 
 * [Demo1 ](http://180.92.112.23:8080) (Demo는 구직기간에 한해서 오픈합니다)
