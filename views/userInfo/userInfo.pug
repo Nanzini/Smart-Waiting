@@ -16,12 +16,12 @@ block content
 
         span(id="btn_reservation" style="cursor:pointer") 예약내역
             +modal("Reservation")
-                each reservation in user.reservations
-                    .reservationHead #{reservation.name}이름의 예약입니다. #{reservation.createAt}
+                -for(let i=user.reservations.length; i>0; i--)
+                    .reservationHead #{user.reservations[i-1].name}이름의 예약입니다. #{user.reservations[i-1].createAt}
                         +modal_modal()
                             .detailed
-                                span(id=reservation.restaurant._id class="restaurantID") #{reservation.name}님 #{reservation.reservationDate}일시에 #{reservation.guests}명 방문예정입니다.
-                                input(type="button" value="삭제" class="deleteReservation" id=reservation.id)
+                                span(id=user.reservations[i-1].restaurant._id class="restaurantID") #{user.reservations[i-1].name}님 #{user.reservations[i-1].reservationDate}일시에 #{user.reservations[i-1].guests}명 방문예정입니다.
+                                input(type="button" value="삭제" class="deleteReservation" id=user.reservations[i-1].id)
                 
 
         span(id="btn_restaurant" style="cursor:pointer") 내식당

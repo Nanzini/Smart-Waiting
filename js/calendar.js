@@ -351,12 +351,17 @@ const currentDate = () => {
 
 const changeColor = () =>{
   const allTables = document.querySelectorAll(".table");
-  
+  debugger;
   for(let i=0; i<allTables.length; i++){
     if(allTables[i].childNodes[0].innerText === "사용중"){
-      let overTime = currentDate().slice(9,14) - allTables[i].childNodes[1].innerText.slice(9,14);
-      if(overTime < 60) allTables[i].style.backgroundColor="#76cc5f"
-      else if(overTime <80) allTables[i].style.backgroundColor="#daa520"
+      let overTime;
+      let current = currentDate().slice(9,14);
+      let orderTime = allTables[i].childNodes[1].innerText.slice(9,14);
+      if(current.slice(0,2) === orderTime.slice(0,2)) overTime = current - orderTime;
+      else  overTime = current- orderTime - 40;
+      
+      if(overTime < 20) allTables[i].style.backgroundColor="#76cc5f"
+      else if(overTime <40) allTables[i].style.backgroundColor="#daa520"
       else  allTables[i].style.backgroundColor="#c02519"
     }
   }
@@ -368,7 +373,7 @@ const init = () => {
   display_popup();
   btn_right.addEventListener("click", month_right);
   btn_left.addEventListener("click", month_left);
-  setInterval(changeColor,2000);
+  setInterval(changeColor,3000);
 };
 
 const big = () => {

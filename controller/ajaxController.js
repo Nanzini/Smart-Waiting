@@ -70,7 +70,6 @@ const getReservedPeople = async (reservations, Date, restaurant, guests) => {
     if (reservedBigTable - table[0] >= 0) reservedBigTable -= table[0];
     if (reservedMiniTable - table[1] >= 0) reservedMiniTable -= table[1];
     if (tmp1 - table[0] < 0 || tmp2 - table[1] < 0) {
-      console.log("false입니다아아");
       return [reservedBigTable, reservedMiniTable, false];
     } else return [reservedBigTable, reservedMiniTable, true];
   }
@@ -146,14 +145,13 @@ export const processReservation = async (req, res) => {
         );
 
         if (reservedPeople[2] === false) {
-          console.log("false라구!");
           restaurant.restaurant_reservations.pop(reservation);
           restaurant.save();
           res.json({ user: true, accepted: false });
         } else {
           //20분 마다 확인
           waitQ.push(reservation)
-          let interval = setInterval(intervalReservation, 1200, reservation, req.body, interval);
+          let interval = setInterval(intervalReservation, 120000, reservation, req.body, interval);
         }
 
         const owner = await User.findById(restaurant.restaurant_owner._id);
@@ -203,9 +201,7 @@ export const processReservation = async (req, res) => {
 
 // 해당시간 예약한 사람 반환
 
-export const postEditUserInfo = async (req, res) => {
-  console.log(req.body);
-  
+export const postEditUserInfo = async (req, res) => {  
 
   try {
     const user = await User.findOneAndUpdate(
@@ -263,7 +259,6 @@ export const postDeleteUser = async (req, res) => {
 };
 
 export const deleteReservation = async (req, res) => {
-  console.log(req.body);
   try {
     const user = await User.findById(req.session.userId);
     const restaurant = await Restaurant.findById(req.body.restaurant)
@@ -309,13 +304,16 @@ export const deleteReservation = async (req, res) => {
         );
       } else console.log("reservation deleting failed");
     });
-
+    
+    for(let i=0; i<waitQ.length; i++)
+      if(String(waitQ[i]._id) === req.body.id)
+        waitQ.splice(i, 1);
+    
     ownerMail.save();
     userMail.save();
     restaurant.save();
     user.mails.push(userMail);
     owner.mails.push(ownerMail);
-
     user.save();
     owner.save();
     res.json("ehheee");
@@ -334,8 +332,7 @@ export const editRestaurant = async (req, res) => {
   .populate("restaurants")
   .populate("reservations");
   let restaurant;
-  console.log(req.file)
-  console.log(req.body)
+
 let unreadMails = 0;
 for (let i = 0; i < user.mails.length; i++)
   if (user.mails[i].read === false) {
@@ -384,7 +381,6 @@ for (let i = 0; i < user.mails.length; i++)
 
 export const readMail = async (req, res) => {
   try {
-    console.log("엇험");
     const mail = await Mail.findOneAndUpdate(
       { _id: req.body.id },
       { read: true },
@@ -412,8 +408,6 @@ const intervalReservation = async (reservation, body, interval) =>{
     clearInterval(intervalReservation)
     return;
   }
-  console.log(waitQ.length===0)
-
   const tmp = await Restaurant.findById(body.restaurant)
     .populate("bigTables")
     .populate("miniTables");
@@ -424,15 +418,11 @@ const intervalReservation = async (reservation, body, interval) =>{
   });
   const bigTables = tmp.bigTables;
   const miniTables = tmp.miniTables;
-
-  console.log("wairQ : " + waitQ)
-  /* waitQ null일때 오류뿜는다 ㅜㅜㅠㅠ
-   Q에 암것도없을 때 setInterval 못하게 할 순 없나? */
    
    let table = tables(waitQ[0].guests);
 
   for (let j = 0; j < waitQ.length; j++) {
-    /* 몇시간 전에 예약넣을꺼니? : 1500껄 1300에 나오게 한다!!  */
+    /* 몇시간 전에 예약넣을꺼니? : 1500껄 1400에 나오게 한다!!  */
     if (Number(waitQ[j].reservationDate) === Number(times()) + 1) {
       // big에 넣기
       for (let i = 0; i < bigTables.length; i++) {
@@ -491,9 +481,7 @@ const intervalReservation = async (reservation, body, interval) =>{
       );
       await Reservation.findOneAndDelete({ _id: waitQ[j]._id });
       waitQ.splice(j, 1);
-      console.log("끝나고 waitQ "+ waitQ)
-      console.log(waitQ.length===0)
       clearInterval(interval)
-    } else console.log("아직이네..");
+    } else console.log("waiting to be reserved.."+ waitQ);
   }
 };

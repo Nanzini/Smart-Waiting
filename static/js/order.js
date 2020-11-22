@@ -157,16 +157,17 @@ var menu = function menu(content) {
 
 var changeColor = function changeColor() {
   var allTables = document.querySelectorAll(".table");
+  debugger;
 
   for (var i = 0; i < allTables.length; i++) {
     if (allTables[i].childNodes[0].innerText !== "빈좌석" && allTables[i].childNodes[0].innerText !== "예약석") {
-      /* reserv 전용 */
-      // let overTime = currentDate().slice(10,14) - allTables[i].childNodes[1].innerText.slice(10,14);
+      var overTime = void 0;
 
-      /* pos 전용 */
-      //debugger
-      var overTime = currentDate().slice(9, 14) - allTables[i].lastChild.innerText.slice(9, 14);
-      if (overTime < 60) allTables[i].style.backgroundColor = "#76cc5f";else if (overTime < 80) allTables[i].style.backgroundColor = "#daa520";else allTables[i].style.backgroundColor = "#c02519";
+      var _current = currentDate().slice(9, 14);
+
+      var orderTime = allTables[i].childNodes[1].innerText.slice(9, 14);
+      if (_current.slice(0, 2) === orderTime.slice(0, 2)) overTime = _current - orderTime;else overTime = _current - orderTime - 40;
+      if (overTime < 20) allTables[i].style.backgroundColor = "#76cc5f";else if (overTime < 40) allTables[i].style.backgroundColor = "#daa520";else allTables[i].style.backgroundColor = "#c02519";
     }
   }
 };
@@ -299,7 +300,7 @@ var init = function init() {
   }
 
   btnMenu.addEventListener("click", clickMenu);
-  setInterval(changeColor, 2000);
+  setInterval(changeColor, 3000);
 };
 
 init();

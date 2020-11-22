@@ -161,13 +161,18 @@ const menu = (content) => {
 
 const changeColor = () =>{
   const allTables = document.querySelectorAll(".table");
-  
+  debugger;
   for(let i=0; i<allTables.length; i++){
     if(allTables[i].childNodes[0].innerText !== "빈좌석" &&
     allTables[i].childNodes[0].innerText !== "예약석"){
-      let overTime = currentDate().slice(9,14) - allTables[i].lastChild.innerText.slice(9,14);
-      if(overTime < 60) allTables[i].style.backgroundColor="#76cc5f"
-      else if(overTime <80) allTables[i].style.backgroundColor="#daa520"
+      let overTime;
+      let current = currentDate().slice(9,14);
+      let orderTime = allTables[i].childNodes[1].innerText.slice(9,14);
+      if(current.slice(0,2) === orderTime.slice(0,2)) overTime = current - orderTime;
+      else  overTime = current- orderTime - 40;
+
+      if(overTime < 20) allTables[i].style.backgroundColor="#76cc5f"
+      else if(overTime <40) allTables[i].style.backgroundColor="#daa520"
       else  allTables[i].style.backgroundColor="#c02519"
     }
   }
@@ -296,7 +301,7 @@ const init = () => {
 
   btnMenu.addEventListener("click", clickMenu);
   
-  setInterval(changeColor,2000);
+  setInterval(changeColor,3000);
 };
 
 init();
